@@ -78,4 +78,9 @@ public class BuildService {
     public List<Photo> getBuildPhotos(int id) throws SQLException {
         return photoDAO.getPhotosByBuild(id);
     }
+
+    public List<Build> getFeaturedBuilds() throws SQLException {
+        return buildDAO.getFeaturedBuilds();
+    }
+
 }

@@ -1,4 +1,4 @@
-fetch("/api/builds")
+fetch("/api/builds/featured")
     .then(response => response.json())
     .then(builds => {
 

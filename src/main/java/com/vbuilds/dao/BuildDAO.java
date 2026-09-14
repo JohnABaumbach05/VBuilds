@@ -13,8 +13,8 @@ public class BuildDAO {
     public void addBuild(Build build) throws SQLException {
         Connection conn = Database.connect();
 
-        String sq1 = "INSERT INTO builds (title, horsepower, happiness, reliability, loudness, build_cost, tuner, build_year, build_trim) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sq1 = "INSERT INTO builds (title, horsepower, happiness, reliability, loudness, build_cost, tuner, build_year, build_trim, featured) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement stmt = conn.prepareStatement(sq1);
 
@@ -27,6 +27,7 @@ public class BuildDAO {
         stmt.setString(7, build.getTuner());
         stmt.setInt(8, build.getBuildYear());
         stmt.setString(9, build.getTrim());
+        stmt.setBoolean(10, build.isFeatured());
 
         stmt.executeUpdate();
 
@@ -35,11 +36,71 @@ public class BuildDAO {
 
     }
 
+    public void unfeatureBuild(Build build) throws SQLException {
+        Connection conn = Database.connect();
+
+        String q = "UPDATE builds SET featured = ? WHERE build_id = ?";
+
+        PreparedStatement stmt = conn.prepareStatement(q);
+
+        stmt.setBoolean(1, false);
+        stmt.setInt(2, build.getBuildId());
+
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+    }
+
+    public void unfeatureBuild(int id) throws SQLException {
+        Connection conn = Database.connect();
+
+        String q = "UPDATE builds SET featured = ? WHERE build_id = ?";
+
+        PreparedStatement stmt = conn.prepareStatement(q);
+
+        stmt.setBoolean(1, false);
+        stmt.setInt(2, id);
+
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+    }
+
+    public void makeBuildFeatured(Build build) throws SQLException {
+        Connection conn = Database.connect();
+
+        String sq1 = "UPDATE builds SET featured = ? WHERE build_id = ?";
+
+        PreparedStatement stmt = conn.prepareStatement(sq1);
+
+        stmt.setBoolean(1, true);
+        stmt.setInt(2, build.getBuildId());
+
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+    }
+
+    public void makeBuildFeatured(int id) throws SQLException {
+        Connection conn = Database.connect();
+
+        String sq1 = "UPDATE builds SET featured = ? WHERE build_id = ?";
+
+        PreparedStatement stmt = conn.prepareStatement(sq1);
+
+        stmt.setBoolean(1, true);
+        stmt.setInt(2, id);
+
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+    }
+
     public void updateBuild(Build build) throws SQLException {
         Connection conn = Database.connect();
 
         String sq1 = "UPDATE builds SET title = ?, horsepower = ?, happiness = ?, reliability = ?, loudness = ?, " +
-                "build_cost = ?, tuner = ?, build_year = ?, build_trim = ? WHERE build_id = ?";
+                "build_cost = ?, tuner = ?, build_year = ?, build_trim = ?, featured = ? WHERE build_id = ?";
 
         PreparedStatement stmt = conn.prepareStatement(sq1);
 
@@ -52,7 +113,8 @@ public class BuildDAO {
         stmt.setString(7, build.getTuner());
         stmt.setInt(8, build.getBuildYear());
         stmt.setString(9, build.getTrim());
-        stmt.setInt(10, build.getBuildId());
+        stmt.setInt(11, build.getBuildId());
+        stmt.setBoolean(10, build.isFeatured());
 
         stmt.executeUpdate();
         stmt.close();
@@ -87,6 +149,7 @@ public class BuildDAO {
             build.setTrim(rs.getString("build_trim"));
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
+            build.setFeatured(rs.getBoolean(("featured")));
 
             allBuilds.add(build);
         }
@@ -122,6 +185,7 @@ public class BuildDAO {
             build.setTrim(rs.getString("build_trim"));
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
+            build.setFeatured(rs.getBoolean(("featured")));
         }
         rs.close();
         stmt.close();
@@ -160,6 +224,7 @@ public class BuildDAO {
             build.setTrim(rs.getString("build_trim"));
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
+            build.setFeatured(rs.getBoolean(("featured")));
 
             userBuilds.add(build);
         }
@@ -218,6 +283,7 @@ public class BuildDAO {
             build.setTrim(rs.getString("build_trim"));
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
+            build.setFeatured(rs.getBoolean(("featured")));
 
             builds.add(build);
         }
@@ -254,10 +320,46 @@ public class BuildDAO {
             build.setTrim(rs.getString("build_trim"));
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
+            build.setFeatured(rs.getBoolean(("featured")));
 
             builds.add(build);
         }
 
+        rs.close();
+        stmt.close();
+        conn.close();
+        return builds;
+    }
+
+    public List<Build> getFeaturedBuilds() throws SQLException {
+        Connection conn = Database.connect();
+
+        String sq1 = "SELECT * FROM builds WHERE featured = true LIMIT 4;";
+
+        PreparedStatement stmt = conn.prepareStatement(sq1);
+
+        List<Build> builds = new ArrayList<>();
+
+        ResultSet rs = stmt.executeQuery();
+
+        while(rs.next()) {
+            Build build = new Build();
+
+            build.setTitle(rs.getString("title"));
+            build.setHorsepower(rs.getInt("horsepower"));
+            build.setHappiness(rs.getInt("happiness"));
+            build.setReliability(rs.getInt("reliability"));
+            build.setLoudness(rs.getInt("loudness"));
+            build.setCost(rs.getInt("build_cost"));
+            build.setTuner(rs.getString("tuner"));
+            build.setBuildYear(rs.getInt("build_year"));
+            build.setTrim(rs.getString("build_trim"));
+            build.setBuildId(rs.getInt("build_id"));
+            build.setOwnerId(rs.getInt("owner_id"));
+            build.setFeatured(rs.getBoolean(("featured")));
+
+            builds.add(build);
+        }
         rs.close();
         stmt.close();
         conn.close();

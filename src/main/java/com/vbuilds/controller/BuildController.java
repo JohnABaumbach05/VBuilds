@@ -70,5 +70,10 @@ public class BuildController {
         return buildService.getBuildByID(id);
     }
 
+    @GetMapping("/featured")
+    public List<Build> getFeaturedBuilds() throws SQLException {
+        return buildService.getFeaturedBuilds();
+    }
+
 
 }
