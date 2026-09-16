@@ -83,4 +83,8 @@ public class BuildService {
         return buildDAO.getFeaturedBuilds();
     }
 
+    public List<Build> getRandomBuilds() throws SQLException {
+        return buildDAO.getRandomBuilds();
+    }
+
 }

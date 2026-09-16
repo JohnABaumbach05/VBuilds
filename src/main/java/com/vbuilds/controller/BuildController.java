@@ -75,5 +75,10 @@ public class BuildController {
         return buildService.getFeaturedBuilds();
     }
 
+    @GetMapping("/randomlist")
+    public List<Build> getRandomBuilds() throws SQLException {
+        return buildService.getRandomBuilds();
+    }
+
 
 }

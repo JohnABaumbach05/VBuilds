@@ -366,4 +366,40 @@ public class BuildDAO {
         conn.close();
         return builds;
     }
+
+    public List<Build> getRandomBuilds() throws SQLException {
+        Connection conn = Database.connect();
+
+        String q = "SELECT * FROM builds WHERE featured = false ORDER BY RANDOM() LIMIT 4;";
+
+        PreparedStatement stmt = conn.prepareStatement(q);
+
+        List<Build> builds = new ArrayList<>();
+
+        ResultSet rs = stmt.executeQuery();
+
+        while(rs.next()) {
+            Build build = new Build();
+
+            build.setTitle(rs.getString("title"));
+            build.setHorsepower(rs.getInt("horsepower"));
+            build.setHappiness(rs.getInt("happiness"));
+            build.setReliability(rs.getInt("reliability"));
+            build.setLoudness(rs.getInt("loudness"));
+            build.setCost(rs.getInt("build_cost"));
+            build.setTuner(rs.getString("tuner"));
+            build.setBuildYear(rs.getInt("build_year"));
+            build.setTrim(rs.getString("build_trim"));
+            build.setBuildId(rs.getInt("build_id"));
+            build.setOwnerId(rs.getInt("owner_id"));
+            build.setFeatured(rs.getBoolean(("featured")));
+
+            builds.add(build);
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+        return builds;
+    }
+
 }
