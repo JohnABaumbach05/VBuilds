@@ -1,4 +1,4 @@
-package com.vbuilds.dao;
+package com.vbuilds.DATABASEMAINFILE;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ public class Database {
 
     private static final String USER = "postgres";
 
-    private static final String PASSWORD = System.getenv("VBUILDS_DB_PASSWORD");
+    private static final String PASSWORD = System.getenv("PASSWORD");
 
 
     public static Connection connect() throws SQLException {

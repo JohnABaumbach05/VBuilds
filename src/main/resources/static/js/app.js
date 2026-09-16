@@ -1,21 +1,28 @@
 fetch("/api/builds/featured")
     .then(response => response.json())
     .then(builds => {
+        console.log(builds);
 
-        const buildList = document.getElementById("build-list");
+        const featuredBuilds = document.getElementById("featured-builds");
 
         builds.forEach(build => {
+            const buildLink = document.createElement("a");
+            buildLink.href = `/build.html?id=${build.buildId}`;
 
-            const buildCard = document.createElement("div");
+            const buildImage = document.createElement("img");
 
-            buildCard.innerHTML = `
-                <h2>${build.title}</h2>
-                <p>${build.buildYear} ${build.trim}</p>
-            `;
+            buildImage.className = "build-image";
+            buildImage.alt = build.title;
 
-            buildList.appendChild(buildCard);
+            fetch(`/api/builds/${build.buildId}/photos`)
+                .then(response => response.json())
+                .then(photos => {
+                    console.log(photos[0].filePath);
+
+                    buildImage.src = photos[0].filePath;
+
+                    buildLink.appendChild(buildImage);
+                    featuredBuilds.appendChild(buildLink);
+                });
         });
-    })
-    .catch(error => {
-        console.error("Error loading builds:", error);
     });
