@@ -45,12 +45,12 @@ public class BuildController {
         return buildService.getRandomBuild();
     }
 
-    @GetMapping("/top")
+    @GetMapping("/top/limit")
     public List<Build> getTopHorsepowerBuilds (@RequestParam int limit) throws SQLException {
         return buildService.getTopHorsePowerBuilds(limit);
     }
 
-    @GetMapping("/top/limit")
+    @GetMapping("/top")
     public List<Build> getTopHorsepowerBuilds() throws SQLException {
         return buildService.getTopHorsePowerBuilds();
     }
