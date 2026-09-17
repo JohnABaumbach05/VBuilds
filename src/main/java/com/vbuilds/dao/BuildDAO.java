@@ -402,4 +402,38 @@ public class BuildDAO {
         return builds;
     }
 
+    public List<Build> getNewestBuilds() throws SQLException {
+        Connection conn = Database.connect();
+
+        String sq1 = "SELECT * FROM builds ORDER BY date_created DESC LIMIT 4;";
+
+        PreparedStatement stmt = conn.prepareStatement(sq1);
+
+        List<Build> builds = new ArrayList<>();
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Build build = new Build();
+
+            build.setTitle(rs.getString("title"));
+            build.setHorsepower(rs.getInt("horsepower"));
+            build.setHappiness(rs.getInt("happiness"));
+            build.setReliability(rs.getInt("reliability"));
+            build.setLoudness(rs.getInt("loudness"));
+            build.setCost(rs.getInt("build_cost"));
+            build.setTuner(rs.getString("tuner"));
+            build.setBuildYear(rs.getInt("build_year"));
+            build.setTrim(rs.getString("build_trim"));
+            build.setBuildId(rs.getInt("build_id"));
+            build.setOwnerId(rs.getInt("owner_id"));
+            build.setFeatured(rs.getBoolean(("featured")));
+
+            builds.add(build);
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+        return builds;
+    }
 }

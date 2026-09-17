@@ -35,7 +35,7 @@ public class BuildController {
         buildService.addBuild(build);
     }
 
-    @GetMapping
+    @GetMapping("/allbuilds")
     public List<Build> getAllBuilds() throws SQLException {
         return buildService.getAllBuilds();
     }
@@ -78,6 +78,11 @@ public class BuildController {
     @GetMapping("/randomlist")
     public List<Build> getRandomBuilds() throws SQLException {
         return buildService.getRandomBuilds();
+    }
+
+    @GetMapping("/newest")
+    public List<Build> getNewestBuilds() throws SQLException {
+        return buildService.getNewestBuilds();
     }
 
 

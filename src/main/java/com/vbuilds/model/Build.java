@@ -1,4 +1,7 @@
 package com.vbuilds.model;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
 
 public class Build {
     private int ownerID;
@@ -13,6 +16,8 @@ public class Build {
     private String trim;
     private int buildId;
     private boolean featured;
+    private LocalDateTime dateCreated;
+
 
 
     public Build() {}
@@ -24,6 +29,10 @@ public class Build {
         this.tuner = tuner; this.trim = trim; this.buildId = buildId; }
 
     // getters
+    public LocalDateTime getDateCreated() { return dateCreated; }
+
+    public void setDateCreated(LocalDateTime i) { this.dateCreated = i; }
+
     public boolean isFeatured() { return featured; }
 
     public void setFeatured(boolean featured) { this.featured = featured; }

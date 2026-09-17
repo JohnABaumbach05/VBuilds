@@ -1,0 +1,48 @@
+.all-builds-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.all-builds-grid a {
+    width: 100%;
+    min-width: 0;
+    display: block;
+}
+
+.build-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+}
+
+main {
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    font-size: 27px;
+
+    margin-left: 300px;
+    padding-top: 230px;
+
+    background-image:
+            linear-gradient(
+                    rgba(15, 18, 22, 0.25),
+                    rgba(15, 18, 22, 0.25)
+            ),
+            url("/images/CarbonFiberBackground.png");
+
+    background-repeat: repeat, repeat;
+    background-size: auto, 1600px 1600px;
+}
+
+.Builds-header {
+    display: Grid;
+    width: 800px;
+    height: 300px;
+    margin-left: 300px;
+
+}
