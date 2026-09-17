@@ -47,6 +47,10 @@ header {
     height: 190px;
     width: auto;
     object-fit: contain;
+    filter:
+            drop-shadow(0 0 5px #006eff)
+            drop-shadow(0 0 12px #006eff)
+            drop-shadow(0 0 22px #004cff);
 }
 
 
@@ -120,5 +124,12 @@ main {
     height: 350px;
     object-fit: cover;
     display: block;
+}
+
+.vbuilds-banner:hover {
+    filter:
+        drop-shadow(0 0 8px #008cff)
+        drop-shadow(0 0 18px #006eff)
+        drop-shadow(0 0 30px #004cff);
 }
 
