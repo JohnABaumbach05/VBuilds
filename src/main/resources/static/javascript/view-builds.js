@@ -13,16 +13,9 @@ fetch("/api/builds/allbuilds")
 
             buildImage.className = "build-image";
             buildImage.alt = build.title;
+            buildImage.src = build.mainPhoto;
 
-            fetch(`/api/builds/${build.buildId}/photos`)
-                .then(response => response.json())
-                .then(photos => {
-                    console.log(photos[0].filePath);
-
-                    buildImage.src = photos[0].filePath;
-
-                    buildLink.appendChild(buildImage);
-                    allBuilds.appendChild(buildLink);
-                });
+            buildLink.appendChild(buildImage);
+            allBuilds.appendChild(buildLink);
         });
     });

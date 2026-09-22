@@ -15,7 +15,7 @@ body {
                     rgba(15, 18, 22, 0.25),
                     rgba(15, 18, 22, 0.25)
             ),
-            url("/webImages/CarbonFiberBackground.png");
+            url("/webImages/Navigation/CarbonFiberBackground.png");
 
     background-repeat: repeat, repeat;
     background-size: auto, 2000px 2000px;

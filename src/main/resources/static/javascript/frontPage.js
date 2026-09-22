@@ -15,19 +15,14 @@ fetch("/api/builds/featured")
 
             buildImage.className = "build-image";
             buildImage.alt = build.title;
+            buildImage.src = build.mainPhoto;
 
-            fetch(`/api/builds/${build.buildId}/photos`)
-                .then(response => response.json())
-                .then(photos => {
-                    console.log(photos[0].filePath);
-
-                    buildImage.src = photos[0].filePath;
-
-                    buildLink.appendChild(buildImage);
-                    featuredBuilds.appendChild(buildLink);
-                });
+            buildLink.appendChild(buildImage);
+            featuredBuilds.appendChild(buildLink);
         });
     });
+
+
 // highest horsepower builds on front page
 fetch("/api/builds/top")
     .then(response => response.json())
@@ -44,19 +39,13 @@ fetch("/api/builds/top")
 
             buildImage.className = "build-image";
             buildImage.alt = build.title;
+            buildImage.src = build.mainPhoto;
 
-            fetch(`/api/builds/${build.buildId}/photos`)
-                .then(response => response.json())
-                .then(photos => {
-                    console.log(photos[0].filePath);
-
-                    buildImage.src = photos[0].filePath;
-
-                    buildLink.appendChild(buildImage);
-                    highestHorsepowerBuilds.appendChild(buildLink);
-                });
+            buildLink.appendChild(buildImage);
+            highestHorsepowerBuilds.appendChild(buildLink);
         });
     });
+
 // random builds on front page
 fetch("api/builds/randomlist")
     .then(response => response.json())
@@ -73,19 +62,13 @@ fetch("api/builds/randomlist")
 
             buildImage.className = "build-image";
             buildImage.alt = build.title;
+            buildImage.src = build.mainPhoto;
 
-            fetch(`/api/builds/${build.buildId}/photos`)
-                .then(response => response.json())
-                .then(photos => {
-                    console.log(photos[0].filePath);
-
-                    buildImage.src = photos[0].filePath;
-
-                    buildLink.appendChild(buildImage);
-                    randomBuilds.appendChild(buildLink);
-                });
+            buildLink.appendChild(buildImage);
+            randomBuilds.appendChild(buildLink);
         });
     });
+
 
 // newest builds on front page
 fetch("api/builds/newest")
@@ -103,16 +86,9 @@ fetch("api/builds/newest")
 
             buildImage.className = "build-image";
             buildImage.alt = build.title;
+            buildImage.src = build.mainPhoto;
 
-            fetch(`/api/builds/${build.buildId}/photos`)
-                .then(response => response.json())
-                .then(photos => {
-                    console.log(photos[0].filePath);
-
-                    buildImage.src = photos[0].filePath;
-
-                    buildLink.appendChild(buildImage);
-                    newBuilds.appendChild(buildLink);
-                });
+            buildLink.appendChild(buildImage);
+            newBuilds.appendChild(buildLink);
         });
     });

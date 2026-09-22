@@ -17,6 +17,7 @@ public class Build {
     private int buildId;
     private boolean featured;
     private LocalDateTime dateCreated;
+    private String mainPhoto;
 
 
 
@@ -29,6 +30,10 @@ public class Build {
         this.tuner = tuner; this.trim = trim; this.buildId = buildId; }
 
     // getters
+    public String getMainPhoto() { return mainPhoto; }
+
+    public void setMainPhoto(String s) {this.mainPhoto = s; }
+
     public LocalDateTime getDateCreated() { return dateCreated; }
 
     public void setDateCreated(LocalDateTime i) { this.dateCreated = i; }

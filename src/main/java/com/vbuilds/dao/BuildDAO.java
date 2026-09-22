@@ -14,8 +14,8 @@ public class BuildDAO {
     public void addBuild(Build build) throws SQLException {
         Connection conn = Database.connect();
 
-        String sq1 = "INSERT INTO builds (title, horsepower, happiness, reliability, loudness, build_cost, tuner, build_year, build_trim, featured) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sq1 = "INSERT INTO builds (title, horsepower, happiness, reliability, loudness, build_cost, tuner, build_year, build_trim, featured, main_photo) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement stmt = conn.prepareStatement(sq1);
 
@@ -29,6 +29,7 @@ public class BuildDAO {
         stmt.setInt(8, build.getBuildYear());
         stmt.setString(9, build.getTrim());
         stmt.setBoolean(10, build.isFeatured());
+        stmt.setString(11, build.getMainPhoto());
 
         stmt.executeUpdate();
 
@@ -101,7 +102,7 @@ public class BuildDAO {
         Connection conn = Database.connect();
 
         String sq1 = "UPDATE builds SET title = ?, horsepower = ?, happiness = ?, reliability = ?, loudness = ?, " +
-                "build_cost = ?, tuner = ?, build_year = ?, build_trim = ?, featured = ? WHERE build_id = ?";
+                "build_cost = ?, tuner = ?, build_year = ?, build_trim = ?, featured = ? WHERE build_id = ? WHERE main_photo = ?";
 
         PreparedStatement stmt = conn.prepareStatement(sq1);
 
@@ -116,6 +117,7 @@ public class BuildDAO {
         stmt.setString(9, build.getTrim());
         stmt.setInt(11, build.getBuildId());
         stmt.setBoolean(10, build.isFeatured());
+        stmt.setString(12, build.getMainPhoto());
 
         stmt.executeUpdate();
         stmt.close();
@@ -151,6 +153,7 @@ public class BuildDAO {
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
             build.setFeatured(rs.getBoolean(("featured")));
+            build.setMainPhoto(rs.getString(("main_photo")));
 
             allBuilds.add(build);
         }
@@ -187,6 +190,7 @@ public class BuildDAO {
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
             build.setFeatured(rs.getBoolean(("featured")));
+            build.setMainPhoto(rs.getString(("main_photo")));
         }
         rs.close();
         stmt.close();
@@ -226,6 +230,7 @@ public class BuildDAO {
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
             build.setFeatured(rs.getBoolean(("featured")));
+            build.setMainPhoto(rs.getString(("main_photo")));
 
             userBuilds.add(build);
         }
@@ -285,6 +290,7 @@ public class BuildDAO {
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
             build.setFeatured(rs.getBoolean(("featured")));
+            build.setMainPhoto(rs.getString(("main_photo")));
 
             builds.add(build);
         }
@@ -322,6 +328,7 @@ public class BuildDAO {
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
             build.setFeatured(rs.getBoolean(("featured")));
+            build.setMainPhoto(rs.getString(("main_photo")));
 
             builds.add(build);
         }
@@ -358,6 +365,7 @@ public class BuildDAO {
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
             build.setFeatured(rs.getBoolean(("featured")));
+            build.setMainPhoto(rs.getString(("main_photo")));
 
             builds.add(build);
         }
@@ -393,6 +401,7 @@ public class BuildDAO {
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
             build.setFeatured(rs.getBoolean(("featured")));
+            build.setMainPhoto(rs.getString(("main_photo")));
 
             builds.add(build);
         }
@@ -428,6 +437,7 @@ public class BuildDAO {
             build.setBuildId(rs.getInt("build_id"));
             build.setOwnerId(rs.getInt("owner_id"));
             build.setFeatured(rs.getBoolean(("featured")));
+            build.setMainPhoto(rs.getString(("main_photo")));
 
             builds.add(build);
         }

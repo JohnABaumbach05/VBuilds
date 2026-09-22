@@ -1,0 +1,19 @@
+.Login-button img {
+    display: Grid;
+    width: 800px;
+    height: 300px;
+    margin-left: 0;
+}
+
+.Account-button img {
+    display: Grid;
+    width: 800px;
+    height: 300px;
+    margin-left: 0;
+}
+
+.Login-button,
+.Account-button {
+    display: flex;
+    justify-content: center;
+}
