@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="/CSS/Global.css">
+    <link rel="stylesheet" href="/CSS/LoginSidebar.css">
+</head>
+
+<body>
+
+<div id="navigation"></div>
+
+<main>
+    <section class="Login-button">
+        <img src = "/webImages/LoginPage/LoginforLoginPage.png"
+             alt="Login">
+    </section>
+
+    <section class="Account-button" id="open-account">
+        <img src = "/webImages/LoginPage/CreateAccount.png"
+             alt="Account">
+    </section>
+</main>
+
+<div class="modal" id="account-modal">
+
+    <div class = "modal-content">
+
+        <span class="close" id="close-account">&times;</span>
+
+        <h2>Create Account</h2>
+
+        <form id="account-form">
+        <input
+            type="text"
+            id="account-username"
+            placeholder="Username"
+            required
+        >
+
+        <input
+            type="email"
+            id="account-email"
+            placeholder="Email"
+            required
+        >
+
+        <button type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
+
+<script src="/javascript/LoginSidebar.js"></script>
+<script src="/javascript/Global.js"></script>
+
+</body>
+</html>
