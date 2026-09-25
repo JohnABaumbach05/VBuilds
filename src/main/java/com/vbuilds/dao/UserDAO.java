@@ -13,17 +13,15 @@ public class UserDAO {
     public void addUser(Users user) throws SQLException {
         Connection conn = Database.connect();
 
-        String sq1 = "INSERT INTO users(username, email, password_hash, join_date, bio, profile_picture) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sq1 = "INSERT INTO users(username, email, password_hash, date_joined) " +
+                "VALUES (?, ?, ?, ?)";
 
         PreparedStatement stmt = conn.prepareStatement(sq1);
 
         stmt.setString(1, user.getUsername());
         stmt.setString(2, user.getEmail());
-        stmt.setString(3, user.getPassword());
+        stmt.setString(3, user.getPasswordHash());
         stmt.setString(4, user.getDateJoined());
-        stmt.setString(5, user.getBio());
-        stmt.setString(6, user.getPFP());
 
         stmt.executeUpdate();
 
@@ -55,7 +53,7 @@ public class UserDAO {
 
         stmt.setString(1, user.getUsername());
         stmt.setString(2, user.getEmail());
-        stmt.setString(3, user.getPassword());
+        stmt.setString(3, user.getPasswordHash());
         stmt.setString(4, user.getBio());
         stmt.setString(5, user.getPFP());
         stmt.setInt(6, user.getId());
@@ -85,7 +83,7 @@ public class UserDAO {
 
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
-            user.setPassword(rs.getString("password_hash"));
+            user.setPasswordHash(rs.getString("password_hash"));
             user.setBio(rs.getString("bio"));
             user.setPFP(rs.getString("profile_picture"));
             user.setDateJoined(rs.getString("date_joined"));
@@ -117,7 +115,7 @@ public class UserDAO {
 
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
-            user.setPassword(rs.getString("password_hash"));
+            user.setPasswordHash(rs.getString("password_hash"));
             user.setBio(rs.getString("bio"));
             user.setPFP(rs.getString("profile_picture"));
             user.setDateJoined(rs.getString("date_joined"));
@@ -147,7 +145,7 @@ public class UserDAO {
 
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
-            user.setPassword(rs.getString("password_hash"));
+            user.setPasswordHash(rs.getString("password_hash"));
             user.setBio(rs.getString("bio"));
             user.setPFP(rs.getString("profile_picture"));
             user.setDateJoined(rs.getString("date_joined"));

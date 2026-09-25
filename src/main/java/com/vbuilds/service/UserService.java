@@ -1,7 +1,9 @@
 package com.vbuilds.service;
-
+import java.time.LocalDate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.vbuilds.dao.BuildDAO;
 import com.vbuilds.dao.UserDAO;
+import com.vbuilds.dto.CreateAccountRequest;
 import com.vbuilds.model.Users;
 
 import java.sql.SQLException;
@@ -17,7 +19,21 @@ public class UserService {
     }
 
 
-    public void addUser(Users user) throws SQLException {
+    public void addUser(CreateAccountRequest request) throws SQLException {
+        Users user = new Users();
+
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setDateJoined(LocalDate.now().toString());
+
+
+        // PASSWORD
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        String hashedPassword = encoder.encode(request.getPassword());
+
+        user.setPasswordHash(hashedPassword);
+
         userDAO.addUser(user);
     }
 

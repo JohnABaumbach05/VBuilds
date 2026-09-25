@@ -1,5 +1,6 @@
 package com.vbuilds.controller;
 
+import com.vbuilds.dto.CreateAccountRequest;
 import com.vbuilds.model.Build;
 import com.vbuilds.model.Photo;
 import com.vbuilds.model.Users;
@@ -22,8 +23,8 @@ public class UserController {
     public UserController() { userService = new UserService(); }
 
     @PostMapping
-    public void addUser(@RequestBody Users user) throws SQLException {
-        userService.addUser(user);
+    public void addUser(@RequestBody CreateAccountRequest request) throws SQLException {
+        userService.addUser(request);
     }
 
     @DeleteMapping("/{id}")

@@ -28,7 +28,7 @@ public class Users {
 
     public String getEmail() { return email; }
 
-    public String getPassword() { return passwordHash; }
+    public String getPasswordHash() { return passwordHash; }
 
     public String getDateJoined() { return dateJoined; }
 
@@ -41,7 +41,7 @@ public class Users {
 
     public void setEmail(String newEmail) { this.email = newEmail; }
 
-    public void setPassword(String newPassword) { this.passwordHash = newPassword; }
+    public void setPasswordHash(String newPassword) { this.passwordHash = newPassword; }
 
     public void setBio(String newBio) { this.bio = newBio; }
 
