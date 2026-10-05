@@ -1,9 +1,6 @@
 package com.vbuilds.controller;
 
-import com.vbuilds.model.Build;
 import com.vbuilds.model.Photo;
-import com.vbuilds.model.parts;
-import com.vbuilds.service.BuildService;
 import com.vbuilds.service.PhotoService;
 import org.springframework.web.bind.annotation.*;
 

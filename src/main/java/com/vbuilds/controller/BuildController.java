@@ -2,7 +2,7 @@ package com.vbuilds.controller;
 
 import com.vbuilds.model.Build;
 import com.vbuilds.model.Photo;
-import com.vbuilds.model.parts;
+import com.vbuilds.model.Part;
 import com.vbuilds.service.BuildService;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +56,7 @@ public class BuildController {
     }
 
     @GetMapping("/{id}/parts")
-    public List<parts> getBuildParts(@PathVariable int id) throws SQLException {
+    public List<Part> getBuildParts(@PathVariable int id) throws SQLException {
         return buildService.getBuildParts(id);
     }
 

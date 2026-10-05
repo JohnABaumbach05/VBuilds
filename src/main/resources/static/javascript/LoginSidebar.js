@@ -49,6 +49,34 @@ accountForm.addEventListener("submit", function(event) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(account)
+    });
+});
+
+
+const loginForm = document.getElementById("login-form");
+
+loginForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const username = document.getElementById("login-username").value;
+    const password = document.getElementById("login-password").value;
+
+    const login = {
+        username: username,
+        password: password
+    };
+
+    fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(login)
+    })
+        .then(response => response.json())
+        .then(user => {
+            console.log(user);
+        });
 });
 
 

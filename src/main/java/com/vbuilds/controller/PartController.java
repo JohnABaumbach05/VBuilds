@@ -1,11 +1,7 @@
 package com.vbuilds.controller;
 
-import com.vbuilds.model.Build;
-import com.vbuilds.model.Photo;
-import com.vbuilds.model.parts;
-import com.vbuilds.service.BuildService;
+import com.vbuilds.model.Part;
 import com.vbuilds.service.PartService;
-import org.apache.coyote.Request;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -21,17 +17,17 @@ public class PartController {
     public PartController() { partService = new PartService(); }
 
     @PostMapping
-    public void addPart(@RequestBody parts part) throws SQLException {
+    public void addPart(@RequestBody Part part) throws SQLException {
         partService.addPart(part);
     }
 
     @GetMapping
-    public List<parts> getAllParts() throws SQLException {
+    public List<Part> getAllParts() throws SQLException {
         return partService.getAllParts();
     }
 
     @PutMapping("/{id}")
-    public void updatePart(@PathVariable int id, @RequestBody parts part) throws SQLException {
+    public void updatePart(@PathVariable int id, @RequestBody Part part) throws SQLException {
         part.setPartID(id);
         partService.updatePart(part);
     }
@@ -42,7 +38,7 @@ public class PartController {
     }
 
     @GetMapping("/{id}")
-    public parts getPartById(@PathVariable int id) throws SQLException {
+    public Part getPartById(@PathVariable int id) throws SQLException {
         return partService.getPartById(id);
     }
 

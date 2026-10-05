@@ -5,7 +5,7 @@ import com.vbuilds.dao.PartDAO;
 import com.vbuilds.dao.PhotoDAO;
 import com.vbuilds.model.Build;
 import com.vbuilds.model.Photo;
-import com.vbuilds.model.parts;
+import com.vbuilds.model.Part;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -71,7 +71,7 @@ public class BuildService {
         return buildDAO.getTopHorsepowerBuilds(i);
     }
 
-    public List<parts> getBuildParts(int buildID) throws SQLException {
+    public List<Part> getBuildParts(int buildID) throws SQLException {
         return partDAO.getBuildParts(buildID);
     }
 

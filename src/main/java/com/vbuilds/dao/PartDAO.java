@@ -1,7 +1,7 @@
 package com.vbuilds.dao;
 
 import com.vbuilds.DATABASEMAINFILE.Database;
-import com.vbuilds.model.parts;
+import com.vbuilds.model.Part;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PartDAO {
-    public void addPart(parts part) throws SQLException {
+    public void addPart(Part part) throws SQLException {
         Connection conn = Database.connect();
 
         String sq1 = "INSERT INTO parts(part_name, manufacturer, category, part_reliability, est_power_added, part_description, part_cost, makes_louder)" +
@@ -34,7 +34,7 @@ public class PartDAO {
         conn.close();
     }
 
-    public parts getPartById(int id) throws SQLException {
+    public Part getPartById(int id) throws SQLException {
         Connection conn = Database.connect();
 
         String sq1 = "SELECT * FROM parts WHERE part_id = ?;";
@@ -43,9 +43,9 @@ public class PartDAO {
 
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
-        parts part = null;
+        Part part = null;
         if (rs.next()) {
-            part = new parts();
+            part = new Part();
 
             part.setPartName(rs.getString("part_name"));
             part.setManufacturer(rs.getString("manufacturer"));
@@ -65,7 +65,7 @@ public class PartDAO {
 
 
 
-    public List<parts> getAllParts() throws SQLException {
+    public List<Part> getAllParts() throws SQLException {
         Connection conn = Database.connect();
 
         String sq1 = "SELECT * FROM parts";
@@ -74,10 +74,10 @@ public class PartDAO {
 
         ResultSet rs = stmt.executeQuery();
 
-        List<parts> partsList = new ArrayList<>();
+        List<Part> partList = new ArrayList<>();
 
         while (rs.next()) {
-            parts part = new parts();
+            Part part = new Part();
 
             part.setPartName(rs.getString("part_name"));
             part.setManufacturer(rs.getString("manufacturer"));
@@ -89,16 +89,16 @@ public class PartDAO {
             part.setMakesLouder(rs.getBoolean("makes_louder"));
             part.setPartID(rs.getInt("part_id"));
 
-            partsList.add(part);
+            partList.add(part);
         }
         rs.close();
         stmt.close();
         conn.close();
 
-        return partsList;
+        return partList;
     }
 
-    public void updatePart(parts part) throws SQLException {
+    public void updatePart(Part part) throws SQLException {
         Connection conn = Database.connect();
 
         String sq1 = "UPDATE parts " +
@@ -149,19 +149,19 @@ public class PartDAO {
 
     }
 
-    public List<parts> getBuildParts(int buildID) throws SQLException {
+    public List<Part> getBuildParts(int buildID) throws SQLException {
         Connection conn = Database.connect();
 
         String sq1 = "SELECT * FROM parts WHERE build_id = ?;";
 
         PreparedStatement stmt = conn.prepareStatement(sq1);
         stmt.setInt(1, buildID);
-        List<parts> partsList = new ArrayList<>();
+        List<Part> partList = new ArrayList<>();
 
         ResultSet rs = stmt.executeQuery();
 
         while(rs.next()) {
-            parts part = new parts();
+            Part part = new Part();
             part.setPartName(rs.getString("part_name"));
             part.setManufacturer(rs.getString("manufacturer"));
             part.setCategory(rs.getString("category"));
@@ -172,11 +172,11 @@ public class PartDAO {
             part.setMakesLouder(rs.getBoolean("makes_louder"));
             part.setPartID(rs.getInt("part_id"));
 
-            partsList.add(part);
+            partList.add(part);
         }
         rs.close();
         stmt.close();
         conn.close();
-        return partsList;
+        return partList;
     }
 }

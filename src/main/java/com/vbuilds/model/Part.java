@@ -1,6 +1,6 @@
 package com.vbuilds.model;
 
-public class parts {
+public class Part {
     private String category;
     private int partID;
     private String manufacturer;
@@ -11,10 +11,10 @@ public class parts {
     private int partCost;
     private boolean makesLouder;
 
-    public parts() {}
+    public Part() {}
 
-    public parts(String category, String manufacturer,
-                 String partName, String partDescription)
+    public Part(String category, String manufacturer,
+                String partName, String partDescription)
     {
         this.category = category; this.manufacturer = manufacturer;
         this.partName = partName; this.partDescription = partDescription; }

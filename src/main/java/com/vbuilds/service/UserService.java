@@ -4,7 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.vbuilds.dao.BuildDAO;
 import com.vbuilds.dao.UserDAO;
 import com.vbuilds.dto.CreateAccountRequest;
-import com.vbuilds.model.Users;
+import com.vbuilds.model.User;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,15 +12,36 @@ import java.util.List;
 public class UserService {
     private UserDAO userDAO;
     private BuildDAO buildDAO;
+    private BCryptPasswordEncoder passwordEncoder;
 
     public UserService() {
         userDAO = new UserDAO();
         buildDAO = new BuildDAO();
+        passwordEncoder = new BCryptPasswordEncoder();
     }
 
 
+    public User getUserByEmail(String email) throws SQLException{
+        return userDAO.getUserByEmail(email);
+    }
+
+    public User login(String username, String password) throws SQLException {
+        User user = userDAO.getUserByUsername(username);
+
+        if (user == null) {
+            return null;
+        }
+
+        if (passwordEncoder.matches(password, user.getPasswordHash())) {
+            return user;
+        }
+        return null;
+    }
+
+
+
     public void addUser(CreateAccountRequest request) throws SQLException {
-        Users user = new Users();
+        User user = new User();
 
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
@@ -28,9 +49,7 @@ public class UserService {
 
 
         // PASSWORD
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        String hashedPassword = encoder.encode(request.getPassword());
+        String hashedPassword = passwordEncoder.encode(request.getPassword());
 
         user.setPasswordHash(hashedPassword);
 
@@ -41,19 +60,19 @@ public class UserService {
         userDAO.deleteUser(id);
     }
 
-    public void updateUser(Users user) throws SQLException {
+    public void updateUser(User user) throws SQLException {
         userDAO.updateUser(user);
     }
 
-    public Users getUserById(int id) throws SQLException {
+    public User getUserById(int id) throws SQLException {
         return userDAO.getUserById(id);
     }
 
-    public Users getUserByUsername(String user) throws SQLException {
+    public User getUserByUsername(String user) throws SQLException {
         return userDAO.getUserByUsername(user);
     }
 
-    public List<Users> getAllUsers() throws SQLException {
+    public List<User> getAllUsers() throws SQLException {
         return userDAO.getAllUsers();
     }
 }

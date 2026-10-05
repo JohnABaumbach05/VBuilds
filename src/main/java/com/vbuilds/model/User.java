@@ -1,8 +1,6 @@
 package com.vbuilds.model;
 
-import org.apache.catalina.User;
-
-public class Users {
+public class User {
     private int userId;
     private String username;
     private String email;
@@ -12,10 +10,10 @@ public class Users {
     private String profile_picture;
 
 
-    public Users(){}
+    public User(){}
 
-    public Users(int id, String username, String email, String password_hash,
-                 String date_joined, String bio, String profile_picture)
+    public User(int id, String username, String email, String password_hash,
+                String date_joined, String bio, String profile_picture)
     {
         this.userId = id; this.username = username; this.email = email; this.passwordHash = password_hash;
         this.dateJoined = date_joined; this.bio = bio; this.profile_picture = profile_picture;

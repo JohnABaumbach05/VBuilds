@@ -1,15 +1,11 @@
 package com.vbuilds.controller;
-
+import jakarta.servlet.http.HttpSession;
+import com.vbuilds.dto.LoginRequest;
 import com.vbuilds.dto.CreateAccountRequest;
-import com.vbuilds.model.Build;
-import com.vbuilds.model.Photo;
-import com.vbuilds.model.Users;
-import com.vbuilds.model.parts;
-import com.vbuilds.service.BuildService;
-import com.vbuilds.service.PhotoService;
+import com.vbuilds.model.User;
 import com.vbuilds.service.UserService;
 import org.springframework.web.bind.annotation.*;
-
+import com.vbuilds.dto.LoginResponse;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,6 +18,44 @@ public class UserController {
 
     public UserController() { userService = new UserService(); }
 
+
+
+    @GetMapping("/me")
+    public LoginResponse getCurrentUser(HttpSession session) throws SQLException {
+    Integer userId = (Integer) session.getAttribute("userId");
+
+    if (userId == null) {
+        return null;
+    }
+
+    User user = userService.getUserById(userId);
+
+    return new LoginResponse(user.getId(), user.getUsername(), user.getEmail());
+    }
+
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest request, HttpSession session) throws SQLException {
+        User user = userService.login(
+                request.getUsername(),
+                request.getPassword()
+        );
+
+        if (user == null) {
+            return null;
+        }
+
+        session.setAttribute("userId", user.getId());
+
+        return new LoginResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail()
+        );
+
+    }
+
+
+
     @PostMapping
     public void addUser(@RequestBody CreateAccountRequest request) throws SQLException {
         userService.addUser(request);
@@ -33,23 +67,23 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public void updateUser(@PathVariable int id, @RequestBody Users user) throws SQLException {
+    public void updateUser(@PathVariable int id, @RequestBody User user) throws SQLException {
         user.setUserId(id);
         userService.updateUser(user);
     }
 
     @GetMapping("/{id}")
-    public Users getUserById(@PathVariable int id) throws SQLException {
+    public User getUserById(@PathVariable int id) throws SQLException {
         return userService.getUserById(id);
     }
 
     @GetMapping("/username/{username}")
-    public Users getUserByUsername(@PathVariable String username) throws SQLException {
+    public User getUserByUsername(@PathVariable String username) throws SQLException {
         return userService.getUserByUsername(username);
     }
 
     @GetMapping
-    public List<Users> getAllUsers() throws SQLException {
+    public List<User> getAllUsers() throws SQLException {
         return userService.getAllUsers();
     }
 
