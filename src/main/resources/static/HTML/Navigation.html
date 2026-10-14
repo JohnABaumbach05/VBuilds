@@ -12,7 +12,7 @@
              alt="View Builds">
     </a>
 
-    <a href="#" class="sidebar-link">
+    <a href="/HTML/CreateBuild.html" class="sidebar-link">
         <img src="/webImages/FrontPage/CreateBuildLogo2.png"
              alt="Create Build">
     </a>
@@ -36,4 +36,35 @@
         <img src="/webImages/FrontPage/AccountLogo.png"
              alt="Account">
     </a>
+
 </aside>
+
+<svg
+        id="navigation-energy"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+>
+    <defs>
+
+        <linearGradient id="energy-tail-gradient"
+                        x1="0%" y1="0%"
+                        x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#006eff" stop-opacity="0"/>
+            <stop offset="35%" stop-color="#007bff" stop-opacity="0.25"/>
+            <stop offset="75%" stop-color="#168bff" stop-opacity="0.65"/>
+            <stop offset="100%" stop-color="#9eeaff" stop-opacity="0.9"/>
+        </linearGradient>
+
+        <filter id="energy-glow"
+                x="-100%" y="-100%"
+                width="300%" height="300%">
+            <feGaussianBlur stdDeviation="16"/>
+        </filter>
+    </defs>
+
+    <path id="energy-glow-path"></path>
+    <path id="energy-core-path"></path>
+</svg>
+
+<script src="/javascript/navigation-energy.js" defer></script>
+<script src="/javascript/auth.js" defer></script>

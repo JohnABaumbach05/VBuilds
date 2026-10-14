@@ -1,0 +1,580 @@
+
+/* ==========================================
+   VBUILDS - BUILD DETAILS PAGE
+========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   MAIN PAGE LAYOUT
+========================================== */
+
+main.build-details-container {
+    /* Sidebar is 300px wide */
+    margin-left: 300px;
+
+    /* Never extend underneath or beyond sidebar */
+    width: calc(100% - 300px);
+    max-width: calc(100% - 300px);
+    min-width: 0;
+
+    /* Header is 200px tall */
+    padding: 235px 25px 70px;
+
+    color: #f4f7ff;
+    overflow-x: clip;
+}
+
+/* ==========================================
+   BUILD HEADER
+========================================== */
+
+.build-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    width: 100%;
+    min-width: 0;
+
+    margin-bottom: 28px;
+}
+
+.build-heading {
+    min-width: 0;
+}
+
+.section-eyebrow {
+    margin: 0 0 10px;
+
+    color: #39a7ff;
+    font-size: 12px;
+    letter-spacing: 3px;
+}
+
+.build-heading h1 {
+    margin: 0;
+
+    font-size: clamp(28px, 3vw, 48px);
+    line-height: 1.15;
+
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    overflow-wrap: anywhere;
+
+    text-shadow:
+            0 0 20px rgba(0, 140, 255, 0.3);
+}
+
+#build-subtitle {
+    margin: 8px 0 0;
+
+    color: #9ba8bc;
+    font-size: 16px;
+}
+
+.showcase-label {
+    flex-shrink: 0;
+
+    padding: 10px 16px;
+
+    color: #62bdff;
+    background: rgba(0, 120, 255, 0.07);
+
+    border: 1px solid #267ac4;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+/* ==========================================
+   BUILD SHOWCASE LAYOUT
+========================================== */
+
+.build-showcase {
+    display: grid;
+
+    /* Slightly slimmer gallery */
+    grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(0, 0.95fr);
+
+    gap: 20px;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    align-items: stretch;
+}
+
+/* ==========================================
+   SHARED PLAQUE DESIGN
+========================================== */
+
+.photo-plaque,
+.specs-plaque {
+    min-width: 0;
+    max-width: 100%;
+
+    padding: 16px;
+
+    background: linear-gradient(
+            145deg,
+            #171c25 0%,
+            #0c1017 100%
+    );
+
+    border: 1px solid #254d76;
+    border-radius: 10px;
+
+    box-shadow:
+            0 15px 40px rgba(0, 0, 0, 0.35),
+            0 0 20px rgba(0, 110, 255, 0.07);
+}
+
+.plaque-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+
+    color: #dceaff;
+
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.plaque-accent {
+    color: #278ff0;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* ==========================================
+   PHOTO PLAQUE
+========================================== */
+
+.photo-plaque {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Photo display area */
+
+.photo-frame {
+    position: relative;
+
+    width: 100%;
+    min-width: 0;
+
+    /* Slimmer than previous 4:3 frame */
+    aspect-ratio: 5 / 4;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: #080b10;
+
+    border: 1px solid #303b4d;
+    border-radius: 5px;
+}
+
+/* Actual uploaded car photo */
+
+#build-main-photo {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    background: #080b10;
+}
+
+#build-main-photo[hidden] {
+    display: none;
+}
+
+/* ==========================================
+   CAROUSEL ARROWS
+========================================== */
+
+.photo-arrow {
+    position: absolute;
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 40px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(5, 12, 23, 0.8);
+
+    color: #ffffff;
+
+    border: 1px solid rgba(75, 165, 255, 0.5);
+    border-radius: 5px;
+
+    font-size: 22px;
+
+    cursor: pointer;
+    z-index: 2;
+
+    transition:
+            background 0.2s ease,
+            box-shadow 0.2s ease;
+}
+
+.photo-arrow:hover {
+    background: rgba(0, 125, 255, 0.8);
+
+    box-shadow:
+            0 0 18px rgba(0, 145, 255, 0.5);
+}
+
+.photo-arrow-left {
+    left: 10px;
+}
+
+.photo-arrow-right {
+    right: 10px;
+}
+
+.photo-arrow[hidden] {
+    display: none;
+}
+
+/* ==========================================
+   PHOTO FOOTER
+========================================== */
+
+.photo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    min-height: 48px;
+
+    padding: 12px 5px 0;
+}
+
+#photo-caption {
+    margin: 0;
+
+    color: #aab8cc;
+    font-size: 13px;
+
+    overflow-wrap: anywhere;
+}
+
+#photo-counter {
+    flex-shrink: 0;
+
+    color: #4cb2ff;
+
+    font-size: 13px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+/* ==========================================
+   SPECIFICATIONS PLAQUE
+========================================== */
+
+.specs-plaque {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Featured horsepower */
+
+.horsepower-feature {
+    padding: 20px;
+
+    margin-bottom: 16px;
+
+    background: linear-gradient(
+            120deg,
+            rgba(0, 110, 255, 0.14),
+            rgba(0, 110, 255, 0.02)
+    );
+
+    border-left: 3px solid #168cff;
+}
+
+.spec-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #8396af;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+#build-horsepower {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: clamp(28px, 3vw, 44px);
+
+    text-shadow:
+            0 0 18px rgba(0, 140, 255, 0.3);
+}
+
+/* ==========================================
+   SPECIFICATION GRID
+========================================== */
+
+.spec-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+    width: 100%;
+    min-width: 0;
+}
+
+.spec-item {
+    min-width: 0;
+
+    padding: 14px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    border: 1px solid #253348;
+    border-radius: 5px;
+}
+
+.spec-value {
+    display: block;
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   OWNER RATINGS
+========================================== */
+
+.ratings-section {
+    margin-top: 22px;
+    padding-top: 18px;
+
+    border-top: 1px solid #263b55;
+}
+
+.ratings-section h3 {
+    margin: 0 0 15px;
+
+    color: #51b2ff;
+
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.rating-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #202b3b;
+
+    color: #b4c1d2;
+
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.rating-item strong {
+    color: white;
+    font-size: 16px;
+}
+
+/* ==========================================
+   INSTALLED PARTS
+========================================== */
+
+.parts-section {
+    width: 100%;
+    min-width: 0;
+
+    margin-top: 25px;
+    padding: 24px;
+
+    background: linear-gradient(
+            145deg,
+            #151a23,
+            #0b0f15
+    );
+
+    border: 1px solid #254d76;
+    border-radius: 10px;
+}
+
+.parts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.parts-header h2 {
+    margin: 0;
+
+    color: white;
+
+    font-size: 26px;
+    letter-spacing: 2px;
+}
+
+.parts-badge {
+    padding: 9px 13px;
+
+    color: #55b2ff;
+
+    border: 1px solid #255e96;
+
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.parts-list {
+    min-height: 90px;
+}
+
+.empty-parts {
+    padding: 25px;
+
+    color: #8191a6;
+
+    font-size: 15px;
+    text-align: center;
+
+    border: 1px dashed #30425b;
+    border-radius: 6px;
+}
+
+/* ==========================================
+   SMALLER DESKTOPS / TABLETS
+========================================== */
+
+@media (max-width: 1200px) {
+
+    .build-showcase {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-frame {
+        aspect-ratio: 16 / 10;
+    }
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 700px) {
+
+    main.build-details-container {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 40px;
+    }
+
+    .build-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .showcase-label {
+        display: none;
+    }
+
+    .photo-plaque,
+    .specs-plaque {
+        padding: 12px;
+    }
+
+    .photo-frame {
+        aspect-ratio: 1 / 1;
+    }
+
+    .spec-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .parts-section {
+        padding: 15px;
+    }
+
+    .parts-badge {
+        display: none;
+    }
+
+    /* ==========================================
+       BUILD DESCRIPTION
+    ========================================== */
+
+    .build-description {
+        margin-top: 22px;
+        padding: 18px 0;
+        border-top: 1px solid #263b55;
+    }
+
+    .build-description h3 {
+        margin: 0 0 12px;
+        color: #51b2ff;
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
+    #build-description {
+        margin: 0;
+        color: #c2cede;
+        font-size: 15px;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+
+}

@@ -40,7 +40,8 @@ header {
     left: 300px;
     right: 0;
 
-    z-index: 2;
+
+    z-index: 3;
 }
 
 .vbuilds-banner {
@@ -132,4 +133,83 @@ main {
         drop-shadow(0 0 18px #006eff)
         drop-shadow(0 0 30px #004cff);
 }
+/* =========================
+   NAVIGATION ENERGY ANIMATION
+   ========================= */
 
+#navigation-energy {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 4;
+    pointer-events: none;
+    overflow: visible;
+}
+
+#energy-glow-path,
+#energy-core-path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+}
+
+#energy-glow-path {
+    stroke: #007bff;
+    stroke-width: 25px;
+    filter: url(#energy-glow);
+}
+
+#energy-core-path {
+    stroke: url(#energy-tail-gradient);
+    stroke-width: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #navigation-energy {
+        display: none;
+    }
+}
+header a,
+.sidebar-link {
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================
+   BUILD IMAGE FRAMES
+   ========================= */
+
+.build-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+
+    border: 2px solid #234b78;
+    border-radius: 12px;
+    box-sizing: border-box;
+
+    box-shadow:
+            0 0 8px rgba(0, 110, 255, 0.15),
+            0 6px 20px rgba(0, 0, 0, 0.5);
+
+    transition:
+            border-color 0.3s ease,
+            box-shadow 0.3s ease,
+            transform 0.3s ease;
+}
+
+.build-image:hover {
+    border-color: #008cff;
+
+    box-shadow:
+            0 0 12px rgba(0, 110, 255, 0.45),
+            0 0 25px rgba(0, 110, 255, 0.2),
+            0 8px 25px rgba(0, 0, 0, 0.6);
+
+    transform: scale(1.015);
+}

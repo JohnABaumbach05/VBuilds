@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Build | VBuilds</title>
+
+  <link rel="stylesheet" href="/CSS/Global.css">
+  <link rel="stylesheet" href="/CSS/CreateBuild.css">
+</head>
+
+<body>
+
+<div id="navigation"></div>
+
+<main class="create-build-container">
+
+  <div class="create-build-content">
+
+    <h1>Create Your Build</h1>
+
+    <form id="create-build-form">
+
+      <input
+              type="text"
+              id="buildTitle"
+              placeholder="Build Title"
+              required
+      >
+
+      <input
+              type="number"
+              id="year"
+              placeholder="Year"
+              min="1900"
+              max="2100"
+              required
+      >
+
+      <input
+              type="text"
+              id="trim"
+              placeholder="Trim"
+      >
+
+      <input
+              type="number"
+              id="horsepower"
+              placeholder="Wheel Horsepower"
+              min="0"
+      >
+
+      <input
+              type="text"
+              id="tuner"
+              placeholder="Tuner"
+      >
+
+      <input
+              type="number"
+              id="buildCost"
+              placeholder="Price of Total Parts"
+              min="0"
+              step="1"
+      >
+
+      <textarea
+              id="caption"
+              placeholder="Describe your build..."
+              rows="4"
+      ></textarea>
+
+
+      <!-- BUILD RATINGS -->
+
+      <div class="build-ratings">
+
+        <h2>Rate Your Build</h2>
+
+        <div class="rating-group">
+          <label for="happiness">Happiness</label>
+
+          <div class="rating-slider">
+            <input
+                    type="range"
+                    id="happiness"
+                    min="1"
+                    max="10"
+                    value="5"
+            >
+            <span id="happinessValue">5</span>
+          </div>
+        </div>
+
+        <div class="rating-group">
+          <label for="reliability">Reliability</label>
+
+          <div class="rating-slider">
+            <input
+                    type="range"
+                    id="reliability"
+                    min="1"
+                    max="10"
+                    value="5"
+            >
+            <span id="reliabilityValue">5</span>
+          </div>
+        </div>
+
+        <div class="rating-group">
+          <label for="loudness">Loudness</label>
+
+          <div class="rating-slider">
+            <input
+                    type="range"
+                    id="loudness"
+                    min="1"
+                    max="10"
+                    value="5"
+            >
+            <span id="loudnessValue">5</span>
+          </div>
+        </div>
+
+      </div>
+
+
+      <label for="mainPhoto">Main Build Photo</label>
+      <input
+              type="file"
+              id="mainPhoto"
+              accept="image/*"
+      >
+
+      <label for="additionalPhotos">Additional Build Photos</label>
+      <input
+              type="file"
+              id="additionalPhotos"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+      >
+
+      <button type="submit">Create Build</button>
+
+    </form>
+
+  </div>
+
+</main>
+
+<script src="/javascript/Global.js"></script>
+<script src="/javascript/auth.js"></script>
+<script src="/javascript/CreateBuild.js"></script>
+
+</body>
+</html>

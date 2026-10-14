@@ -33,7 +33,7 @@ main {
                     rgba(15, 18, 22, 0.25),
                     rgba(15, 18, 22, 0.25)
             ),
-            url("/images/CarbonFiberBackground.png");
+            url("/webImages/CarbonFiberBackground.png");
 
     background-repeat: repeat, repeat;
     background-size: auto, 1600px 1600px;
@@ -43,7 +43,7 @@ main {
     display: Grid;
     width: 800px;
     height: 300px;
-    margin-left: 500px;
+    margin-left: 400px;
 
 
 }

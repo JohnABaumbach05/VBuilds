@@ -4,6 +4,7 @@ import com.vbuilds.dto.LoginRequest;
 import com.vbuilds.dto.CreateAccountRequest;
 import com.vbuilds.model.User;
 import com.vbuilds.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.vbuilds.dto.LoginResponse;
 import java.sql.SQLException;
@@ -12,6 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 
+
+
 public class UserController {
 
     private UserService userService;
@@ -19,6 +22,11 @@ public class UserController {
     public UserController() { userService = new UserService(); }
 
 
+
+    @PostMapping("/logout")
+    public void logout(HttpSession session) {
+        session.invalidate();
+    }
 
     @GetMapping("/me")
     public LoginResponse getCurrentUser(HttpSession session) throws SQLException {
@@ -57,8 +65,16 @@ public class UserController {
 
 
     @PostMapping
-    public void addUser(@RequestBody CreateAccountRequest request) throws SQLException {
-        userService.addUser(request);
+    public ResponseEntity<String> addUser(
+            @RequestBody CreateAccountRequest request) throws SQLException {
+
+        try {
+            userService.addUser(request);
+            return ResponseEntity.status(201).body("Account created successfully");
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

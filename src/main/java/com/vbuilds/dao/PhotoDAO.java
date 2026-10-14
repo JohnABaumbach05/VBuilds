@@ -68,8 +68,6 @@ public class PhotoDAO {
 
         stmt.setInt(1, photoId);
 
-        stmt.executeQuery();
-
         ResultSet rs = stmt.executeQuery();
 
         Photo photo = null;
@@ -94,7 +92,7 @@ public class PhotoDAO {
     public List<Photo> getPhotosByBuild(int buildId) throws SQLException {
         Connection conn = Database.connect();
 
-        String sq1 = "SELECT * FROM photos WHERE build_id = ?";
+        String sq1 = "SELECT * FROM photos WHERE build_id = ? ORDER BY photoID ASC";
 
         PreparedStatement stmt = conn.prepareStatement(sq1);
 

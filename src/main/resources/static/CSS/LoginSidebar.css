@@ -75,3 +75,72 @@
     cursor: pointer;
 }
 
+/* Logged-in account panel */
+#logged-in-user {
+    width: min(550px, 90%);
+    margin: 70px auto;
+    padding: 45px 50px;
+
+    background: #090d14;
+    border: 2px solid #24517c;
+    border-radius: 16px;
+
+    box-shadow:
+            0 0 30px rgba(0, 110, 255, 0.18),
+            0 12px 35px rgba(0, 0, 0, 0.5);
+
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.login-label {
+    color: #a4b5cb;
+    font-size: 20px;
+    margin: 0 0 15px;
+}
+
+#display-username {
+    color: white;
+    font-size: 42px;
+    margin: 0 0 35px;
+}
+
+.account-actions {
+    display: flex;
+    gap: 20px;
+}
+
+#view-account-button,
+#logout-button {
+    flex: 1;
+    padding: 18px 20px;
+
+    background: #123b67;
+    color: white;
+
+    border: 1px solid #24517c;
+    border-radius: 8px;
+
+    font-size: 18px;
+    font-family: inherit;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+
+    transition: background 0.2s, border-color 0.2s;
+}
+
+#view-account-button:hover {
+    background: #0066bb;
+    border-color: #008cff;
+}
+
+#logout-button {
+    background: #171c25;
+    border-color: #42546a;
+}
+
+#logout-button:hover {
+    background: #672020;
+    border-color: #c44545;
+}

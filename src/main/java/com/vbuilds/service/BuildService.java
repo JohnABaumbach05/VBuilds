@@ -22,6 +22,10 @@ public class BuildService {
         partDAO = new PartDAO();
     }
 
+    public void addPhoto(Photo photo) throws SQLException {
+        photoDAO.addPhoto(photo);
+    }
+
     public List<Build> getUserBuilds(int id) throws SQLException {
         return buildDAO.getUserBuilds(id);
     }
@@ -30,8 +34,8 @@ public class BuildService {
         return buildDAO.getAllBuilds();
     }
 
-    public void addBuild(Build build) throws SQLException {
-        buildDAO.addBuild(build);
+    public int addBuild(Build build) throws SQLException {
+        return buildDAO.addBuild(build);
     }
 
     public void updateBuild(Build build) throws SQLException {

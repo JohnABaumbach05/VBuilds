@@ -9,7 +9,7 @@ fetch("/api/builds/featured")
 
         builds.forEach(build => {
             const buildLink = document.createElement("a");
-            buildLink.href = `/build.html?id=${build.buildId}`;
+            buildLink.href = `/HTML/build.html?id=${build.buildId}`;
 
             const buildImage = document.createElement("img");
 
@@ -24,7 +24,7 @@ fetch("/api/builds/featured")
 
 
 // highest horsepower builds on front page
-fetch("/api/builds/top")
+fetch("/api/builds/top/limit?limit=4")
     .then(response => response.json())
     .then(builds => {
         console.log(builds);
@@ -33,7 +33,7 @@ fetch("/api/builds/top")
 
         builds.forEach(build => {
             const buildLink = document.createElement("a");
-            buildLink.href = `/build.html?id=${build.buildId}`;
+            buildLink.href = `/HTML/build.html?id=${build.buildId}`;
 
             const buildImage = document.createElement("img");
 
@@ -56,7 +56,7 @@ fetch("api/builds/randomlist")
 
         builds.forEach(build => {
             const buildLink = document.createElement("a");
-            buildLink.href = `/build.html?id=${build.buildId}`;
+            buildLink.href = `/HTML/build.html?id=${build.buildId}`;
 
             const buildImage = document.createElement("img");
 
@@ -80,7 +80,7 @@ fetch("api/builds/newest")
 
         builds.forEach(build => {
             const buildLink = document.createElement("a");
-            buildLink.href = `/build.html?id=${build.buildId}`;
+            buildLink.href = `/HTML/build.html?id=${build.buildId}`;
 
             const buildImage = document.createElement("img");
 

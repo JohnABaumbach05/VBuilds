@@ -41,6 +41,10 @@ public class UserService {
 
 
     public void addUser(CreateAccountRequest request) throws SQLException {
+
+        if (userDAO.getUserByUsername(request.getUsername()) != null) {
+            throw new IllegalArgumentException("Username already exists");
+        }
         User user = new User();
 
         user.setUsername(request.getUsername());

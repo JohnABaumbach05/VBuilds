@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Build Showcase | VBuilds</title>
+
+    <link rel="stylesheet" href="/CSS/Global.css">
+    <link rel="stylesheet" href="/CSS/build.css">
+</head>
+
+<body>
+
+<!-- Existing VBuilds navigation -->
+<div id="navigation"></div>
+
+<main class="build-details-container">
+
+    <!-- BUILD HEADER -->
+    <section class="build-header">
+
+        <div class="build-heading">
+            <p class="section-eyebrow">VBUILDS / BUILD SHOWCASE</p>
+
+            <h1 id="build-title">Loading Build...</h1>
+
+            <p id="build-subtitle"></p>
+        </div>
+
+        <div class="showcase-label">
+            MEMBER BUILD
+        </div>
+
+    </section>
+
+    <!-- PHOTO GALLERY + SPECIFICATIONS -->
+    <section class="build-showcase">
+
+        <!-- LEFT: PHOTO PLAQUE -->
+        <div class="photo-plaque">
+
+            <div class="plaque-heading">
+                <span>BUILD GALLERY</span>
+                <span class="plaque-accent">VBUILDS</span>
+            </div>
+
+            <div class="photo-frame">
+
+                <img
+                        id="build-main-photo"
+                        alt="Build Photo"
+                        hidden
+                >
+
+                <button
+                        id="photo-prev"
+                        class="photo-arrow photo-arrow-left"
+                        type="button"
+                        aria-label="Previous photo"
+                >
+                    &#10094;
+                </button>
+
+                <button
+                        id="photo-next"
+                        class="photo-arrow photo-arrow-right"
+                        type="button"
+                        aria-label="Next photo"
+                >
+                    &#10095;
+                </button>
+
+            </div>
+
+            <div class="photo-footer">
+
+                <p id="photo-caption"></p>
+
+                <span id="photo-counter">0 / 0</span>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT: BUILD SPECIFICATIONS -->
+        <div class="specs-plaque">
+
+            <div class="plaque-heading">
+                <span>VEHICLE SPECIFICATIONS</span>
+                <span class="plaque-accent">01 / SPECS</span>
+            </div>
+
+            <div class="horsepower-feature">
+                <span class="spec-label">HORSEPOWER</span>
+                <h2 id="build-horsepower">—</h2>
+            </div>
+
+            <div class="spec-grid">
+
+                <div class="spec-item">
+                    <span class="spec-label">BUILD COST</span>
+                    <span id="build-cost" class="spec-value">—</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">TUNER</span>
+                    <span id="build-tuner" class="spec-value">—</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">TRIM</span>
+                    <span id="build-trim" class="spec-value">—</span>
+                </div>
+
+            </div>
+
+            <!-- BUILD DESCRIPTION -->
+            <div class="build-description">
+                <h3>Build Description: </h3>
+
+                <p id="build-description">
+                    No description provided.
+                </p>
+            </div>
+
+
+            <div class="ratings-section">
+
+                <h3>OWNER RATINGS</h3>
+
+                <div class="rating-item">
+                    <span>HAPPINESS</span>
+                    <strong id="build-happiness">—</strong>
+                </div>
+
+                <div class="rating-item">
+                    <span>RELIABILITY</span>
+                    <strong id="build-reliability">—</strong>
+                </div>
+
+                <div class="rating-item">
+                    <span>LOUDNESS</span>
+                    <strong id="build-loudness">—</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- INSTALLED PARTS -->
+    <section class="parts-section">
+
+        <div class="parts-header">
+            <div>
+                <p class="section-eyebrow">BUILD BREAKDOWN</p>
+                <h2>INSTALLED PARTS</h2>
+            </div>
+
+            <span class="parts-badge">MODIFICATIONS</span>
+        </div>
+
+        <div id="build-parts-list" class="parts-list">
+            <p class="empty-parts">
+                Installed parts will appear here.
+            </p>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="/javascript/Global.js"></script>
+<script src="/javascript/auth.js"></script>
+<script src="/javascript/build.js"></script>
+
+</body>
+</html>

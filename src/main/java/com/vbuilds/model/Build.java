@@ -1,5 +1,4 @@
 package com.vbuilds.model;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
@@ -18,18 +17,23 @@ public class Build {
     private boolean featured;
     private LocalDateTime dateCreated;
     private String mainPhoto;
+    private String description;
 
 
 
     public Build() {}
 
     public Build(int ownerId, String title, int hp, String tuner,
-                 int year, String trim, int buildId)
+                 int year, String trim, int buildId, String description)
     {
         this.ownerID = ownerId; this.title = title; this.horsepower = hp;
-        this.tuner = tuner; this.trim = trim; this.buildId = buildId; }
+        this.tuner = tuner; this.trim = trim; this.buildId = buildId; this.buildYear = year; this.description = description; }
 
     // getters
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
+
     public String getMainPhoto() { return mainPhoto; }
 
     public void setMainPhoto(String s) {this.mainPhoto = s; }
@@ -89,6 +93,6 @@ public class Build {
 
     public void setBuildId(int newBuildID) { this.buildId = newBuildID; }
 
-    public void setOwnerId(int newId) { this.ownerID = newId; }
+    public void setOwnerID(int newId) { this.ownerID = newId; }
 
 }
