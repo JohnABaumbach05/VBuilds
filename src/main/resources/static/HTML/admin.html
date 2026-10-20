@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VBuilds | Admin Dashboard</title>
+    <link rel="stylesheet" href="/CSS/admin.css">
+    <script src="/javascript/admin.js" defer></script>
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <aside class="admin-sidebar">
+        <h2>VBuilds</h2>
+        <p>ADMIN PANEL</p>
+
+        <nav>
+            <button class="nav-btn active" data-page="overview">
+                Overview
+            </button>
+            <button class="nav-btn" data-page="pending">
+                Pending Builds
+            </button>
+            <button class="nav-btn" data-page="builds">
+                Manage Builds
+            </button>
+            <button class="nav-btn" data-page="users">
+                Users
+            </button>
+        </nav>
+
+        <a href="/">Back to VBuilds</a>
+    </aside>
+
+    <main class="admin-content">
+
+        <section id="overview" class="admin-page active">
+            <h1>Dashboard Overview</h1>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <p id="total-users">0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Total Builds</h3>
+                    <p id="total-builds">0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Pending Approvals</h3>
+                    <p id="pending-count">0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Approved Builds</h3>
+                    <p id="approved-count">0</p>
+                </div>
+            </div>
+
+            <h2>Newest Proposed Builds</h2>
+            <div id="recent-pending" class="build-grid"></div>
+        </section>
+
+        <section id="pending" class="admin-page">
+            <h1>Pending Build Approvals</h1>
+            <p>Review new builds before they go public.</p>
+            <div id="pending-builds" class="build-grid"></div>
+        </section>
+
+        <section id="builds" class="admin-page">
+            <h1>Manage Builds</h1>
+            <div id="all-builds" class="build-grid"></div>
+        </section>
+
+        <section id="users" class="admin-page">
+            <h1>User Management</h1>
+            <div id="users-list"></div>
+        </section>
+
+    </main>
+</div>
+
+</body>
+</html>
