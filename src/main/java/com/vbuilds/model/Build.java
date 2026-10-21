@@ -18,6 +18,8 @@ public class Build {
     private LocalDateTime dateCreated;
     private String mainPhoto;
     private String description;
+    private boolean inProcess;
+    private boolean approved;
 
 
 
@@ -30,6 +32,24 @@ public class Build {
         this.tuner = tuner; this.trim = trim; this.buildId = buildId; this.buildYear = year; this.description = description; }
 
     // getters
+
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public void setInProcess(boolean inProcess) {
+        this.inProcess = inProcess;
+    }
+
+    public boolean isInProcess() {
+        return inProcess;
+    }
+
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }

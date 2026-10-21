@@ -31,6 +31,7 @@ public class UserDAO {
             user.setPFP(rs.getString("profile_picture"));
             user.setDateJoined(rs.getString("date_joined"));
             user.setUserId(rs.getInt("user_id"));
+            user.setAdmin(rs.getBoolean("is_admin"));
         }
         rs.close();
         stmt.close();
@@ -117,6 +118,7 @@ public class UserDAO {
             user.setPFP(rs.getString("profile_picture"));
             user.setDateJoined(rs.getString("date_joined"));
             user.setUserId(rs.getInt("user_id"));
+            user.setAdmin(rs.getBoolean("is_admin"));
         }
         rs.close();
         stmt.close();
@@ -149,6 +151,7 @@ public class UserDAO {
             user.setPFP(rs.getString("profile_picture"));
             user.setDateJoined(rs.getString("date_joined"));
             user.setUserId(rs.getInt("user_id"));
+            user.setAdmin(rs.getBoolean("is_admin"));
         }
         rs.close();
         stmt.close();
@@ -179,6 +182,7 @@ public class UserDAO {
             user.setPFP(rs.getString("profile_picture"));
             user.setDateJoined(rs.getString("date_joined"));
             user.setUserId(rs.getInt("user_id"));
+            user.setAdmin(rs.getBoolean("is_admin"));
 
             userList.add(user);
         }

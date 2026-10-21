@@ -8,6 +8,7 @@ public class User {
     private String dateJoined;
     private String bio;
     private String profile_picture;
+    private boolean isAdmin;
 
 
     public User(){}
@@ -20,6 +21,16 @@ public class User {
     }
 
     // getters
+
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
     public int getId() { return userId; }
 
     public String getUsername() { return username; }
