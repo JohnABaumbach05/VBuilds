@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | VBuilds</title>
+    <link rel="stylesheet" href="/CSS/account.css">
+    <script src="/javascript/account.js" defer></script>
+    <link rel="stylesheet" href="/CSS/Global.css">
+    <script src="/javascript/Global.js" defer></script>
+    <script src="/javascript/auth.js" defer></script>
+</head>
+<body>
+<div id="navigation"></div>
+
+<main class="account-container">
+
+    <section class="profile-header">
+        <div class="profile-avatar">VB</div>
+
+        <div class="profile-info">
+            <h1 id="username">Loading...</h1>
+            <p id="email"></p>
+        </div>
+
+        <button id="settings-btn">Account Settings</button>
+    </section>
+
+    <section class="build-section">
+        <h2>My Builds</h2>
+
+        <div class="build-filters">
+            <button data-filter="all">All</button>
+            <button data-filter="approved">Approved</button>
+            <button data-filter="pending">In Process</button>
+            <button data-filter="rejected">Rejected</button>
+        </div>
+
+        <div id="build-container"></div>
+    </section>
+
+    <section class="activity-section">
+        <h2>My Activity</h2>
+
+        <div class="activity-card">
+            <h3>Liked Builds</h3>
+            <p>Coming soon</p>
+        </div>
+
+        <div class="activity-card">
+            <h3>My Comments</h3>
+            <p>Coming soon</p>
+        </div>
+    </section>
+
+</main>
+<script src="/javascript/navigation-energy.js"></script>
+<script src="/javascript/auth.js"></script>
+</body>
+</html>
+

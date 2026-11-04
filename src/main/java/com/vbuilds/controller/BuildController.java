@@ -23,11 +23,104 @@ public class BuildController {
         buildService = new BuildService();
     }
 
-    @PutMapping("/{id}")
-    public void updateBuild(@PathVariable int id, @RequestBody Build build) throws SQLException {
-        build.setBuildId(id);
-        buildService.updateBuild(build);
+
+
+    @GetMapping("/mine")
+    public List<Build> getMyBuilds(HttpSession session) throws SQLException {
+
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You must be logged in"
+            );
+        }
+
+        return buildService.getUserBuilds(userId);
     }
+
+
+
+    @GetMapping("/{id}/edit")
+    public Build getBuildForEditing(
+            @PathVariable int id,
+            HttpSession session
+    ) throws SQLException {
+
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You must be logged in"
+            );
+        }
+
+        Build build = buildService.getBuildForEditing(id);
+
+        if (build == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Build not found"
+            );
+        }
+
+        if (build.getOwnerID() != userId) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "You do not own this build"
+            );
+        }
+
+        return build;
+    }
+
+
+
+    @PutMapping("/{id}")
+    public void updateBuild(
+            @PathVariable int id,
+            @RequestBody Build updatedBuild,
+            HttpSession session
+    ) throws SQLException {
+
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You must be logged in"
+            );
+        }
+
+        Build existingBuild = buildService.getBuildForEditing(id);
+
+        if (existingBuild == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Build not found"
+            );
+        }
+
+        if (existingBuild.getOwnerID() != userId) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "You do not own this build"
+            );
+        }
+
+        updatedBuild.setBuildId(id);
+        updatedBuild.setOwnerID(userId);
+
+
+        if (updatedBuild.getMainPhoto() == null) {
+            updatedBuild.setMainPhoto(existingBuild.getMainPhoto());
+        }
+
+        buildService.updateBuild(updatedBuild);
+    }
+
 
     @DeleteMapping("/{id}")
     public void deleteBuild(@PathVariable int id) throws SQLException {
@@ -41,7 +134,7 @@ public class BuildController {
             HttpSession session
     ) throws SQLException {
 
-        // GET AUTHENTICATED USER
+
         Integer userId = (Integer) session.getAttribute("userId");
 
         if (userId == null) {
@@ -51,7 +144,7 @@ public class BuildController {
             );
         }
 
-        // VALIDATE REQUIRED INFORMATION
+
         if (request.getTitle() == null ||
                 request.getTitle().isBlank() ||
                 request.getTrim() == null ||
@@ -64,7 +157,7 @@ public class BuildController {
             );
         }
 
-        // CONVERT REQUEST DTO INTO BUILD MODEL
+
         Build build = new Build();
 
         build.setOwnerID(userId);
@@ -80,7 +173,7 @@ public class BuildController {
         build.setMainPhoto(request.getMainPhoto());
         build.setDescription(request.getDescription());
 
-        // SAVE BUILD TO POSTGRESQL
+
         int buildId = buildService.addBuild(build);
 
         return Map.of("buildId", buildId);

@@ -1,5 +1,5 @@
 
-// featured builds on front page
+
 fetch("/api/builds/featured")
     .then(response => response.json())
     .then(builds => {
@@ -23,7 +23,7 @@ fetch("/api/builds/featured")
     });
 
 
-// highest horsepower builds on front page
+
 fetch("/api/builds/top/limit?limit=4")
     .then(response => response.json())
     .then(builds => {
@@ -46,7 +46,7 @@ fetch("/api/builds/top/limit?limit=4")
         });
     });
 
-// random builds on front page
+
 fetch("api/builds/randomlist")
     .then(response => response.json())
     .then(builds => {
@@ -70,7 +70,7 @@ fetch("api/builds/randomlist")
     });
 
 
-// newest builds on front page
+
 fetch("api/builds/newest")
     .then(response => response.json())
     .then(builds => {

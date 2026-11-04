@@ -30,7 +30,7 @@ public class PhotoUploadController {
             HttpSession session
     ) throws IOException {
 
-        // Only logged-in users can upload
+
         Integer userId =
                 (Integer) session.getAttribute("userId");
 
@@ -48,7 +48,7 @@ public class PhotoUploadController {
             );
         }
 
-        // Limit files to 5 MB
+
         if (file.getSize() > 5 * 1024 * 1024) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -56,7 +56,7 @@ public class PhotoUploadController {
             );
         }
 
-        // Inspect actual file bytes, not just its filename
+
         byte[] header = new byte[12];
 
         try (var input = file.getInputStream()) {
@@ -101,27 +101,21 @@ public class PhotoUploadController {
                     "Only JPG, PNG and WebP are supported"
             );
         }
-
         String extension =
                 jpeg ? ".jpg" : png ? ".png" : ".webp";
 
-        // Generate a unique filename
         String filename = UUID.randomUUID() + extension;
 
         Path directory = Paths.get(uploadDirectory)
                 .toAbsolutePath()
                 .normalize();
-
         Files.createDirectories(directory);
-
         Path destination = directory.resolve(filename);
 
-        // Save the uploaded image
         try (var input = file.getInputStream()) {
             Files.copy(input, destination);
         }
 
-        // Return the URL for the frontend
         String imageUrl = "/uploads/builds/" + filename;
 
         return Map.of("url", imageUrl);

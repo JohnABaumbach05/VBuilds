@@ -1,6 +1,4 @@
-/* =========================
-   FRONT PAGE SECTIONS
-   ========================= */
+
 
 main section {
     margin-bottom: 0;
@@ -9,9 +7,7 @@ main section {
 }
 
 
-/* =========================
-   FRONT PAGE BUILD GRIDS
-   ========================= */
+
 
 .highest-horsepower-grid,
 .new-builds-grid,
@@ -36,9 +32,7 @@ main section {
 }
 
 
-/* =========================
-   SECTION HEADERS
-   ========================= */
+
 
 .section-header {
     display: block;

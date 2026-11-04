@@ -75,7 +75,7 @@
     cursor: pointer;
 }
 
-/* Logged-in account panel */
+
 #logged-in-user {
     width: min(550px, 90%);
     margin: 70px auto;

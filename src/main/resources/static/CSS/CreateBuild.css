@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&display=swap');
-/* ================================
-   VBUILDS - CREATE BUILD PAGE
-   ================================ */
 
-/* Main page container */
 
 .create-build-container {
     min-height: 100vh;
@@ -14,7 +10,7 @@
     box-sizing: border-box;
 }
 
-/* Main form panel */
+
 
 .create-build-content {
     width: 100%;
@@ -27,7 +23,7 @@
     box-sizing: border-box;
 }
 
-/* Page title */
+
 
 .create-build-content h1 {
     color: #ffffff;
@@ -38,7 +34,7 @@
     text-shadow: 0 0 12px rgba(0, 119, 255, 0.25);
 }
 
-/* Form layout */
+
 
 #create-build-form {
     display: flex;
@@ -46,7 +42,7 @@
     gap: 18px;
 }
 
-/* Text and number inputs */
+
 
 #create-build-form input[type="text"],
 #create-build-form input[type="number"],
@@ -64,14 +60,14 @@
     box-shadow 0.2s ease;
 }
 
-/* Placeholder text */
+
 
 #create-build-form input::placeholder,
 #create-build-form textarea::placeholder {
     color: #999;
 }
 
-/* Focus effect */
+
 
 #create-build-form input:focus,
 #create-build-form textarea:focus {
@@ -80,14 +76,14 @@
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.18);
 }
 
-/* Caption */
+
 
 #create-build-form textarea {
     min-height: 110px;
     resize: vertical;
 }
 
-/* Photo upload label */
+
 
 #create-build-form label {
     color: #ffffff;
@@ -96,7 +92,7 @@
     margin-bottom: -8px;
 }
 
-/* Photo upload input */
+
 
 #create-build-form input[type="file"] {
     width: 100%;
@@ -117,7 +113,7 @@
     border-color: #339dff;
 }
 
-/* File selection button */
+
 
 #create-build-form input[type="file"]::file-selector-button {
     padding: 9px 14px;
@@ -135,7 +131,7 @@
     background: #0056b3;
 }
 
-/* Submit button */
+
 
 #create-build-form button[type="submit"] {
     width: 100%;
@@ -158,7 +154,7 @@
     box-shadow 0.2s ease;
 }
 
-/* Submit hover effect */
+
 
 #create-build-form button[type="submit"]:hover {
     background: linear-gradient(
@@ -170,13 +166,12 @@
     box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
 }
 
-/* Submit active effect */
+
 
 #create-build-form button[type="submit"]:active {
     transform: translateY(0);
 }
 
-/* Mobile responsiveness */
 
 @media (max-width: 600px) {
 
@@ -202,9 +197,6 @@
         padding-top: 240px;
     }
 }
-    /* ================================
-       BUILD RATING SLIDERS
-       ================================ */
     .build-ratings {
         margin-top: 10px;
         padding: 24px;
@@ -266,10 +258,6 @@
     }
 
 
-    /* =====================================
-       VBUILDS - BUILD RATING SLIDERS
-       ===================================== */
-    /* Ratings panel */
     #create-build-form .build-ratings {
         width: 100%;
         margin-top: 12px;
@@ -285,7 +273,7 @@
         box-shadow: inset 0 0 20px rgba(0, 110, 255, 0.04);
     }
 
-    /* Section heading */
+
     #create-build-form .build-ratings h2 {
         color: #ffffff;
         font-family: "Oswald", sans-serif;
@@ -298,7 +286,7 @@
         text-shadow: 0 0 12px rgba(0, 123, 255, 0.35);
     }
 
-    /* Individual rating sections */
+
     #create-build-form .rating-group {
         margin-bottom: 25px;
     }
@@ -307,7 +295,7 @@
         margin-bottom: 0;
     }
 
-    /* Rating labels */
+
     #create-build-form .rating-group label {
         display: block;
         color: #e6e6e6;
@@ -317,7 +305,7 @@
         margin-bottom: 12px;
     }
 
-    /* Slider row */
+
     #create-build-form .rating-slider {
         display: flex;
         align-items: center;
@@ -325,7 +313,7 @@
         width: 100%;
     }
 
-    /* Slider track */
+
     #create-build-form .rating-slider input[type="range"] {
         appearance: none;
         -webkit-appearance: none;
@@ -343,7 +331,7 @@
         accent-color: #008cff;
     }
 
-    /* Chrome / Edge slider thumb */
+
     #create-build-form .rating-slider input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
@@ -358,7 +346,7 @@
         box-shadow 0.2s ease;
     }
 
-    /* Firefox slider thumb */
+
     #create-build-form .rating-slider input[type="range"]::-moz-range-thumb {
         width: 15px;
         height: 15px;
@@ -369,19 +357,19 @@
         cursor: pointer;
     }
 
-    /* Slider hover */
+
     #create-build-form .rating-slider input[type="range"]::-webkit-slider-thumb:hover {
         transform: scale(1.15);
         box-shadow: 0 0 18px rgba(0, 140, 255, 0.8);
     }
 
-    /* Keyboard focus */
+
     #create-build-form .rating-slider input[type="range"]:focus-visible {
         outline: 2px solid #80c6ff;
         outline-offset: 6px;
     }
 
-    /* Number display */
+
     #create-build-form .rating-slider span {
         display: flex;
         align-items: center;
@@ -405,7 +393,7 @@
         box-sizing: border-box;
     }
 
-    /* Responsive adjustments */
+
     @media (max-width: 600px) {
 
         #create-build-form .build-ratings {
@@ -428,11 +416,7 @@
         }
     }
 
-/* =====================================
-   VBUILDS - GLOWING HEADINGS
-   ===================================== */
 
-/* Main Create Build heading */
 
 .create-build-content h1 {
     font-family: "Orbitron", sans-serif;
@@ -453,7 +437,7 @@
     margin-bottom: 35px;
 }
 
-/* Rate Your Build heading */
+
 
 #create-build-form .build-ratings h2 {
     font-family: "Orbitron", sans-serif;
@@ -476,7 +460,7 @@
     border-bottom: 1px solid #30445e;
 }
 
-/* Slightly smaller headings on phones */
+
 
 @media (max-width: 600px) {
 

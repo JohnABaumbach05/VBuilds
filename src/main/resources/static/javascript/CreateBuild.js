@@ -3,11 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const form = document.getElementById("create-build-form");
     const submitButton = form.querySelector('button[type="submit"]');
-
-    // ================================
-    // BUILD RATING SLIDERS
-    // ================================
-
     const ratings = ["happiness", "reliability", "loudness"];
 
     ratings.forEach((rating) => {
@@ -21,22 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-    // ================================
-    // CREATE BUILD FORM SUBMISSION
-    // ================================
-
     form.addEventListener("submit", async (event) => {
 
         event.preventDefault();
-
-        // Prevent duplicate submissions
         if (submitButton.disabled) {
             return;
         }
-
-        // ================================
-        // COLLECT BUILD INFORMATION
-        // ================================
 
         const buildData = {
 
@@ -77,10 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         };
 
-        // ================================
-        // VALIDATE REQUIRED FIELDS
-        // ================================
-
         if (!buildData.title || !buildData.buildYear) {
             alert("Please enter a build title and year.");
             return;
@@ -91,21 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // ================================
-        // UPLOAD PHOTOS AND CREATE BUILD
-        // ================================
-
         submitButton.disabled = true;
         submitButton.textContent = "Creating Build...";
 
         let createdBuildId = null;
 
         try {
-
-            // ================================
-            // UPLOAD MAIN BUILD PHOTO
-            // ================================
-
             const mainPhotoInput =
                 document.getElementById("mainPhoto");
 
@@ -142,10 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-            // ================================
-            // CREATE BUILD IN POSTGRESQL
-            // ================================
-
             const response = await fetch("/api/builds", {
 
                 method: "POST",
@@ -180,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
             }
 
-            // Read generated build ID
             const result = await response.json();
 
             createdBuildId = result.buildId;
@@ -193,16 +160,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log("Created build ID:", createdBuildId);
 
-            // ================================
-            // UPLOAD ADDITIONAL BUILD PHOTOS
-            // ================================
-
             const additionalPhotos =
                 document.getElementById("additionalPhotos").files;
 
             for (const photo of additionalPhotos) {
 
-                // Upload the actual image file
                 const formData = new FormData();
 
                 formData.append("file", photo);
@@ -234,11 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 console.log("Photo upload result:", uploadResult);
                 console.log("Photo URL:", uploadResult.url);
-
-                // ================================
-                // SAVE PHOTO RECORD IN POSTGRESQL
-                // ================================
-
                 const saveResponse = await fetch(
                     `/api/builds/${createdBuildId}/photos`,
                     {
@@ -278,20 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     uploadResult.url
                 );
             }
-
-            // ================================
-            // SUCCESS
-            // ================================
-
-            // ================================
-// SUCCESS
-// ================================
-
             console.log("Build created successfully:", createdBuildId);
 
             window.location.href = `/HTML/build.html?id=${createdBuildId}`;
-
-            // Reset slider number displays
             ratings.forEach((rating) => {
 
                 const slider = document.getElementById(rating);
@@ -326,10 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert(error.message);
 
             }
-
         } finally {
-
-            // Re-enable the submit button
             submitButton.disabled = false;
             submitButton.textContent = "Create Build";
 

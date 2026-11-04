@@ -8,37 +8,27 @@ const openAccount = document.getElementById("open-account");
 const closeLogin = document.getElementById("close-login");
 const closeAccount = document.getElementById("close-account");
 
-// OPEN LOGIN MODAL
+
 openLogin.addEventListener("click", function() {
     loginModal.style.display = "flex";
 });
 
-// OPEN ACCOUNT MODAL
+
 openAccount.addEventListener("click", function() {
     accountModal.style.display = "flex";
 });
 
-// CLOSE LOGIN MODAL
+
 closeLogin.addEventListener("click", function() {
     loginModal.style.display = "none";
 });
 
-// CLOSE ACCOUNT MODAL
+
 closeAccount.addEventListener("click", function() {
     accountModal.style.display = "none";
 });
 
-
-// =============================
-// CREATE ACCOUNT
-// =============================
-
-// =============================
-// CREATE ACCOUNT
-// =============================
-
 const accountForm = document.getElementById("account-form");
-
 accountForm.addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -53,7 +43,6 @@ accountForm.addEventListener("submit", async function(event) {
     };
 
     try {
-        // STEP 1: CREATE ACCOUNT
         const response = await fetch("/api/users", {
             method: "POST",
             headers: {
@@ -73,7 +62,6 @@ accountForm.addEventListener("submit", async function(event) {
 
         console.log("Account created successfully!");
 
-        // STEP 2: AUTOMATICALLY LOG IN
         const loginResponse = await fetch("/api/users/login", {
             method: "POST",
             credentials: "include",
@@ -91,14 +79,8 @@ accountForm.addEventListener("submit", async function(event) {
         }
 
         console.log("Automatically logged in!");
-
-        // STEP 3: CLOSE MODAL
         accountModal.style.display = "none";
-
-        // STEP 4: CLEAR REGISTRATION FORM
         accountForm.reset();
-
-        // STEP 5: UPDATE USER INTERFACE
         await checkSession();
 
     } catch (error) {
@@ -107,13 +89,7 @@ accountForm.addEventListener("submit", async function(event) {
     }
 });
 
-
-// =============================
-// LOGIN
-// =============================
-
 const loginForm = document.getElementById("login-form");
-
 loginForm.addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -147,14 +123,8 @@ loginForm.addEventListener("submit", async function(event) {
         }
 
         console.log("Logged in:", user.username);
-
-        // CLOSE LOGIN MODAL
         loginModal.style.display = "none";
-
-        // CLEAR LOGIN FORM
         loginForm.reset();
-
-        // UPDATE USER INTERFACE
         await checkSession();
 
     } catch (error) {

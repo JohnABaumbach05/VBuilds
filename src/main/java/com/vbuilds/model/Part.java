@@ -20,7 +20,7 @@ public class Part {
         this.partName = partName; this.partDescription = partDescription; }
 
 
-    // getters
+
     public String getCategory() { return category; }
 
     public int getPartID() { return partID; }
@@ -39,7 +39,7 @@ public class Part {
 
     public boolean isMakesLouder() { return makesLouder; }
 
-    //setters
+
     public void setCategory( String newCategory) { this.category = newCategory; }
 
     public void setManufacturer(String newManufacturer) { this.manufacturer = newManufacturer; }

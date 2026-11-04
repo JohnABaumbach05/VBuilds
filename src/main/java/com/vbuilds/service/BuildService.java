@@ -22,6 +22,12 @@ public class BuildService {
         partDAO = new PartDAO();
     }
 
+
+    public Build getBuildForEditing(int id) throws SQLException {
+        return buildDAO.getBuildByIdForModeration(id);
+    }
+
+
     public void addPhoto(Photo photo) throws SQLException {
         photoDAO.addPhoto(photo);
     }

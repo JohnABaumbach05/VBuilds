@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
 
 
-/* =========================
-   GENERAL
-   ========================= */
+
 
 body {
     font-family: "Oswald", sans-serif;
@@ -23,9 +21,6 @@ body {
 }
 
 
-/* =========================
-   HEADER
-   ========================= */
 
 header {
     height: 200px;
@@ -55,9 +50,7 @@ header {
 }
 
 
-/* =========================
-   SIDEBAR
-   ========================= */
+
 
 aside {
     position: fixed;
@@ -100,9 +93,7 @@ aside {
 }
 
 
-/* =========================
-   MAIN CONTENT
-   ========================= */
+
 
 main {
     font-family: "Oswald", sans-serif;
@@ -116,9 +107,7 @@ main {
 }
 
 
-/* =========================
-   SHARED BUILD IMAGES
-   ========================= */
+
 
 .build-image {
     width: 100%;
@@ -133,9 +122,7 @@ main {
         drop-shadow(0 0 18px #006eff)
         drop-shadow(0 0 30px #004cff);
 }
-/* =========================
-   NAVIGATION ENERGY ANIMATION
-   ========================= */
+
 
 #navigation-energy {
     position: fixed;
@@ -179,9 +166,7 @@ header a,
     z-index: 1;
 }
 
-/* =========================
-   BUILD IMAGE FRAMES
-   ========================= */
+
 
 .build-image {
     width: 100%;
@@ -213,3 +198,42 @@ header a,
 
     transform: scale(1.015);
 }
+
+
+
+
+
+.admin-header-link {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    z-index: 100;
+    text-decoration: none;
+    line-height: 0;
+}
+
+.admin-dashboard-image {
+    display: block;
+    width: 260px;
+    height: auto;
+    max-width: 100%;
+    transition: transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.admin-header-link:hover .admin-dashboard-image {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 12px rgba(0, 123, 255, 0.75));
+}
+
+@media (max-width: 768px) {
+    .admin-header-link {
+        top: 10px;
+        right: 10px;
+    }
+
+    .admin-dashboard-image {
+        width: 150px;
+    }
+}
+

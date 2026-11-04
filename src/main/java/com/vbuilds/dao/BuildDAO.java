@@ -33,6 +33,15 @@ public class BuildDAO {
         return build;
     }
 
+
+    public List<Build> getAllBuildsForAdmin() throws SQLException {
+        return findBuilds(
+                "SELECT * FROM builds ORDER BY date_created DESC",
+                null
+        );
+    }
+
+
     private List<Build> findBuilds(String sql, Integer parameter) throws SQLException {
         List<Build> builds = new ArrayList<>();
         try (Connection conn = Database.connect();

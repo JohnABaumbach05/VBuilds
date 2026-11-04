@@ -12,7 +12,7 @@ public class Photo {
         this.photoId = photoId; this.buildId = buildId; this.filePath = filePath; this.caption = caption; }
 
 
-    // getters
+
     public int getPhotoId() { return photoId; }
 
     public int getBuildId() { return buildId; }
@@ -21,7 +21,7 @@ public class Photo {
 
     public String getCaption() { return caption; }
 
-    // setters
+
     public void setFilePath(String newFilePath) { this.filePath = newFilePath; }
 
     public void setCaption(String newCaption) { this.caption = newCaption; }

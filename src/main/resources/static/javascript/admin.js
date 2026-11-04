@@ -1,9 +1,70 @@
 
-// VBuilds Admin Dashboard
+
 
 let pendingBuilds = [];
+let allBuilds = [];
+let currentBuildFilter = "all";
+let allUsers = [];
 
-// Sidebar navigation
+
+
+async function loadAllUsers() {
+    try {
+        const response = await fetch("/api/admin/users", {
+            credentials: "include"
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        allUsers = await response.json();
+        renderAllUsers();
+
+    } catch (error) {
+        console.error("Failed to load users:", error);
+        alert("Could not load users.");
+    }
+}
+
+function renderAllUsers() {
+    const container = document.getElementById("users-list");
+    container.replaceChildren();
+
+    if (allUsers.length === 0) {
+        container.textContent = "No registered users found.";
+        return;
+    }
+
+    allUsers.forEach(user => {
+        const card = document.createElement("div");
+        card.className = "build-card";
+
+        const info = document.createElement("div");
+        info.className = "build-info";
+
+        const username = document.createElement("h3");
+        username.textContent = user.username;
+
+        const email = document.createElement("p");
+        email.textContent = user.email;
+
+        const joined = document.createElement("p");
+        joined.textContent = `Joined: ${user.dateJoined ?? "Unknown"}`;
+
+        const role = document.createElement("p");
+        role.textContent = user.admin
+            ? "Role: Administrator"
+            : "Role: Member";
+
+        info.append(username, email, joined, role);
+        card.append(info);
+        container.append(card);
+    });
+}
+
+
+
 document.querySelectorAll(".nav-btn").forEach(button => {
     button.addEventListener("click", () => {
         document.querySelectorAll(".nav-btn").forEach(btn => {
@@ -21,7 +82,7 @@ document.querySelectorAll(".nav-btn").forEach(button => {
     });
 });
 
-// Fetch pending builds from Spring Boot
+
 async function loadPendingBuilds() {
     try {
         const response = await fetch("/api/admin/builds/pending", {
@@ -41,7 +102,157 @@ async function loadPendingBuilds() {
     }
 }
 
-// Fetch dashboard statistics
+
+function getBuildStatus(build) {
+    if (build.inProcess && !build.approved) {
+        return "pending";
+    }
+
+    if (build.approved) {
+        return "approved";
+    }
+
+    return "rejected";
+}
+
+
+function renderAllBuilds() {
+    const container = document.getElementById("all-builds");
+    container.replaceChildren();
+
+    const filteredBuilds = allBuilds.filter(build => {
+        if (currentBuildFilter === "all") {
+            return true;
+        }
+
+        return getBuildStatus(build) === currentBuildFilter;
+    });
+
+    if (filteredBuilds.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "No builds found.";
+        container.append(message);
+        return;
+    }
+
+    filteredBuilds.forEach(build => {
+        const card = document.createElement("div");
+        card.className = "build-card";
+
+        const info = document.createElement("div");
+        info.className = "build-info";
+
+        const title = document.createElement("h3");
+        title.textContent = build.title;
+
+        const viewButton = document.createElement("a");
+
+        viewButton.href =
+            `/HTML/build.html?id=${build.buildId}&admin=true`;
+
+        viewButton.textContent = "View Full Build";
+        viewButton.className = "view-build-btn";
+
+        const owner = document.createElement("p");
+        owner.textContent = `Owner ID: ${build.ownerID ?? build.ownerId}`;
+
+        const horsepower = document.createElement("p");
+        horsepower.textContent = `${build.horsepower} HP`;
+
+        const status = document.createElement("p");
+        status.textContent =
+            `Status: ${getBuildStatus(build).toUpperCase()}`;
+
+
+        if (build.approved) {
+            const featureBtn = document.createElement("button");
+
+            featureBtn.className = "feature-btn";
+
+            featureBtn.textContent = build.featured
+                ? "Unfeature"
+                : "Feature";
+
+            featureBtn.addEventListener("click", async () => {
+                const action = build.featured
+                    ? "unfeature"
+                    : "feature";
+
+                featureBtn.disabled = true;
+
+                try {
+                    const response = await fetch(
+                        `/api/admin/builds/${build.buildId}/${action}`,
+                        {
+                            method: "PUT",
+                            credentials: "include"
+                        }
+                    );
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    await loadAllBuilds();
+
+                } catch (error) {
+                    console.error("Feature update failed:", error);
+                    alert("Could not update featured status.");
+                    featureBtn.disabled = false;
+                }
+            });
+
+            info.append(featureBtn);
+        }
+
+
+        info.append(title, owner, horsepower, status, viewButton);
+        card.append(info);
+        container.append(card);
+    });
+}
+
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        currentBuildFilter = button.dataset.filter;
+
+        renderAllBuilds();
+    });
+});
+
+
+
+
+
+async function loadAllBuilds() {
+    try {
+        const response = await fetch("/api/admin/builds", {
+            credentials: "include"
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        allBuilds = await response.json();
+
+        renderAllBuilds();
+
+    } catch (error) {
+        console.error("Failed to load all builds:", error);
+        alert("Could not load all builds.");
+    }
+}
+
+
+
 async function loadDashboardStats() {
     try {
         const response = await fetch("/api/admin/stats", {
@@ -71,7 +282,7 @@ async function loadDashboardStats() {
     }
 }
 
-// Create a build card
+
 function createBuildCard(build) {
     const card = document.createElement("div");
     card.className = "build-card";
@@ -81,6 +292,16 @@ function createBuildCard(build) {
 
     const title = document.createElement("h3");
     title.textContent = build.title;
+
+
+    const viewButton = document.createElement("a");
+
+    viewButton.href =
+        `/HTML/build.html?id=${build.buildId}&admin=true`;
+
+    viewButton.textContent = "View Full Build";
+    viewButton.className = "view-build-btn";
+
 
     const owner = document.createElement("p");
     owner.textContent = `Owner ID: ${build.ownerID ?? build.ownerId}`;
@@ -111,13 +332,20 @@ function createBuildCard(build) {
     });
 
     actions.append(approve, reject);
-    info.append(title, owner, horsepower, status, actions);
+    info.append(
+        title,
+        owner,
+        horsepower,
+        status,
+        viewButton,
+        actions
+    );
     card.append(info);
 
     return card;
 }
 
-// Render build cards
+
 function renderBuilds(containerId, builds) {
     const container = document.getElementById(containerId);
     container.replaceChildren();
@@ -134,7 +362,7 @@ function renderBuilds(containerId, builds) {
     });
 }
 
-// Approve or reject builds
+
 async function reviewBuild(buildId, action, approveBtn, rejectBtn) {
     approveBtn.disabled = true;
     rejectBtn.disabled = true;
@@ -166,7 +394,7 @@ async function reviewBuild(buildId, action, approveBtn, rejectBtn) {
     }
 }
 
-// Render pending builds
+
 function renderDashboard() {
     renderBuilds(
         "recent-pending",
@@ -179,6 +407,8 @@ function renderDashboard() {
     );
 }
 
-// Initialize dashboard
+
 loadPendingBuilds();
 loadDashboardStats();
+loadAllBuilds();
+loadAllUsers();

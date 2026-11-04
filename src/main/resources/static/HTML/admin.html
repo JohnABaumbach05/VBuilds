@@ -71,8 +71,28 @@
             <div id="pending-builds" class="build-grid"></div>
         </section>
 
+
         <section id="builds" class="admin-page">
             <h1>Manage Builds</h1>
+
+            <div class="build-filters">
+                <button class="filter-btn active" data-filter="all">
+                    All
+                </button>
+
+                <button class="filter-btn" data-filter="pending">
+                    Pending
+                </button>
+
+                <button class="filter-btn" data-filter="approved">
+                    Approved
+                </button>
+
+                <button class="filter-btn" data-filter="rejected">
+                    Rejected
+                </button>
+            </div>
+
             <div id="all-builds" class="build-grid"></div>
         </section>
 

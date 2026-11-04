@@ -31,9 +31,6 @@ public class Build {
         this.ownerID = ownerId; this.title = title; this.horsepower = hp;
         this.tuner = tuner; this.trim = trim; this.buildId = buildId; this.buildYear = year; this.description = description; }
 
-    // getters
-
-
     public boolean isApproved() {
         return approved;
     }
@@ -89,7 +86,7 @@ public class Build {
 
     public int getBuildId() { return buildId; }
 
-    // setters
+
     public void setTitle(String newTitle) { this.title = newTitle; }
 
     public void setHorsepower(int newHP) { this.horsepower = newHP; }

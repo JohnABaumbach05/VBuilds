@@ -1,35 +1,27 @@
 
-/* ==========================================
-   VBUILDS - BUILD DETAILS PAGE
-========================================== */
 
 * {
     box-sizing: border-box;
 }
 
-/* ==========================================
-   MAIN PAGE LAYOUT
-========================================== */
 
 main.build-details-container {
-    /* Sidebar is 300px wide */
+
     margin-left: 300px;
 
-    /* Never extend underneath or beyond sidebar */
+
     width: calc(100% - 300px);
     max-width: calc(100% - 300px);
     min-width: 0;
 
-    /* Header is 200px tall */
+
     padding: 235px 25px 70px;
 
     color: #f4f7ff;
     overflow-x: clip;
 }
 
-/* ==========================================
-   BUILD HEADER
-========================================== */
+
 
 .build-header {
     display: flex;
@@ -93,14 +85,12 @@ main.build-details-container {
     white-space: nowrap;
 }
 
-/* ==========================================
-   BUILD SHOWCASE LAYOUT
-========================================== */
+
 
 .build-showcase {
     display: grid;
 
-    /* Slightly slimmer gallery */
+
     grid-template-columns:
         minmax(0, 1.05fr)
         minmax(0, 0.95fr);
@@ -114,9 +104,6 @@ main.build-details-container {
     align-items: stretch;
 }
 
-/* ==========================================
-   SHARED PLAQUE DESIGN
-========================================== */
 
 .photo-plaque,
 .specs-plaque {
@@ -161,16 +148,14 @@ main.build-details-container {
     white-space: nowrap;
 }
 
-/* ==========================================
-   PHOTO PLAQUE
-========================================== */
+
 
 .photo-plaque {
     display: flex;
     flex-direction: column;
 }
 
-/* Photo display area */
+
 
 .photo-frame {
     position: relative;
@@ -178,7 +163,7 @@ main.build-details-container {
     width: 100%;
     min-width: 0;
 
-    /* Slimmer than previous 4:3 frame */
+
     aspect-ratio: 5 / 4;
 
     display: flex;
@@ -193,7 +178,7 @@ main.build-details-container {
     border-radius: 5px;
 }
 
-/* Actual uploaded car photo */
+
 
 #build-main-photo {
     display: block;
@@ -211,9 +196,7 @@ main.build-details-container {
     display: none;
 }
 
-/* ==========================================
-   CAROUSEL ARROWS
-========================================== */
+
 
 .photo-arrow {
     position: absolute;
@@ -264,9 +247,7 @@ main.build-details-container {
     display: none;
 }
 
-/* ==========================================
-   PHOTO FOOTER
-========================================== */
+
 
 .photo-footer {
     display: flex;
@@ -299,16 +280,12 @@ main.build-details-container {
     white-space: nowrap;
 }
 
-/* ==========================================
-   SPECIFICATIONS PLAQUE
-========================================== */
-
 .specs-plaque {
     display: flex;
     flex-direction: column;
 }
 
-/* Featured horsepower */
+
 
 .horsepower-feature {
     padding: 20px;
@@ -346,9 +323,7 @@ main.build-details-container {
             0 0 18px rgba(0, 140, 255, 0.3);
 }
 
-/* ==========================================
-   SPECIFICATION GRID
-========================================== */
+
 
 .spec-grid {
     display: grid;
@@ -383,9 +358,7 @@ main.build-details-container {
     overflow-wrap: anywhere;
 }
 
-/* ==========================================
-   OWNER RATINGS
-========================================== */
+
 
 .ratings-section {
     margin-top: 22px;
@@ -425,9 +398,7 @@ main.build-details-container {
     font-size: 16px;
 }
 
-/* ==========================================
-   INSTALLED PARTS
-========================================== */
+
 
 .parts-section {
     width: 100%;
@@ -492,9 +463,7 @@ main.build-details-container {
     border-radius: 6px;
 }
 
-/* ==========================================
-   SMALLER DESKTOPS / TABLETS
-========================================== */
+
 
 @media (max-width: 1200px) {
 
@@ -507,10 +476,6 @@ main.build-details-container {
     }
 
 }
-
-/* ==========================================
-   MOBILE
-========================================== */
 
 @media (max-width: 700px) {
 
@@ -550,10 +515,6 @@ main.build-details-container {
         display: none;
     }
 
-    /* ==========================================
-       BUILD DESCRIPTION
-    ========================================== */
-
     .build-description {
         margin-top: 22px;
         padding: 18px 0;
@@ -575,6 +536,32 @@ main.build-details-container {
         white-space: pre-wrap;
         overflow-wrap: anywhere;
     }
-
-
 }
+
+.back-to-admin {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 9px 15px;
+
+    background: rgba(0, 110, 255, 0.1);
+    border: 1px solid #168bff;
+    border-radius: 5px;
+
+    color: #61baff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    transition: background 0.2s ease;
+}
+
+.back-to-admin:hover {
+    background: rgba(0, 110, 255, 0.25);
+    color: white;
+}
+
+.back-to-admin[hidden] {
+    display: none;
+}
+

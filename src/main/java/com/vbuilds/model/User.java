@@ -20,9 +20,6 @@ public class User {
         this.dateJoined = date_joined; this.bio = bio; this.profile_picture = profile_picture;
     }
 
-    // getters
-
-
     public boolean isAdmin() {
         return isAdmin;
     }
@@ -45,7 +42,7 @@ public class User {
 
     public String getPFP() { return profile_picture; }
 
-    // setters
+
     public void setUsername(String newUser) { this.username = newUser; }
 
     public void setEmail(String newEmail) { this.email = newEmail; }

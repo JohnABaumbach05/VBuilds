@@ -9,19 +9,26 @@ async function checkSession() {
             return null;
         }
 
-        // Read response as text first
+
         const responseText = await response.text();
 
-        // Handle empty response body
+
         if (!responseText.trim()) {
             return null;
         }
 
-        // Convert response text into JSON
+
         const user = JSON.parse(responseText);
 
         if (user) {
             console.log("Logged in as:", user.username);
+
+            const adminLink = document.getElementById("admin-link");
+
+            if (adminLink) {
+                adminLink.style.display = user.admin ? "inline-block" : "none";
+            }
+
 
             const loginButton =
                 document.getElementById("open-login");
@@ -58,7 +65,15 @@ async function checkSession() {
 }
 
 
-document.addEventListener("DOMContentLoaded", checkSession);
+
+document.addEventListener("navigationLoaded", checkSession);
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (document.getElementById("admin-link")) {
+        checkSession();
+    }
+});
+
 
 const logoutButton = document.getElementById("logout-button");
 

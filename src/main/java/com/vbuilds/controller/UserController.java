@@ -38,7 +38,7 @@ public class UserController {
 
     User user = userService.getUserById(userId);
 
-    return new LoginResponse(user.getId(), user.getUsername(), user.getEmail());
+        return new LoginResponse(user.getId(), user.getUsername(), user.getEmail(), user.isAdmin());
     }
 
     @PostMapping("/login")
@@ -54,11 +54,7 @@ public class UserController {
 
         session.setAttribute("userId", user.getId());
 
-        return new LoginResponse(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail()
-        );
+        return new LoginResponse(user.getId(), user.getUsername(), user.getEmail(), user.isAdmin());
 
     }
 

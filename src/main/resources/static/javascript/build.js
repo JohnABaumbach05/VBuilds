@@ -1,9 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // ================================
-    // GET BUILD ID FROM URL
-    // ================================
 
     const params = new URLSearchParams(window.location.search);
     const buildId = params.get("id");
@@ -16,25 +13,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
 
-        // ================================
-        // FETCH BUILD FROM SPRING BOOT
-        // ================================
+        const adminPreview = params.get("admin") === "true";
 
-        const response = await fetch(`/api/builds/${buildId}`);
+
+        const backToAdmin = document.getElementById("back-to-admin");
+
+        if (backToAdmin && adminPreview) {
+            backToAdmin.hidden = false;
+        }
+        const buildUrl = adminPreview
+            ? `/api/admin/builds/${buildId}`
+            : `/api/builds/${buildId}`;
+
+        const response = await fetch(buildUrl, {
+            credentials: "include"
+        });
+
+        console.log("Admin preview:", adminPreview);
+        console.log("Fetching build from:", buildUrl);
+        console.log("Response status:", response.status);
+        console.log("Response URL:", response.url);
 
         if (!response.ok) {
-            throw new Error(
-                `Failed to load build: ${response.status}`
-            );
+            throw new Error(`Failed to load build: ${response.status}`);
         }
 
         const build = await response.json();
-
         console.log("Loaded build:", build);
-
-        // ================================
-        // FETCH ADDITIONAL BUILD PHOTOS
-        // ================================
 
         const photoResponse = await fetch(
             `/api/builds/${buildId}/photos`
@@ -51,13 +56,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
         }
 
-        // ================================
-        // COMBINE ALL BUILD PHOTOS
-        // ================================
-
         const photos = [];
 
-        // Main photo always comes first
         if (build.mainPhoto) {
             photos.push({
                 filePath: build.mainPhoto,
@@ -65,7 +65,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
         }
 
-        // Add additional photos without duplicates
         additionalPhotos.forEach(photo => {
 
             if (
@@ -81,19 +80,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         console.log("Build gallery:", photos);
 
-        // ================================
-        // BUILD HEADER
-        // ================================
-
         document.getElementById("build-title").textContent =
             build.title;
 
         document.getElementById("build-subtitle").textContent =
             `${build.buildYear} Subaru WRX`;
-
-        // ================================
-        // MAIN BUILD PHOTO
-        // ================================
 
         const mainPhoto = document.getElementById(
             "build-main-photo"
@@ -110,10 +101,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
 
         }
-
-        // ================================
-        // BUILD SPECIFICATIONS
-        // ================================
 
         document.getElementById("build-horsepower").textContent =
             build.horsepower != null
@@ -134,10 +121,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("build-description").textContent =
             build.description || "No description provided";
 
-        // ================================
-        // BUILD RATINGS
-        // ================================
-
         document.getElementById("build-happiness").textContent =
             build.happiness != null
                 ? `${build.happiness}/10`
@@ -152,10 +135,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             build.loudness != null
                 ? `${build.loudness}/10`
                 : "N/A";
-
-        // ================================
-        // PHOTO CAROUSEL
-        // ================================
 
         let currentPhotoIndex = 0;
 
@@ -193,7 +172,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         }
 
-        // Previous photo
+
         if (previousButton) {
 
             previousButton.addEventListener("click", () => {
@@ -208,7 +187,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         }
 
-        // Next photo
+
         if (nextButton) {
 
             nextButton.addEventListener("click", () => {
@@ -222,7 +201,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         }
 
-        // Hide arrows when there is only one photo
         if (photos.length <= 1) {
 
             if (previousButton) {
@@ -235,7 +213,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         }
 
-        // Display initial photo and counter
         displayPhoto();
 
     } catch (error) {

@@ -1,9 +1,22 @@
+
 <header>
     <a href="/index.html">
-    <img src="/webImages/Navigation/VBuildsMainLogo.png"
-         alt="VBuilds"
-         class="vbuilds-banner">
+        <img src="/webImages/Navigation/VBuildsMainLogo.png"
+             alt="VBuilds"
+             class="vbuilds-banner">
     </a>
+
+    <a href="/HTML/admin.html"
+       id="admin-link"
+       class="admin-header-link"
+       style="display: none;">
+
+        <img src="/webImages/FrontPage/dashboardButton.png"
+             alt="Admin Dashboard"
+             class="admin-dashboard-image">
+
+    </a>
+
 </header>
 
 <aside>
@@ -32,9 +45,16 @@
              alt="Login">
     </a>
 
-    <a href="#" class="sidebar-link">
+    <a href="/HTML/account.html" class="sidebar-link">
         <img src="/webImages/FrontPage/AccountLogo.png"
              alt="Account">
+    </a>
+
+    <a href="/HTML/admin.html"
+       class="sidebar-link"
+       id="admin-sidebar-link"
+       style="display: none;">
+        Admin Dashboard
     </a>
 
 </aside>
@@ -66,5 +86,3 @@
     <path id="energy-core-path"></path>
 </svg>
 
-<script src="/javascript/navigation-energy.js" defer></script>
-<script src="/javascript/auth.js" defer></script>

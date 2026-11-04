@@ -20,25 +20,20 @@ public class UserService {
         passwordEncoder = new BCryptPasswordEncoder();
     }
 
-
     public User getUserByEmail(String email) throws SQLException{
         return userDAO.getUserByEmail(email);
     }
 
     public User login(String username, String password) throws SQLException {
         User user = userDAO.getUserByUsername(username);
-
         if (user == null) {
             return null;
         }
-
         if (passwordEncoder.matches(password, user.getPasswordHash())) {
             return user;
         }
         return null;
     }
-
-
 
     public void addUser(CreateAccountRequest request) throws SQLException {
 
@@ -50,13 +45,8 @@ public class UserService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setDateJoined(LocalDate.now().toString());
-
-
-        // PASSWORD
         String hashedPassword = passwordEncoder.encode(request.getPassword());
-
         user.setPasswordHash(hashedPassword);
-
         userDAO.addUser(user);
     }
 

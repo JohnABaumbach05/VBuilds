@@ -14,7 +14,6 @@ document.addEventListener("navigationLoaded", () => {
         return;
     }
 
-    // Animation settings
     const duration = 40000;
     const pause = 4500;
     const streakLength = 350;
@@ -24,18 +23,13 @@ document.addEventListener("navigationLoaded", () => {
     let startTime = null;
     let animationId = null;
 
-    // The original path remains invisible.
-    // We use it to calculate positions along the route.
     core.style.opacity = "0";
     glow.style.opacity = "0";
 
     const namespace = "http://www.w3.org/2000/svg";
-
     const trailGroup = document.createElementNS(namespace, "g");
     trailGroup.setAttribute("id", "energy-trail");
 
-    // Create a series of small line segments.
-    // Older segments become progressively dimmer.
     const segments = [];
 
     for (let i = 0; i < segmentCount; i++) {
@@ -77,8 +71,6 @@ document.addEventListener("navigationLoaded", () => {
 
         const centerX = sidebarWidth / 2;
         const points = [];
-
-        // Large sweeping loops up the sidebar
         const sidebarLoops = 3;
         const sidebarSteps = 240;
 
@@ -95,8 +87,6 @@ document.addEventListener("navigationLoaded", () => {
 
             points.push([x, y]);
         }
-
-        // Wide horizontal loops across the header
         const headerSteps = 300;
         const headerLoops = 4;
 
@@ -161,9 +151,6 @@ document.addEventListener("navigationLoaded", () => {
         }
 
         const progress = elapsed / duration;
-
-        // Forward during the first half,
-        // backward during the second half.
         const movingForward = progress <= 0.5;
 
         const position = movingForward
@@ -174,9 +161,6 @@ document.addEventListener("navigationLoaded", () => {
         const segmentLength = streakLength / segmentCount;
 
         segments.forEach((segment, i) => {
-
-            // Segment 0 is the bright head.
-            // Higher indices form the fading tail.
             const distanceBehind = i * segmentLength;
 
             const distance = movingForward
@@ -201,8 +185,6 @@ document.addEventListener("navigationLoaded", () => {
 
             segment.glow.setAttribute("d", pathData);
             segment.core.setAttribute("d", pathData);
-
-            // Smooth fade from head to tail
             const fade = Math.pow(
                 1 - i / segmentCount,
                 1.8
