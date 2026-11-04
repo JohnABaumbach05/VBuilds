@@ -33,3 +33,6 @@ build/
 .vscode/
 
 /uploads/
+
+# Local database credentials
+/src/main/resources/application.properties
