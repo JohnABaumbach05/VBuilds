@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class Database {
 
-    private static final String URL =  "jdbc:postgresql://localhost:5432/VBBuilds";
+    private static final String URL = System.getenv().getOrDefault("DB_URL", "jdbc:postgresql://localhost:5432/VBBuilds");
 
-    private static final String USER = "postgres";
+    private static final String USER = System.getenv().getOrDefault("DB_USER", "postgres");
 
     private static final String PASSWORD = System.getenv("PASSWORD");
 
