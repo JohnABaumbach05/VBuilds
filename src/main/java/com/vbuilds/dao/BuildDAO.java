@@ -184,6 +184,13 @@ public class BuildDAO {
     }
 
 
+    public List<Build> getApprovedUserBuilds(int ownerId) throws SQLException {
+        return findBuilds(
+                "SELECT * FROM builds WHERE owner_id = ? AND approved = TRUE ORDER BY date_created DESC",
+                ownerId
+        );
+    }
+
     public void deleteBuild(int id) throws SQLException {
         String sql = "DELETE FROM builds WHERE build_id = ?";
         try (Connection conn = Database.connect();
