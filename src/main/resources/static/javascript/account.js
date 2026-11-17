@@ -142,6 +142,9 @@ async function openAccountSettings() {
     document.getElementById("settings-username").value = currentAccount.username ?? "";
     document.getElementById("settings-email").value = currentAccount.email ?? "";
     document.getElementById("settings-bio").value = currentAccount.bio ?? "";
+    for (const [key, field] of [["xUrl", "x"], ["instagramUrl", "instagram"], ["tiktokUrl", "tiktok"], ["snapchatUrl", "snapchat"]]) {
+        document.getElementById("settings-" + field).value = currentAccount[key] ?? "";
+    }
     document.getElementById("current-password").value = "";
     document.getElementById("new-password").value = "";
     document.getElementById("profile-picture").value = "";
@@ -189,6 +192,10 @@ document.addEventListener("DOMContentLoaded", () => {
             username: document.getElementById("settings-username").value,
             email: document.getElementById("settings-email").value,
             bio: document.getElementById("settings-bio").value,
+            xUrl: document.getElementById("settings-x").value.trim(),
+            instagramUrl: document.getElementById("settings-instagram").value.trim(),
+            tiktokUrl: document.getElementById("settings-tiktok").value.trim(),
+            snapchatUrl: document.getElementById("settings-snapchat").value.trim(),
             currentPassword: document.getElementById("current-password").value,
             newPassword: document.getElementById("new-password").value
         };
