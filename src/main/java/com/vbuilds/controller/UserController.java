@@ -18,6 +18,13 @@ import java.util.Map;
 public class UserController {
     private final UserService userService = new UserService();
 
+    @GetMapping("/{id}/profile")
+    public ResponseEntity<?> getPublicProfile(@PathVariable int id) throws SQLException {
+        User user = userService.getUserById(id);
+        if (user == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(PublicProfileResponse.fromUser(user));
+    }
+
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(HttpSession session) throws SQLException {
         Integer userId = (Integer) session.getAttribute("userId");
