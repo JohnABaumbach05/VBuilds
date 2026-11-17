@@ -13,6 +13,10 @@ public class PartService {
         partDAO = new PartDAO();
     }
 
+    public void addBuildPart(int buildId, Part part) throws SQLException {
+        partDAO.addBuildPart(buildId, part);
+    }
+
     public void addPart(Part part) throws SQLException {
         partDAO.addPart(part);
     }
