@@ -9,6 +9,7 @@ public class User {
     private String bio;
     private String profile_picture;
     private boolean isAdmin;
+    private String xUrl, instagramUrl, tiktokUrl, snapchatUrl;
 
 
     public User(){}
@@ -19,6 +20,15 @@ public class User {
         this.userId = id; this.username = username; this.email = email; this.passwordHash = password_hash;
         this.dateJoined = date_joined; this.bio = bio; this.profile_picture = profile_picture;
     }
+
+    public String getXUrl() { return xUrl; }
+    public String getInstagramUrl() { return instagramUrl; }
+    public String getTiktokUrl() { return tiktokUrl; }
+    public String getSnapchatUrl() { return snapchatUrl; }
+    public void setXUrl(String value) { xUrl = value; }
+    public void setInstagramUrl(String value) { instagramUrl = value; }
+    public void setTiktokUrl(String value) { tiktokUrl = value; }
+    public void setSnapchatUrl(String value) { snapchatUrl = value; }
 
     public boolean isAdmin() {
         return isAdmin;

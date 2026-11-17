@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Profile | VBuilds</title>
+    <link rel="stylesheet" href="/CSS/Global.css">
+    <link rel="stylesheet" href="/CSS/profile.css">
+</head>
+<body>
+<div id="navigation"></div>
+<main class="profile-container">
+    <p class="section-eyebrow">VBUILDS / MEMBER PROFILE</p>
+    <section class="profile-plaque">
+        <div class="profile-avatar" id="profile-avatar">VB</div>
+        <div class="profile-info">
+            <h1 id="profile-username">Loading profile...</h1>
+            <p id="profile-bio"> </p>
+            <div id="profile-socials" class="profile-socials" hidden aria-label="Social media links"></div>
+            <p id="profile-count"></p>
+        </div>
+    </section>
+    <section class="builds-plaque">
+        <div class="plaque-heading"><h2>MEMBER BUILDS</h2><span>VBUILDS</span></div>
+        <div id="profile-builds" class="profile-build-grid"></div>
+    </section>
+</main>
+<script src="/javascript/Global.js"></script>
+<script src="/javascript/auth.js"></script>
+<script src="/javascript/profile.js"></script>
+</body>
+</html>

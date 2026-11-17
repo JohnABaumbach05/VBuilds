@@ -41,6 +41,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         const build = await response.json();
         console.log("Loaded build:", build);
 
+        const ownerLink = document.getElementById("build-owner");
+        if (Number.isInteger(build.ownerID) && build.ownerID > 0) {
+            try {
+                const ownerResponse = await fetch(`/api/users/${build.ownerID}/profile`);
+                if (ownerResponse.ok) {
+                    const owner = await ownerResponse.json();
+                    ownerLink.href = `/HTML/profile.html?id=${owner.id}`;
+                    document.getElementById("build-owner-name").textContent = owner.username;
+                    const avatar = document.getElementById("build-owner-avatar");
+                    if (owner.profilePicture) {
+                        const img = document.createElement("img");
+                        img.src = owner.profilePicture;
+                        img.alt = "";
+                        img.onerror = () => { img.remove(); avatar.textContent = "VB"; };
+                        avatar.replaceChildren(img);
+                    }
+                    ownerLink.hidden = false;
+                }
+            } catch (ownerError) {
+                console.warn("Unable to load build owner", ownerError);
+            }
+        }
+
         const photoResponse = await fetch(
             `/api/builds/${buildId}/photos`
         );

@@ -32,6 +32,10 @@ public class UserDAO {
             user.setDateJoined(rs.getString("date_joined"));
             user.setUserId(rs.getInt("user_id"));
             user.setAdmin(rs.getBoolean("is_admin"));
+            user.setXUrl(rs.getString("x_url"));
+            user.setInstagramUrl(rs.getString("instagram_url"));
+            user.setTiktokUrl(rs.getString("tiktok_url"));
+            user.setSnapchatUrl(rs.getString("snapchat_url"));
         }
         rs.close();
         stmt.close();
@@ -77,7 +81,7 @@ public class UserDAO {
     public void updateUser(User user) throws SQLException {
         Connection conn = Database.connect();
 
-        String sq1 = "UPDATE users SET username = ?, email = ?, password_hash = ?, bio = ?, profile_picture = ? WHERE user_id = ?";
+        String sq1 = "UPDATE users SET username = ?, email = ?, password_hash = ?, bio = ?, profile_picture = ?, x_url = ?, instagram_url = ?, tiktok_url = ?, snapchat_url = ? WHERE user_id = ?";
 
         PreparedStatement stmt = conn.prepareStatement(sq1);
 
@@ -86,7 +90,11 @@ public class UserDAO {
         stmt.setString(3, user.getPasswordHash());
         stmt.setString(4, user.getBio());
         stmt.setString(5, user.getPFP());
-        stmt.setInt(6, user.getId());
+        stmt.setString(6, user.getXUrl());
+        stmt.setString(7, user.getInstagramUrl());
+        stmt.setString(8, user.getTiktokUrl());
+        stmt.setString(9, user.getSnapchatUrl());
+        stmt.setInt(10, user.getId());
 
         stmt.executeUpdate();
         stmt.close();
@@ -129,6 +137,10 @@ public class UserDAO {
             user.setDateJoined(rs.getString("date_joined"));
             user.setUserId(rs.getInt("user_id"));
             user.setAdmin(rs.getBoolean("is_admin"));
+            user.setXUrl(rs.getString("x_url"));
+            user.setInstagramUrl(rs.getString("instagram_url"));
+            user.setTiktokUrl(rs.getString("tiktok_url"));
+            user.setSnapchatUrl(rs.getString("snapchat_url"));
         }
         rs.close();
         stmt.close();
@@ -162,6 +174,10 @@ public class UserDAO {
             user.setDateJoined(rs.getString("date_joined"));
             user.setUserId(rs.getInt("user_id"));
             user.setAdmin(rs.getBoolean("is_admin"));
+            user.setXUrl(rs.getString("x_url"));
+            user.setInstagramUrl(rs.getString("instagram_url"));
+            user.setTiktokUrl(rs.getString("tiktok_url"));
+            user.setSnapchatUrl(rs.getString("snapchat_url"));
         }
         rs.close();
         stmt.close();
@@ -193,6 +209,10 @@ public class UserDAO {
             user.setDateJoined(rs.getString("date_joined"));
             user.setUserId(rs.getInt("user_id"));
             user.setAdmin(rs.getBoolean("is_admin"));
+            user.setXUrl(rs.getString("x_url"));
+            user.setInstagramUrl(rs.getString("instagram_url"));
+            user.setTiktokUrl(rs.getString("tiktok_url"));
+            user.setSnapchatUrl(rs.getString("snapchat_url"));
 
             userList.add(user);
         }

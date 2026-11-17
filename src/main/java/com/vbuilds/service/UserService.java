@@ -80,8 +80,43 @@ public class UserService {
         user.setUsername(username);
         user.setEmail(email);
         user.setBio(bio);
+        user.setXUrl(validateSocialUrl(request.getXUrl(), "X", "x.com", "twitter.com"));
+        user.setInstagramUrl(validateSocialUrl(request.getInstagramUrl(), "Instagram", "instagram.com"));
+        user.setTiktokUrl(validateSocialUrl(request.getTiktokUrl(), "TikTok", "tiktok.com"));
+        user.setSnapchatUrl(validateSocialUrl(request.getSnapchatUrl(), "Snapchat", "snapchat.com"));
         userDAO.updateUser(user);
         return user;
+    }
+
+    private String validateSocialUrl(String raw, String platform, String... hosts) {
+        if (raw == null || raw.isBlank()) return null;
+        if (raw.length() > 500) throw new IllegalArgumentException(platform + " URL is too long");
+        try {
+            java.net.URI uri = new java.net.URI(raw.trim());
+            String host = uri.getHost();
+            boolean allowed = host != null && java.util.Arrays.stream(hosts)
+                    .anyMatch(h -> host.equalsIgnoreCase(h) || host.equalsIgnoreCase("www." + h));
+            if (!"https".equalsIgnoreCase(uri.getScheme()) || !allowed ||
+                    uri.getUserInfo() != null || uri.getPort() != -1 ||
+                    uri.getRawFragment() != null || uri.getRawPath() == null ||
+                    uri.getRawPath().equals("/") || uri.getRawPath().isBlank())
+                throw new IllegalArgumentException("Invalid " + platform + " profile URL");
+            String path = uri.getPath();
+            String handle = platform.equals("Snapchat") && path.startsWith("/add/")
+                    ? path.substring(5)
+                    : platform.equals("TikTok") && path.startsWith("/@")
+                    ? path.substring(2)
+                    : path.startsWith("/") ? path.substring(1) : "";
+            String pattern = platform.equals("Instagram") ? "[A-Za-z0-9._]{1,30}"
+                    : platform.equals("TikTok") ? "[A-Za-z0-9._]{1,24}"
+                    : platform.equals("Snapchat") ? "[A-Za-z][A-Za-z0-9._-]{2,14}"
+                    : "[A-Za-z0-9_]{1,15}";
+            if (!handle.matches(pattern) || uri.getRawQuery() != null)
+                throw new IllegalArgumentException("Invalid " + platform + " username");
+            return uri.toASCIIString();
+        } catch (java.net.URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid " + platform + " profile URL");
+        }
     }
 
     public String saveProfilePicture(int userId, MultipartFile file) throws IOException, SQLException {

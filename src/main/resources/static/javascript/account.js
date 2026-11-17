@@ -142,6 +142,11 @@ async function openAccountSettings() {
     document.getElementById("settings-username").value = currentAccount.username ?? "";
     document.getElementById("settings-email").value = currentAccount.email ?? "";
     document.getElementById("settings-bio").value = currentAccount.bio ?? "";
+    for (const [key, field, prefix] of [["xUrl", "x", "https://x.com/"], ["instagramUrl", "instagram", "https://instagram.com/"], ["tiktokUrl", "tiktok", "https://tiktok.com/@"], ["snapchatUrl", "snapchat", "https://snapchat.com/add/"]]) {
+        const saved = currentAccount[key] ?? "";
+        const path = saved ? new URL(saved).pathname : "";
+        document.getElementById("settings-" + field).value = path ? decodeURIComponent(path.slice(field === "tiktok" ? 2 : field === "snapchat" ? 5 : 1)) : "";
+    }
     document.getElementById("current-password").value = "";
     document.getElementById("new-password").value = "";
     document.getElementById("profile-picture").value = "";
@@ -189,6 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
             username: document.getElementById("settings-username").value,
             email: document.getElementById("settings-email").value,
             bio: document.getElementById("settings-bio").value,
+            xUrl: document.getElementById("settings-x").value.trim() ? "https://x.com/" + document.getElementById("settings-x").value.trim().replace(/^@/, "") : "",
+            instagramUrl: document.getElementById("settings-instagram").value.trim() ? "https://instagram.com/" + document.getElementById("settings-instagram").value.trim().replace(/^@/, "") : "",
+            tiktokUrl: document.getElementById("settings-tiktok").value.trim() ? "https://tiktok.com/@" + document.getElementById("settings-tiktok").value.trim().replace(/^@/, "") : "",
+            snapchatUrl: document.getElementById("settings-snapchat").value.trim() ? "https://snapchat.com/add/" + document.getElementById("settings-snapchat").value.trim().replace(/^@/, "") : "",
             currentPassword: document.getElementById("current-password").value,
             newPassword: document.getElementById("new-password").value
         };
