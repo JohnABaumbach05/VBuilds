@@ -25,6 +25,11 @@ public class BuildController {
 
 
 
+    @GetMapping("/user/{userId}")
+    public List<Build> getApprovedUserBuilds(@PathVariable int userId) throws SQLException {
+        return buildService.getApprovedUserBuilds(userId);
+    }
+
     @GetMapping("/mine")
     public List<Build> getMyBuilds(HttpSession session) throws SQLException {
 
