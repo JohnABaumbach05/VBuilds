@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const customInput = document.getElementById("customCategory");
     const list = document.getElementById("addedPartsList");
     const categoryOptions = Array.from(categorySelect.options).map(o => o.value);
+    let currentBuild = null;
     let parts = [];
     let editingPartId = null;
 
@@ -144,9 +145,104 @@ document.addEventListener("DOMContentLoaded", async () => {
             button.disabled = false;
         }
     });
+
+    const photoStatus = field("photoStatus");
+    const photoList = field("existingPhotoList");
+    const uploadPhoto = async file => {
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
+            throw new Error("Only JPG, PNG, and WebP photos are supported.");
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await fetch("/api/builds/upload-photo", {
+            method: "POST", credentials: "include", body: formData
+        });
+        if (!response.ok) throw new Error(`Photo upload failed (${response.status})`);
+        const result = await response.json();
+        if (!result.url || !result.url.startsWith("/uploads/builds/"))
+            throw new Error("Upload returned an invalid photo URL.");
+        return result.url;
+    };
+    const showPhotos = async () => {
+        const response = await request(`${endpoint}/photos`, "GET");
+        const gallery = await response.json();
+        photoList.replaceChildren();
+        const urls = [];
+        if (currentBuild.mainPhoto) urls.push({url: currentBuild.mainPhoto, caption: "Main Photo"});
+        for (const photo of gallery) {
+            if (photo.filePath && !urls.some(item => item.url === photo.filePath))
+                urls.push({url: photo.filePath, caption: photo.caption || "Gallery Photo"});
+        }
+        if (!urls.length) {
+            const empty = document.createElement("p");
+            empty.textContent = "No photos yet.";
+            photoList.appendChild(empty);
+        }
+        for (const photo of urls) {
+            const item = document.createElement("div");
+            item.className = "edit-photo-card";
+            const image = document.createElement("img");
+            image.src = photo.url;
+            image.alt = photo.caption;
+            image.loading = "lazy";
+            const caption = document.createElement("span");
+            caption.textContent = photo.caption;
+            item.append(image, caption);
+            photoList.appendChild(item);
+        }
+    };
+    field("savePhotosButton").addEventListener("click", async () => {
+        const mainFile = field("editMainPhoto").files[0];
+        const galleryFiles = Array.from(field("editAdditionalPhotos").files);
+        if (!mainFile && !galleryFiles.length) {
+            photoStatus.textContent = "Choose at least one photo.";
+            return;
+        }
+        const button = field("savePhotosButton");
+        button.disabled = true;
+        photoStatus.textContent = "Uploading photos...";
+        let completed = 0;
+        try {
+            if (mainFile) {
+                const url = await uploadPhoto(mainFile);
+                // Use the existing build values so changing a photo doesn't overwrite edits in progress.
+                await request(endpoint, "PUT", {
+                    title: currentBuild.title,
+                    buildYear: currentBuild.buildYear,
+                    trim: currentBuild.trim,
+                    horsepower: currentBuild.horsepower,
+                    tuner: currentBuild.tuner,
+                    cost: currentBuild.cost,
+                    description: currentBuild.description,
+                    happiness: currentBuild.happiness,
+                    reliability: currentBuild.reliability,
+                    loudness: currentBuild.loudness,
+                    mainPhoto: url
+                });
+                currentBuild.mainPhoto = url;
+                completed++;
+                field("editMainPhoto").value = "";
+            }
+            for (const file of galleryFiles) {
+                const url = await uploadPhoto(file);
+                await request(`${endpoint}/photos`, "POST", {
+                    filePath: url, caption: ""
+                });
+                completed++;
+            }
+            field("editAdditionalPhotos").value = "";
+            await showPhotos();
+            photoStatus.textContent = `Saved ${completed} photo(s).`;
+        } catch (error) {
+            photoStatus.textContent = `${error.message} — ${completed} photo(s) saved. You can retry remaining uploads.`;
+        } finally {
+            button.disabled = false;
+        }
+    });
+
     try {
         const response = await request(`${endpoint}/edit`, "GET");
         const build = await response.json();
+        currentBuild = build;
         field("buildTitle").value = build.title || "";
         field("year").value = build.buildYear;
         field("trim").value = build.trim;
@@ -164,6 +260,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const partsResponse = await request(`${endpoint}/parts`, "GET");
         parts = await partsResponse.json();
         render();
+        await showPhotos();
     } catch (error) {
         status.textContent = "Unable to load build: " + error.message;
         saveButton.disabled = true;
