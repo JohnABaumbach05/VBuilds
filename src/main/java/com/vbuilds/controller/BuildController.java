@@ -20,7 +20,12 @@ public class BuildController {
     private BuildService buildService;
 
     public BuildController() throws SQLException {
-        buildService = new BuildService();
+        this(new BuildService());
+    }
+
+    // Package-private constructor for isolated controller tests without PostgreSQL.
+    BuildController(BuildService buildService) {
+        this.buildService = buildService;
     }
 
 
