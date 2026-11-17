@@ -492,3 +492,19 @@
 
 
 
+
+/* Part editor: matches Create Build's existing dark panels and blue accents. */
+#create-build-form .parts-editor { margin-top: 18px; padding: 25px; background: linear-gradient(145deg,#20252d,#171a20); border: 1px solid #30445e; border-radius: 12px; }
+#create-build-form .parts-editor h2 { font-family: "Orbitron",sans-serif; color: #eaf4ff; text-align: center; font-size: 20px; text-shadow: 0 0 12px #006eff; }
+#create-build-form .parts-help { color: #b8c6d7; font-size: 14px; }
+#create-build-form .part-entry-box { display: flex; flex-direction: column; gap: 14px; }
+#create-build-form #customCategoryWrap:not([hidden]) { display: flex; flex-direction: column; gap: 12px; }
+#create-build-form #customCategoryWrap[hidden] { display: none; }
+#create-build-form .part-checkbox { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+#create-build-form .part-entry-box button, #create-build-form .added-part-card button { border: 1px solid #007bff; border-radius: 8px; background: linear-gradient(135deg,#0056b3,#008cff); color: white; padding: 12px; font-weight: 700; cursor: pointer; }
+#create-build-form .added-parts-list { display: grid; gap: 14px; margin-top: 20px; }
+#create-build-form .added-part-card { background: #1b1b1b; border: 1px solid #30445e; border-radius: 12px; padding: 18px; }
+#create-build-form .added-part-card h3 { color: white; margin: 0 0 8px; }
+#create-build-form .added-part-card p { color: #b8c6d7; overflow-wrap: anywhere; }
+#create-build-form .added-part-card button { padding: 8px 14px; }
+@media(max-width:600px) { #create-build-form .parts-editor { padding: 18px 14px; } }
