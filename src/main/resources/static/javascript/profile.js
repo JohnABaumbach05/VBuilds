@@ -22,6 +22,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         username.textContent = profile.username;
         document.getElementById("profile-bio").textContent = profile.bio || "No bio provided.";
         document.getElementById("profile-count").textContent = `${builds.length} approved build${builds.length === 1 ? "" : "s"}`;
+        const socialContainer = document.getElementById("profile-socials");
+        const platforms = [
+            ["xUrl", "X", "x"],
+            ["instagramUrl", "Instagram", "instagram"],
+            ["tiktokUrl", "TikTok", "tiktok"],
+            ["snapchatUrl", "Snapchat", "snapchat"]
+        ];
+        for (const [field, name, icon] of platforms) {
+            if (!profile[field]) continue;
+            const link = document.createElement("a");
+            link.href = profile[field];
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.title = name;
+            link.setAttribute("aria-label", name);
+            const image = document.createElement("img");
+            image.src = `https://api.iconify.design/simple-icons:${icon}.svg?color=%23ffffff`;
+            image.alt = name;
+            image.width = 24;
+            image.height = 24;
+            link.appendChild(image);
+            socialContainer.appendChild(link);
+        }
+        socialContainer.hidden = socialContainer.children.length === 0;
         const avatar = document.getElementById("profile-avatar");
         if (profile.profilePicture) {
             const image = document.createElement("img");
