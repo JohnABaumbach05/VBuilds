@@ -36,6 +36,10 @@ public class BuildService {
         return buildDAO.getUserBuilds(id);
     }
 
+    public List<Build> getApprovedUserBuilds(int id) throws SQLException {
+        return buildDAO.getApprovedUserBuilds(id);
+    }
+
     public List<Build> getAllBuilds() throws SQLException {
         return buildDAO.getAllBuilds();
     }
