@@ -136,6 +136,38 @@ public class BuildDAO {
         return findBuilds("SELECT * FROM builds WHERE approved = TRUE", null);
     }
 
+    public List<Build> getExpensiveBuilds() throws SQLException {
+        return findBuilds("SELECT * FROM builds order by build_cost DESC", null);
+    }
+
+    public List<Build> getCheapestBuilds() throws SQLException {
+        return findBuilds("select * from builds order by build_cost asc", null);
+    }
+
+    public List<Build> getLoudestBuilds() throws SQLException {
+        return findBuilds("select * from builds order by loudness desc", null);
+    }
+
+    public List<Build> getQuietestBuilds() throws SQLException {
+        return findBuilds("select * from builds order by loudness asc", null);
+    }
+
+    public List<Build> getMostReliableBuilds() throws SQLException {
+        return findBuilds("select * from builds order by reliability desc", null);
+    }
+
+    public List<Build> getLeastReliableBuilds() throws SQLException {
+        return findBuilds("select * from builds order by reliability asc", null);
+    }
+
+    public List<Build> getHighestHappinessBuilds() throws SQLException {
+        return findBuilds("select * from builds order by happiness desc", null);
+    }
+
+    public List<Build> getLeastHappinessBuilds() throws SQLException {
+        return findBuilds("select * from builds order by happiness asc", null);
+    }
+
 
     public Build getBuildById(int id) throws SQLException {
         return findOneBuild("SELECT * FROM builds WHERE build_id = ? AND approved = TRUE", id);
