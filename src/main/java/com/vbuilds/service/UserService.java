@@ -122,8 +122,8 @@ public class UserService {
     public String saveProfilePicture(int userId, MultipartFile file) throws IOException, SQLException {
         if (userDAO.getUserById(userId) == null)
             throw new IllegalArgumentException("Account not found");
-        if (file == null || file.isEmpty() || file.getSize() > 5L * 1024 * 1024)
-            throw new IllegalArgumentException("Select an image smaller than 5 MB");
+        if (file == null || file.isEmpty() || file.getSize() > 10L * 1024 * 1024)
+            throw new IllegalArgumentException("Select an image no larger than 10 MB");
         String type = file.getContentType();
         String ext;
         if ("image/jpeg".equals(type)) ext = ".jpg";
