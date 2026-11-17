@@ -80,8 +80,31 @@ public class UserService {
         user.setUsername(username);
         user.setEmail(email);
         user.setBio(bio);
+        user.setXUrl(validateSocialUrl(request.getXUrl(), "X", "x.com", "twitter.com"));
+        user.setInstagramUrl(validateSocialUrl(request.getInstagramUrl(), "Instagram", "instagram.com"));
+        user.setTiktokUrl(validateSocialUrl(request.getTiktokUrl(), "TikTok", "tiktok.com"));
+        user.setSnapchatUrl(validateSocialUrl(request.getSnapchatUrl(), "Snapchat", "snapchat.com"));
         userDAO.updateUser(user);
         return user;
+    }
+
+    private String validateSocialUrl(String raw, String platform, String... hosts) {
+        if (raw == null || raw.isBlank()) return null;
+        if (raw.length() > 500) throw new IllegalArgumentException(platform + " URL is too long");
+        try {
+            java.net.URI uri = new java.net.URI(raw.trim());
+            String host = uri.getHost();
+            boolean allowed = host != null && java.util.Arrays.stream(hosts)
+                    .anyMatch(h -> host.equalsIgnoreCase(h) || host.equalsIgnoreCase("www." + h));
+            if (!"https".equalsIgnoreCase(uri.getScheme()) || !allowed ||
+                    uri.getUserInfo() != null || uri.getPort() != -1 ||
+                    uri.getRawFragment() != null || uri.getRawPath() == null ||
+                    uri.getRawPath().equals("/") || uri.getRawPath().isBlank())
+                throw new IllegalArgumentException("Invalid " + platform + " profile URL");
+            return uri.toASCIIString();
+        } catch (java.net.URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid " + platform + " profile URL");
+        }
     }
 
     public String saveProfilePicture(int userId, MultipartFile file) throws IOException, SQLException {
