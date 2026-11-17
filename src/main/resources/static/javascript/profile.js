@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             link.title = name;
             link.setAttribute("aria-label", name);
             const image = document.createElement("img");
-            image.src = `https://api.iconify.design/simple-icons:${icon}.svg?color=%23ffffff`;
+            image.src = `/icons/${icon}.svg`;
             image.alt = name;
             image.width = 24;
             image.height = 24;
