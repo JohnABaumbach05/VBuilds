@@ -95,10 +95,27 @@ public class UserService {
         else if ("image/png".equals(type)) ext = ".png";
         else if ("image/webp".equals(type)) ext = ".webp";
         else throw new IllegalArgumentException("Only JPG, PNG, and WebP are supported");
-        // Decode the bytes, not just the user-provided extension or content type.
-        BufferedImage decoded = ImageIO.read(file.getInputStream());
-        if (decoded == null || decoded.getWidth() > 6000 || decoded.getHeight() > 6000)
-            throw new IllegalArgumentException("Invalid image or image dimensions too large");
+        byte[] header;
+        try (var input = file.getInputStream()) {
+            header = input.readNBytes(12);
+        }
+        if (header.length < 12) throw new IllegalArgumentException("Invalid image");
+        boolean jpeg = (header[0] & 255) == 255 && (header[1] & 255) == 216 &&
+                (header[2] & 255) == 255;
+        boolean png = (header[0] & 255) == 137 && header[1] == 80 &&
+                header[2] == 78 && header[3] == 71;
+        boolean webp = new String(header, 0, 4, java.nio.charset.StandardCharsets.US_ASCII)
+                .equals("RIFF") &&
+                new String(header, 8, 4, java.nio.charset.StandardCharsets.US_ASCII)
+                .equals("WEBP");
+        if (!((jpeg && ".jpg".equals(ext)) || (png && ".png".equals(ext)) ||
+                (webp && ".webp".equals(ext))))
+            throw new IllegalArgumentException("Image content does not match its type");
+        if (!webp) {
+            BufferedImage decoded = ImageIO.read(file.getInputStream());
+            if (decoded == null || decoded.getWidth() > 6000 || decoded.getHeight() > 6000)
+                throw new IllegalArgumentException("Invalid image or dimensions too large");
+        }
         Path directory = Paths.get(System.getProperty("vbuilds.profile-upload-dir",
                 "uploads/profiles")).toAbsolutePath().normalize();
         Files.createDirectories(directory);
