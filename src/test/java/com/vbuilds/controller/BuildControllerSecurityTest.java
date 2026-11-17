@@ -192,8 +192,10 @@ class BuildControllerSecurityTest {
     }
 
     @Test void invalidPhotoPathRejected() throws Exception {
+        when(service.getBuildByID(42)).thenReturn(owned);
         status(HttpStatus.BAD_REQUEST, () -> controller.addBuildPhoto(42,
             java.util.Map.of("filePath", "https://evil.example/photo.jpg"), session));
+        verify(service, never()).addPhoto(any());
     }
 
     @Test void otherUserCannotAddPhoto() throws Exception {
