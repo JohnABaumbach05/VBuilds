@@ -114,15 +114,22 @@ public class BuildController {
             );
         }
 
-        if (updatedBuild.getTitle() == null || updatedBuild.getTitle().isBlank() ||
-                updatedBuild.getBuildYear() < 2022 ||
-                updatedBuild.getTrim() == null || updatedBuild.getTrim().isBlank() ||
-                updatedBuild.getHorsepower() < 0 || updatedBuild.getCost() < 0 ||
-                updatedBuild.getHappiness() < 0 || updatedBuild.getHappiness() > 10 ||
-                updatedBuild.getReliability() < 0 || updatedBuild.getReliability() > 10 ||
-                updatedBuild.getLoudness() < 0 || updatedBuild.getLoudness() > 10) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid build information");
-        }
+        if (updatedBuild.getTitle() == null || updatedBuild.getTitle().isBlank())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Build title is required");
+        if (updatedBuild.getBuildYear() < 2022)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Build year must be 2022 or newer");
+        if (updatedBuild.getTrim() == null || updatedBuild.getTrim().isBlank())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Build trim is required");
+        if (updatedBuild.getHorsepower() < 0)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Horsepower cannot be negative");
+        if (updatedBuild.getCost() < 0)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Build cost cannot be negative");
+        if (updatedBuild.getHappiness() < 0 || updatedBuild.getHappiness() > 10)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Happiness must be between 0 and 10");
+        if (updatedBuild.getReliability() < 0 || updatedBuild.getReliability() > 10)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reliability must be between 0 and 10");
+        if (updatedBuild.getLoudness() < 0 || updatedBuild.getLoudness() > 10)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Loudness must be between 0 and 10");
 
         updatedBuild.setBuildId(id);
         updatedBuild.setOwnerID(userId);
