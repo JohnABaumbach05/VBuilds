@@ -8,6 +8,7 @@ import com.vbuilds.model.Part;
 import com.vbuilds.service.BuildService;
 import org.springframework.web.bind.annotation.*;
 import com.vbuilds.dto.CreateBuildRequest;
+import com.vbuilds.dto.UpdateBuildRequest;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -83,63 +84,39 @@ public class BuildController {
 
 
     @PutMapping("/{id}")
-    public void updateBuild(
-            @PathVariable int id,
-            @RequestBody Build updatedBuild,
-            HttpSession session
-    ) throws SQLException {
+    public void updateBuild(@PathVariable int id, @RequestBody UpdateBuildRequest request,
+                            HttpSession session) throws SQLException {
+        Build existingBuild = requireOwnedBuild(id, session);
 
-        Integer userId = (Integer) session.getAttribute("userId");
-
-        if (userId == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED,
-                    "You must be logged in"
-            );
-        }
-
-        Build existingBuild = buildService.getBuildForEditing(id);
-
-        if (existingBuild == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Build not found"
-            );
-        }
-
-        if (existingBuild.getOwnerID() != userId) {
-            throw new ResponseStatusException(
-                    HttpStatus.FORBIDDEN,
-                    "You do not own this build"
-            );
-        }
-
-        if (updatedBuild.getTitle() == null || updatedBuild.getTitle().isBlank())
+        if (request.getTitle() == null || request.getTitle().isBlank())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Build title is required");
-        if (updatedBuild.getBuildYear() < 2022)
+        if (request.getBuildYear() == null || request.getBuildYear() < 2022)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Build year must be 2022 or newer");
-        if (updatedBuild.getTrim() == null || updatedBuild.getTrim().isBlank())
+        if (request.getTrim() == null || request.getTrim().isBlank())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Build trim is required");
-        if (updatedBuild.getHorsepower() < 0)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Horsepower cannot be negative");
-        if (updatedBuild.getCost() < 0)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Build cost cannot be negative");
-        if (updatedBuild.getHappiness() < 0 || updatedBuild.getHappiness() > 10)
+        if (request.getHorsepower() == null || request.getHorsepower() < 0)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Horsepower must be zero or greater");
+        if (request.getCost() == null || request.getCost() < 0)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cost must be zero or greater");
+        if (request.getHappiness() == null || request.getHappiness() < 0 || request.getHappiness() > 10)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Happiness must be between 0 and 10");
-        if (updatedBuild.getReliability() < 0 || updatedBuild.getReliability() > 10)
+        if (request.getReliability() == null || request.getReliability() < 0 || request.getReliability() > 10)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reliability must be between 0 and 10");
-        if (updatedBuild.getLoudness() < 0 || updatedBuild.getLoudness() > 10)
+        if (request.getLoudness() == null || request.getLoudness() < 0 || request.getLoudness() > 10)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Loudness must be between 0 and 10");
 
-        updatedBuild.setBuildId(id);
-        updatedBuild.setOwnerID(userId);
-
-
-        if (updatedBuild.getMainPhoto() == null) {
-            updatedBuild.setMainPhoto(existingBuild.getMainPhoto());
-        }
-
-        buildService.updateBuild(updatedBuild);
+        // Update only editable fields; preserve ownership, moderation, and photos.
+        existingBuild.setTitle(request.getTitle().trim());
+        existingBuild.setBuildYear(request.getBuildYear());
+        existingBuild.setTrim(request.getTrim().trim());
+        existingBuild.setHorsepower(request.getHorsepower());
+        existingBuild.setCost(request.getCost());
+        existingBuild.setTuner(request.getTuner() == null ? "" : request.getTuner().trim());
+        existingBuild.setDescription(request.getDescription() == null ? "" : request.getDescription().trim());
+        existingBuild.setHappiness(request.getHappiness());
+        existingBuild.setReliability(request.getReliability());
+        existingBuild.setLoudness(request.getLoudness());
+        buildService.updateBuild(existingBuild);
     }
 
 
