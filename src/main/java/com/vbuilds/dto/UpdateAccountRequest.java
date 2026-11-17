@@ -6,7 +6,16 @@ public class UpdateAccountRequest {
     private String bio;
     private String currentPassword;
     private String newPassword;
+    private String xUrl, instagramUrl, tiktokUrl, snapchatUrl;
 
+    public String getXUrl() { return xUrl; }
+    public String getInstagramUrl() { return instagramUrl; }
+    public String getTiktokUrl() { return tiktokUrl; }
+    public String getSnapchatUrl() { return snapchatUrl; }
+    public void setXUrl(String value) { xUrl = value; }
+    public void setInstagramUrl(String value) { instagramUrl = value; }
+    public void setTiktokUrl(String value) { tiktokUrl = value; }
+    public void setSnapchatUrl(String value) { snapchatUrl = value; }
     public String getUsername() { return username; }
     public String getEmail() { return email; }
     public String getBio() { return bio; }
