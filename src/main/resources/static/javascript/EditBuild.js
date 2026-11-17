@@ -25,7 +25,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 body: JSON.stringify(body)
             })
         });
-        if (!response.ok) throw new Error(`${method} failed (${response.status}): ${await response.text()}`);
+        if (!response.ok) {
+            const raw = await response.text();
+            let detail = raw;
+            try {
+                const parsed = JSON.parse(raw);
+                detail = parsed.detail || parsed.message || parsed.error || raw;
+            } catch (_) { /* Plain-text response */ }
+            throw new Error(`${method} failed (${response.status}): ${detail}`);
+        }
         return response.status === 204 ? null : response;
     };
     const field = id => document.getElementById(id);
@@ -165,7 +173,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         event.preventDefault();
         saveButton.disabled = true;
         try {
-            await request(endpoint, "PUT", {
+            const payload = {
                 title: field("buildTitle").value.trim(),
                 buildYear: Number(field("year").value),
                 trim: field("trim").value,
@@ -176,7 +184,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 happiness: Number(field("happiness").value),
                 reliability: Number(field("reliability").value),
                 loudness: Number(field("loudness").value)
-            });
+            };
+            if (!payload.title || payload.buildYear < 2022 || !payload.trim ||
+                payload.horsepower < 0 || payload.cost < 0 ||
+                ["happiness", "reliability", "loudness"].some(key => payload[key] < 0 || payload[key] > 10)) {
+                throw new Error("Check title, year (2022+), trim, horsepower, cost, and ratings.");
+            }
+            await request(endpoint, "PUT", payload);
             location.href = `/HTML/build.html?id=${buildId}`;
         } catch (error) {
             status.textContent = error.message;
