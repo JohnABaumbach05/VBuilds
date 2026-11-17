@@ -11,7 +11,6 @@ import com.vbuilds.dto.CreateBuildRequest;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/builds")
@@ -128,7 +127,8 @@ public class BuildController {
 
 
     @DeleteMapping("/{id}")
-    public void deleteBuild(@PathVariable int id) throws SQLException {
+    public void deleteBuild(@PathVariable int id, HttpSession session) throws SQLException {
+        requireOwnedBuild(id, session);
         buildService.deleteBuild(id);
     }
 
@@ -260,6 +260,46 @@ public class BuildController {
         return buildService.getTopHorsePowerBuilds();
     }
 
+    private Build requireOwnedBuild(int id, HttpSession session) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login required");
+        Build build = buildService.getBuildForEditing(id);
+        if (build == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Build not found");
+        if (build.getOwnerID() != userId)
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not your build");
+        return build;
+    }
+
+    private void validatePart(Part part) {
+        if (part == null || part.getCategory() == null || part.getCategory().isBlank() ||
+                part.getCategory().length() > 60 || part.getPartName() == null ||
+                part.getPartName().isBlank() || part.getPartName().length() > 150 ||
+                part.getManufacturer() == null || part.getManufacturer().isBlank() ||
+                part.getManufacturer().length() > 100 || part.getPartCost() < 0 ||
+                part.getPartReliability() < 0 || part.getPartReliability() > 10 ||
+                part.getEstPowerAdded() < 0 ||
+                (part.getPartDescription() != null && part.getPartDescription().length() > 1000))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid part details");
+    }
+
+    @PutMapping("/{id}/parts/{partId}")
+    public void updateBuildPart(@PathVariable int id, @PathVariable int partId,
+                                @RequestBody Part part, HttpSession session) throws SQLException {
+        requireOwnedBuild(id, session);
+        validatePart(part);
+        part.setPartID(partId);
+        if (!new com.vbuilds.dao.PartDAO().updateBuildPart(id, part))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Part not found on this build");
+    }
+
+    @DeleteMapping("/{id}/parts/{partId}")
+    public void deleteBuildPart(@PathVariable int id, @PathVariable int partId,
+                                HttpSession session) throws SQLException {
+        requireOwnedBuild(id, session);
+        if (!new com.vbuilds.dao.PartDAO().deleteBuildPart(id, partId))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Part not found on this build");
+    }
+
     @PostMapping("/{id}/parts")
     public void addBuildPart(@PathVariable int id, @RequestBody Part part,
                              HttpSession session) throws SQLException {
@@ -274,16 +314,7 @@ public class BuildController {
         if (build.getOwnerID() != userId) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not own this build");
         }
-        if (part.getCategory() == null || part.getCategory().isBlank() ||
-                part.getCategory().length() > 60 ||
-                part.getPartName() == null || part.getPartName().isBlank() ||
-                part.getPartName().length() > 150 ||
-                part.getManufacturer() == null || part.getManufacturer().isBlank() ||
-                part.getManufacturer().length() > 100 ||
-                part.getPartCost() < 0 || part.getPartReliability() < 0 ||
-                part.getPartReliability() > 10 || part.getEstPowerAdded() < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid part details");
-        }
+        validatePart(part);
         new com.vbuilds.service.PartService().addBuildPart(id, part);
     }
 
