@@ -49,10 +49,10 @@ public class PhotoUploadController {
         }
 
 
-        if (file.getSize() > 5 * 1024 * 1024) {
+        if (file.getSize() > 10L * 1024 * 1024) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Maximum file size is 5 MB"
+                    "Maximum file size is 10 MB"
             );
         }
 
