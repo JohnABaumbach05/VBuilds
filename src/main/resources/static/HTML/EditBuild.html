@@ -129,6 +129,18 @@
 
       </div>
 
+      <section class="parts-editor" aria-labelledby="photo-editor-title">
+        <h2 id="photo-editor-title">BUILD PHOTOS</h2>
+        <p class="parts-help">Keep your current photos, replace the main photo, or add more gallery photos.</p>
+        <div id="existingPhotoList" class="edit-photo-grid"></div>
+        <label for="editMainPhoto">Change Main Build Photo (optional)</label>
+        <input id="editMainPhoto" type="file" accept="image/jpeg,image/png,image/webp">
+        <label for="editAdditionalPhotos">Add Gallery Photos</label>
+        <input id="editAdditionalPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+        <button id="savePhotosButton" type="button">Upload Selected Photos</button>
+        <p id="photoStatus" role="status"></p>
+      </section>
+
       <section class="parts-editor" aria-labelledby="parts-editor-title">
         <h2 id="parts-editor-title">ADD PARTS</h2>
         <p class="parts-help">Add modifications to your build. Each added part appears in its own box.</p>
