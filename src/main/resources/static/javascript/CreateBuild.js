@@ -16,6 +16,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
+    const pendingParts = [];
+    const categorySelect = document.getElementById("partCategory");
+    const customCategoryWrap = document.getElementById("customCategoryWrap");
+    const customCategoryInput = document.getElementById("customCategory");
+    const addedPartsList = document.getElementById("addedPartsList");
+    categorySelect.addEventListener("change", () => {
+        const custom = categorySelect.value === "__custom__";
+        customCategoryWrap.hidden = !custom;
+        customCategoryInput.required = custom;
+        if (!custom) customCategoryInput.value = "";
+    });
+
+    function renderPendingParts() {
+        addedPartsList.replaceChildren();
+        pendingParts.forEach((part, index) => {
+            const card = document.createElement("article");
+            card.className = "added-part-card";
+            const heading = document.createElement("h3");
+            heading.textContent = part.partName;
+            const details = document.createElement("p");
+            details.textContent = `${part.category} · ${part.manufacturer} · ${part.partCost}`;
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.textContent = "Remove";
+            remove.addEventListener("click", () => {
+                pendingParts.splice(index, 1);
+                renderPendingParts();
+            });
+            card.append(heading, details, remove);
+            addedPartsList.appendChild(card);
+        });
+    }
+
+    document.getElementById("addPartButton").addEventListener("click", () => {
+        const custom = categorySelect.value === "__custom__";
+        const category = (custom ? customCategoryInput.value : categorySelect.value).trim();
+        const partName = document.getElementById("partName").value.trim();
+        const manufacturer = document.getElementById("partManufacturer").value.trim();
+        const costField = document.getElementById("partCost");
+        const partCost = Number(costField.value || 0);
+        const partReliability = Number(document.getElementById("partReliability").value);
+        const estPowerAdded = Number(document.getElementById("partPower").value);
+        if (!category || !partName || !manufacturer || category.length > 60 ||
+            !Number.isInteger(partCost) || partCost < 0 ||
+            !Number.isInteger(partReliability) || partReliability < 0 || partReliability > 10 ||
+            !Number.isInteger(estPowerAdded) || estPowerAdded < 0) {
+            alert("Enter a category, manufacturer, part name and valid part values.");
+            return;
+        }
+        pendingParts.push({
+            category, manufacturer, partName, partCost, partReliability,
+            estPowerAdded,
+            partDescription: document.getElementById("partDescription").value.trim(),
+            makesLouder: document.getElementById("partLouder").checked
+        });
+        renderPendingParts();
+        for (const id of ["partName", "partManufacturer", "partCost", "partDescription", "partPower"]) {
+            document.getElementById(id).value = "";
+        }
+        document.getElementById("partReliability").value = "5";
+        document.getElementById("partLouder").checked = false;
+    });
+
     form.addEventListener("submit", async (event) => {
 
         event.preventDefault();
@@ -159,6 +222,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             console.log("Created build ID:", createdBuildId);
+            for (const part of pendingParts) {
+                const partResponse = await fetch(`/api/builds/${createdBuildId}/parts`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(part)
+                });
+                if (!partResponse.ok) {
+                    throw new Error("Build created, but one or more parts could not be saved.");
+                }
+            }
 
             const additionalPhotos =
                 document.getElementById("additionalPhotos").files;
@@ -261,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (createdBuildId) {
 
                 alert(
-                    "Your build was created, but some gallery photos " +
+                    "Your build was created, but some parts or gallery photos " +
                     "may not have saved. Build ID: " +
                     createdBuildId +
                     ". Do not submit again or you may create a duplicate."
