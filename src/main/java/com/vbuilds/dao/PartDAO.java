@@ -186,6 +186,34 @@ public class PartDAO {
         }
     }
 
+    public boolean updateBuildPart(int buildId, Part part) throws SQLException {
+        String sql = "UPDATE parts SET part_name=?, manufacturer=?, category=?, part_reliability=?, " +
+                "est_power_added=?, part_description=?, part_cost=?, makes_louder=? " +
+                "WHERE part_id=? AND build_id=?";
+        try (Connection conn = Database.connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, part.getPartName());
+            stmt.setString(2, part.getManufacturer());
+            stmt.setString(3, part.getCategory());
+            stmt.setInt(4, part.getPartReliability());
+            stmt.setInt(5, part.getEstPowerAdded());
+            stmt.setString(6, part.getPartDescription());
+            stmt.setInt(7, part.getPartCost());
+            stmt.setBoolean(8, part.isMakesLouder());
+            stmt.setInt(9, part.getPartID());
+            stmt.setInt(10, buildId);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public boolean deleteBuildPart(int buildId, int partId) throws SQLException {
+        try (Connection conn = Database.connect();
+             PreparedStatement stmt = conn.prepareStatement("DELETE FROM parts WHERE part_id=? AND build_id=?")) {
+            stmt.setInt(1, partId);
+            stmt.setInt(2, buildId);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
     public List<Part> getBuildParts(int buildID) throws SQLException {
         return findParts("SELECT * FROM parts WHERE build_id = ?", buildID);
     }
