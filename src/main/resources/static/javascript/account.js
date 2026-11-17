@@ -16,7 +16,7 @@ async function loadAccount() {
     const response = await fetch("/api/users/me");
 
     if (!response.ok) {
-        window.location.href = "/login.html";
+        window.location.href = "/index.html";
         return;
     }
 
@@ -29,6 +29,7 @@ async function loadAccount() {
 
     document.getElementById("username").textContent = user.username;
     document.getElementById("email").textContent = user.email;
+    showProfilePicture(user.profilePicture);
 }
 
 async function loadBuilds() {
