@@ -606,3 +606,15 @@ main.build-details-container {
 @media (max-width: 700px) {
     .build-owner-link { width: 100%; padding: 14px; }
 }
+
+/* Distinct installed-part cards */
+.parts-list .installed-part-card {
+    background: linear-gradient(145deg, #20252d, #171a20);
+    border: 1px solid #30445e;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    overflow-wrap: anywhere;
+}
+.parts-list .installed-part-card h3 { color: #eaf4ff; margin: 0 0 10px; }
+.parts-list .installed-part-card p { color: #b8c6d7; margin: 8px 0 0; line-height: 1.5; }
