@@ -144,6 +144,51 @@
               multiple
       >
 
+      <section class="parts-editor" aria-labelledby="parts-editor-title">
+        <h2 id="parts-editor-title">ADD PARTS</h2>
+        <p class="parts-help">Add modifications to your build. Each added part appears in its own box.</p>
+        <div class="part-entry-box">
+          <label for="partCategory">Part Category</label>
+          <select id="partCategory">
+            <option value="" selected disabled>Select a category</option>
+            <option value="Intake">Intake</option>
+            <option value="Exhaust">Exhaust</option>
+            <option value="Intercooler & Charge Pipes">Intercooler &amp; Charge Pipes</option>
+            <option value="Turbo & Boost">Turbo &amp; Boost</option>
+            <option value="Fuel System">Fuel System</option>
+            <option value="Engine">Engine</option>
+            <option value="ECU & Tuning">ECU &amp; Tuning</option>
+            <option value="Transmission & Drivetrain">Transmission &amp; Drivetrain</option>
+            <option value="Suspension">Suspension</option>
+            <option value="Brakes">Brakes</option>
+            <option value="Wheels & Tires">Wheels &amp; Tires</option>
+            <option value="Exterior">Exterior</option>
+            <option value="Interior">Interior</option>
+            <option value="Electronics">Electronics</option>
+            <option value="__custom__">Other / Custom Part</option>
+          </select>
+          <div id="customCategoryWrap" hidden>
+            <label for="customCategory">Custom Category</label>
+            <input id="customCategory" type="text" maxlength="60" placeholder="Enter your category">
+          </div>
+          <label for="partManufacturer">Manufacturer</label>
+          <input id="partManufacturer" type="text" maxlength="100" placeholder="Manufacturer">
+          <label for="partName">Part Name</label>
+          <input id="partName" type="text" maxlength="150" placeholder="Part name">
+          <label for="partCost">Part Cost ($)</label>
+          <input id="partCost" type="number" min="0" step="1" placeholder="Price paid">
+          <label for="partDescription">Description</label>
+          <textarea id="partDescription" maxlength="1000" placeholder="Details about this part"></textarea>
+          <label for="partReliability">Part Reliability (0–10)</label>
+          <input id="partReliability" type="number" min="0" max="10" value="5">
+          <label for="partPower">Estimated Power Added (HP)</label>
+          <input id="partPower" type="number" min="0" value="0">
+          <label class="part-checkbox"><input id="partLouder" type="checkbox"> Makes the car louder</label>
+          <button id="addPartButton" type="button">Add Part</button>
+        </div>
+        <div id="addedPartsList" class="added-parts-list" aria-live="polite"></div>
+      </section>
+
       <button type="submit">Create Build</button>
 
     </form>
