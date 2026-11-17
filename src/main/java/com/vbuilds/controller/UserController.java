@@ -1,102 +1,80 @@
 package com.vbuilds.controller;
-import jakarta.servlet.http.HttpSession;
-import com.vbuilds.dto.LoginRequest;
-import com.vbuilds.dto.CreateAccountRequest;
+
+import com.vbuilds.dto.*;
 import com.vbuilds.model.User;
 import com.vbuilds.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.vbuilds.dto.LoginResponse;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-
-
-
 public class UserController {
-
-    private UserService userService;
-
-    public UserController() { userService = new UserService(); }
-
-
-
-    @PostMapping("/logout")
-    public void logout(HttpSession session) {
-        session.invalidate();
-    }
+    private final UserService userService = new UserService();
 
     @GetMapping("/me")
-    public LoginResponse getCurrentUser(HttpSession session) throws SQLException {
-    Integer userId = (Integer) session.getAttribute("userId");
-
-    if (userId == null) {
-        return null;
+    public ResponseEntity<?> getCurrentUser(HttpSession session) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) return ResponseEntity.status(401).build();
+        User user = userService.getUserById(userId);
+        if (user == null) return ResponseEntity.status(401).build();
+        return ResponseEntity.ok(AccountResponse.fromUser(user));
     }
 
-    User user = userService.getUserById(userId);
+    @PutMapping("/me")
+    public ResponseEntity<?> updateCurrentUser(@RequestBody UpdateAccountRequest request,
+                                               HttpSession session) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) return ResponseEntity.status(401).build();
+        try {
+            User user = userService.updateAccount(userId, request);
+            return ResponseEntity.ok(AccountResponse.fromUser(user));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
-        return new LoginResponse(user.getId(), user.getUsername(), user.getEmail(), user.isAdmin());
+    @PostMapping(value = "/me/profile-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadProfilePicture(@RequestParam("file") MultipartFile file,
+                                                   HttpSession session) throws SQLException, IOException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) return ResponseEntity.status(401).build();
+        try {
+            return ResponseEntity.ok(Map.of("profilePicture",
+                    userService.saveProfilePicture(userId, file)));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request, HttpSession session) throws SQLException {
-        User user = userService.login(
-                request.getUsername(),
-                request.getPassword()
-        );
-
-        if (user == null) {
-            return null;
-        }
-
-        session.setAttribute("userId", user.getId());
-
-        return new LoginResponse(user.getId(), user.getUsername(), user.getEmail(), user.isAdmin());
-
+    public ResponseEntity<?> login(@RequestBody LoginRequest request,
+                                   HttpServletRequest httpRequest) throws SQLException {
+        User user = userService.login(request.getUsername(), request.getPassword());
+        if (user == null) return ResponseEntity.status(401).body("Invalid credentials");
+        HttpSession previous = httpRequest.getSession(false);
+        if (previous != null) previous.invalidate();
+        httpRequest.getSession(true).setAttribute("userId", user.getId());
+        return ResponseEntity.ok(new LoginResponse(user.getId(), user.getUsername(),
+                user.getEmail(), user.isAdmin()));
     }
 
-
+    @PostMapping("/logout")
+    public void logout(HttpSession session) { session.invalidate(); }
 
     @PostMapping
-    public ResponseEntity<String> addUser(
-            @RequestBody CreateAccountRequest request) throws SQLException {
-
+    public ResponseEntity<String> addUser(@RequestBody CreateAccountRequest request) throws SQLException {
         try {
             userService.addUser(request);
             return ResponseEntity.status(201).body("Account created successfully");
-
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(409).body(e.getMessage());
         }
     }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id) throws SQLException {
-        userService.deleteUser(id);
-    }
-
-    @PutMapping("/{id}")
-    public void updateUser(@PathVariable int id, @RequestBody User user) throws SQLException {
-        user.setUserId(id);
-        userService.updateUser(user);
-    }
-
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) throws SQLException {
-        return userService.getUserById(id);
-    }
-
-    @GetMapping("/username/{username}")
-    public User getUserByUsername(@PathVariable String username) throws SQLException {
-        return userService.getUserByUsername(username);
-    }
-
-    @GetMapping
-    public List<User> getAllUsers() throws SQLException {
-        return userService.getAllUsers();
-    }
-
 }

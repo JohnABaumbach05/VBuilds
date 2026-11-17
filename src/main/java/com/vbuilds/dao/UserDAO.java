@@ -94,6 +94,16 @@ public class UserDAO {
 
     }
 
+    public void updateProfilePicture(int userId, String pictureUrl) throws SQLException {
+        String sql = "UPDATE users SET profile_picture = ? WHERE user_id = ?";
+        try (Connection conn = Database.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, pictureUrl);
+            stmt.setInt(2, userId);
+            stmt.executeUpdate();
+        }
+    }
+
     public User getUserById(int userId) throws SQLException {
         Connection conn = Database.connect();
 

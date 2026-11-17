@@ -27,6 +27,37 @@
         <button id="settings-btn">Account Settings</button>
     </section>
 
+    <section id="account-settings" class="settings-section" hidden>
+        <h2>Account Settings</h2>
+        <form id="settings-form">
+            <label for="settings-username">Username</label>
+            <input id="settings-username" type="text" minlength="3" maxlength="30" required>
+
+            <label for="settings-email">Email</label>
+            <input id="settings-email" type="email" required>
+
+            <label for="settings-bio">Bio</label>
+            <textarea id="settings-bio" maxlength="500"></textarea>
+
+            <label for="profile-picture">Profile Picture (JPG, PNG, WebP; max 5 MB)</label>
+            <img id="picture-preview" class="picture-preview" alt="Profile picture preview" hidden>
+            <input id="profile-picture" type="file" accept="image/jpeg,image/png,image/webp">
+
+            <h3>Change Password</h3>
+            <p>Leave blank to keep your current password.</p>
+            <label for="current-password">Current Password</label>
+            <input id="current-password" type="password" autocomplete="current-password">
+            <label for="new-password">New Password</label>
+            <input id="new-password" type="password" autocomplete="new-password" minlength="8">
+
+            <div class="settings-actions">
+                <button id="save-settings" type="submit">Save Changes</button>
+                <button id="cancel-settings" type="button">Cancel</button>
+            </div>
+            <p id="settings-message" role="status"></p>
+        </form>
+    </section>
+
     <section class="build-section">
         <h2>My Builds</h2>
 

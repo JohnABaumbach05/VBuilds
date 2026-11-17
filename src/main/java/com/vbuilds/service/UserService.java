@@ -1,72 +1,134 @@
 package com.vbuilds.service;
-import java.time.LocalDate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.vbuilds.dao.BuildDAO;
+
 import com.vbuilds.dao.UserDAO;
 import com.vbuilds.dto.CreateAccountRequest;
+import com.vbuilds.dto.UpdateAccountRequest;
 import com.vbuilds.model.User;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.nio.file.*;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 public class UserService {
-    private UserDAO userDAO;
-    private BuildDAO buildDAO;
-    private BCryptPasswordEncoder passwordEncoder;
+    private final UserDAO userDAO = new UserDAO();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserService() {
-        userDAO = new UserDAO();
-        buildDAO = new BuildDAO();
-        passwordEncoder = new BCryptPasswordEncoder();
-    }
-
-    public User getUserByEmail(String email) throws SQLException{
-        return userDAO.getUserByEmail(email);
-    }
+    public User getUserByEmail(String email) throws SQLException { return userDAO.getUserByEmail(email); }
+    public User getUserById(int id) throws SQLException { return userDAO.getUserById(id); }
+    public User getUserByUsername(String username) throws SQLException { return userDAO.getUserByUsername(username); }
+    public List<User> getAllUsers() throws SQLException { return userDAO.getAllUsers(); }
+    public void deleteUser(int id) throws SQLException { userDAO.deleteUser(id); }
+    public void updateUser(User user) throws SQLException { userDAO.updateUser(user); }
 
     public User login(String username, String password) throws SQLException {
         User user = userDAO.getUserByUsername(username);
-        if (user == null) {
-            return null;
-        }
-        if (passwordEncoder.matches(password, user.getPasswordHash())) {
-            return user;
-        }
-        return null;
+        return user != null && password != null &&
+                passwordEncoder.matches(password, user.getPasswordHash()) ? user : null;
     }
 
     public void addUser(CreateAccountRequest request) throws SQLException {
-
-        if (userDAO.getUserByUsername(request.getUsername()) != null) {
-            throw new IllegalArgumentException("Username already exists");
+        if (request.getUsername() == null || request.getUsername().isBlank() ||
+                request.getEmail() == null || request.getEmail().isBlank() ||
+                request.getPassword() == null || request.getPassword().length() < 8) {
+            throw new IllegalArgumentException("Username, email, and password of at least 8 characters are required");
+        }
+        if (userDAO.getUserByUsername(request.getUsername()) != null ||
+                userDAO.getUserByEmail(request.getEmail()) != null) {
+            throw new IllegalArgumentException("Username or email already exists");
         }
         User user = new User();
-
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setDateJoined(LocalDate.now().toString());
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
-        user.setPasswordHash(hashedPassword);
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         userDAO.addUser(user);
     }
 
-    public void deleteUser(int id) throws SQLException {
-        userDAO.deleteUser(id);
-    }
+    public User updateAccount(int userId, UpdateAccountRequest request) throws SQLException {
+        User user = userDAO.getUserById(userId);
+        if (user == null) throw new IllegalArgumentException("Account not found");
+        String username = request.getUsername() == null ? "" : request.getUsername().trim();
+        String email = request.getEmail() == null ? "" : request.getEmail().trim();
+        String bio = request.getBio() == null ? "" : request.getBio().trim();
+        if (username.length() < 3 || username.length() > 30)
+            throw new IllegalArgumentException("Username must be between 3 and 30 characters");
+        if (!email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"))
+            throw new IllegalArgumentException("Invalid email address");
+        if (bio.length() > 500) throw new IllegalArgumentException("Bio cannot exceed 500 characters");
+        User other = userDAO.getUserByUsername(username);
+        if (other != null && other.getId() != userId)
+            throw new IllegalArgumentException("Username already taken");
+        other = userDAO.getUserByEmail(email);
+        if (other != null && other.getId() != userId)
+            throw new IllegalArgumentException("Email already in use");
 
-    public void updateUser(User user) throws SQLException {
+        String newPassword = request.getNewPassword();
+        if (newPassword != null && !newPassword.isEmpty()) {
+            if (request.getCurrentPassword() == null ||
+                    !passwordEncoder.matches(request.getCurrentPassword(), user.getPasswordHash()))
+                throw new IllegalArgumentException("Current password is incorrect");
+            if (newPassword.length() < 8)
+                throw new IllegalArgumentException("New password must contain at least 8 characters");
+            user.setPasswordHash(passwordEncoder.encode(newPassword));
+        }
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setBio(bio);
         userDAO.updateUser(user);
+        return user;
     }
 
-    public User getUserById(int id) throws SQLException {
-        return userDAO.getUserById(id);
-    }
-
-    public User getUserByUsername(String user) throws SQLException {
-        return userDAO.getUserByUsername(user);
-    }
-
-    public List<User> getAllUsers() throws SQLException {
-        return userDAO.getAllUsers();
+    public String saveProfilePicture(int userId, MultipartFile file) throws IOException, SQLException {
+        if (userDAO.getUserById(userId) == null)
+            throw new IllegalArgumentException("Account not found");
+        if (file == null || file.isEmpty() || file.getSize() > 5L * 1024 * 1024)
+            throw new IllegalArgumentException("Select an image smaller than 5 MB");
+        String type = file.getContentType();
+        String ext;
+        if ("image/jpeg".equals(type)) ext = ".jpg";
+        else if ("image/png".equals(type)) ext = ".png";
+        else if ("image/webp".equals(type)) ext = ".webp";
+        else throw new IllegalArgumentException("Only JPG, PNG, and WebP are supported");
+        byte[] header;
+        try (var input = file.getInputStream()) {
+            header = input.readNBytes(12);
+        }
+        if (header.length < 12) throw new IllegalArgumentException("Invalid image");
+        boolean jpeg = (header[0] & 255) == 255 && (header[1] & 255) == 216 &&
+                (header[2] & 255) == 255;
+        boolean png = (header[0] & 255) == 137 && header[1] == 80 &&
+                header[2] == 78 && header[3] == 71;
+        boolean webp = new String(header, 0, 4, java.nio.charset.StandardCharsets.US_ASCII)
+                .equals("RIFF") &&
+                new String(header, 8, 4, java.nio.charset.StandardCharsets.US_ASCII)
+                .equals("WEBP");
+        if (!((jpeg && ".jpg".equals(ext)) || (png && ".png".equals(ext)) ||
+                (webp && ".webp".equals(ext))))
+            throw new IllegalArgumentException("Image content does not match its type");
+        if (!webp) {
+            BufferedImage decoded = ImageIO.read(file.getInputStream());
+            if (decoded == null || decoded.getWidth() > 6000 || decoded.getHeight() > 6000)
+                throw new IllegalArgumentException("Invalid image or dimensions too large");
+        }
+        Path directory = Paths.get(System.getProperty("vbuilds.profile-upload-dir",
+                "uploads/profiles")).toAbsolutePath().normalize();
+        Files.createDirectories(directory);
+        String filename = UUID.randomUUID() + ext;
+        Path destination = directory.resolve(filename);
+        try {
+            Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
+            String url = "/uploads/profiles/" + filename;
+            userDAO.updateProfilePicture(userId, url);
+            return url;
+        } catch (IOException | SQLException e) {
+            Files.deleteIfExists(destination);
+            throw e;
+        }
     }
 }
