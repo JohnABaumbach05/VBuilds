@@ -99,8 +99,9 @@ function displayBuilds(filter) {
 
         const editButton = document.createElement("button");
         editButton.textContent = "Edit Build";
-        editButton.disabled = true;
-        editButton.title = "Build editing coming soon";
+        editButton.addEventListener("click", () => {
+            window.location.href = `/HTML/EditBuild.html?id=${build.buildId}`;
+        });
 
         card.append(buildLink, status, editButton);
         container.appendChild(card);
