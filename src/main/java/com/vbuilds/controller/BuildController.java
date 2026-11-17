@@ -143,6 +143,19 @@ public class BuildController {
     }
 
 
+    @PutMapping("/{id}/main-photo")
+    public void updateMainPhoto(@PathVariable int id, @RequestBody Map<String, String> request,
+                                HttpSession session) throws SQLException {
+        Build build = requireOwnedBuild(id, session);
+        String url = request.get("url");
+        if (url == null || !url.startsWith("/uploads/builds/") ||
+                url.contains("..") || url.length() > 1000) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid photo URL");
+        }
+        if (!new com.vbuilds.dao.BuildDAO().updateMainPhoto(id, build.getOwnerID(), url))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Build not found");
+    }
+
     @DeleteMapping("/{id}")
     public void deleteBuild(@PathVariable int id, HttpSession session) throws SQLException {
         requireOwnedBuild(id, session);
