@@ -114,6 +114,16 @@ public class BuildController {
             );
         }
 
+        if (updatedBuild.getTitle() == null || updatedBuild.getTitle().isBlank() ||
+                updatedBuild.getBuildYear() < 2022 ||
+                updatedBuild.getTrim() == null || updatedBuild.getTrim().isBlank() ||
+                updatedBuild.getHorsepower() < 0 || updatedBuild.getCost() < 0 ||
+                updatedBuild.getHappiness() < 0 || updatedBuild.getHappiness() > 10 ||
+                updatedBuild.getReliability() < 0 || updatedBuild.getReliability() > 10 ||
+                updatedBuild.getLoudness() < 0 || updatedBuild.getLoudness() > 10) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid build information");
+        }
+
         updatedBuild.setBuildId(id);
         updatedBuild.setOwnerID(userId);
 
