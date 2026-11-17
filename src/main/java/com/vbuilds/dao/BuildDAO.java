@@ -110,6 +110,16 @@ public class BuildDAO {
     public void makeBuildFeatured(int id) throws SQLException { setFeatured(id, true); }
 
 
+    public boolean updateMainPhoto(int buildId, int ownerId, String photoUrl) throws SQLException {
+        String sql = "UPDATE builds SET main_photo = ? WHERE build_id = ? AND owner_id = ?";
+        try (Connection conn = Database.connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, photoUrl);
+            stmt.setInt(2, buildId);
+            stmt.setInt(3, ownerId);
+            return stmt.executeUpdate() == 1;
+        }
+    }
+
     public void updateBuild(Build build) throws SQLException {
         String sql = "UPDATE builds SET title = ?, horsepower = ?, happiness = ?, reliability = ?, " +
                 "loudness = ?, build_cost = ?, tuner = ?, build_year = ?, build_trim = ?, " +
