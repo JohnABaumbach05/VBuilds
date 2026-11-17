@@ -98,6 +98,24 @@ public class PartDAO {
     }
 
 
+    public void addBuildPart(int buildId, Part part) throws SQLException {
+        String sql = "INSERT INTO parts (build_id, part_name, manufacturer, category, part_reliability, " +
+                "est_power_added, part_description, part_cost, makes_louder) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = Database.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, buildId);
+            stmt.setString(2, part.getPartName());
+            stmt.setString(3, part.getManufacturer());
+            stmt.setString(4, part.getCategory());
+            stmt.setInt(5, part.getPartReliability());
+            stmt.setInt(6, part.getEstPowerAdded());
+            stmt.setString(7, part.getPartDescription());
+            stmt.setInt(8, part.getPartCost());
+            stmt.setBoolean(9, part.isMakesLouder());
+            stmt.executeUpdate();
+        }
+    }
+
     public void addPart(Part part) throws SQLException {
         String sql = "INSERT INTO parts (part_name, manufacturer, category, part_reliability, " +
                 "est_power_added, part_description, part_cost, makes_louder) " +
