@@ -16,25 +16,11 @@ public class PartController {
 
     public PartController() { partService = new PartService(); }
 
-    @PostMapping
-    public void addPart(@RequestBody Part part) throws SQLException {
-        partService.addPart(part);
-    }
+
 
     @GetMapping
     public List<Part> getAllParts() throws SQLException {
         return partService.getAllParts();
-    }
-
-    @PutMapping("/{id}")
-    public void updatePart(@PathVariable int id, @RequestBody Part part) throws SQLException {
-        part.setPartID(id);
-        partService.updatePart(part);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deletePart(@PathVariable int id) throws SQLException {
-        partService.deletePart(id);
     }
 
     @GetMapping("/{id}")
