@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const file = pictureInput.files[0];
         if (!file) return;
         if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) ||
-                file.size > 5 * 1024 * 1024) {
+                file.size > 10 * 1024 * 1024) {
             document.getElementById("settings-message").textContent =
                 "Select a JPG, PNG, or WebP image under 5 MB.";
             pictureInput.value = "";

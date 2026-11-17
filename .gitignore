@@ -36,3 +36,6 @@ build/
 
 # Local database credentials
 /src/main/resources/application.properties
+
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=12MB
