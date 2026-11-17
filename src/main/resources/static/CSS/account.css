@@ -120,3 +120,22 @@ button:disabled {
     font-size: 20px;
     margin: 15px 0;
 }
+
+.profile-avatar { overflow: hidden; flex-shrink: 0; }
+.avatar-image { width: 100%; height: 100%; object-fit: cover; }
+.settings-section { margin-top: 30px; padding: 30px; background: #1c1f27; border-radius: 12px; }
+.settings-section[hidden], .picture-preview[hidden] { display: none; }
+#settings-form { display: flex; flex-direction: column; gap: 12px; max-width: 550px; }
+#settings-form label { font-weight: bold; }
+#settings-form input, #settings-form textarea {
+    padding: 12px; background: #101116; border: 1px solid #3b4252;
+    border-radius: 6px; color: white; font: inherit;
+}
+#settings-form input:focus, #settings-form textarea:focus {
+    outline: none; border-color: #008cff;
+}
+#settings-form textarea { min-height: 100px; resize: vertical; }
+.settings-actions { display: flex; gap: 12px; margin-top: 15px; }
+#cancel-settings { background: #454b58; }
+#settings-message { min-height: 20px; }
+.picture-preview { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; }
