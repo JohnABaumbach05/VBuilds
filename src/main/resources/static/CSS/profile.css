@@ -23,3 +23,9 @@
 .profile-build-card h3 { overflow-wrap: anywhere; }
 .profile-build-card p { color: #9ba8bc; }
 @media (max-width: 800px) { .profile-container { margin-left: 0; width: 100%; padding: 160px 15px 40px; } .profile-plaque { flex-direction: column; align-items: flex-start; } }
+
+.profile-socials { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.profile-socials[hidden] { display: none; }
+.profile-socials a { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #254d76; border-radius: 9px; background: #111823; transition: border-color .2s, box-shadow .2s; }
+.profile-socials a:hover { border-color: #168cff; box-shadow: 0 0 16px rgba(0,140,255,.25); }
+.profile-socials img { width: 24px; height: 24px; }
