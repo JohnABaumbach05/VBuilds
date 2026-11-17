@@ -204,20 +204,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         try {
             if (mainFile) {
                 const url = await uploadPhoto(mainFile);
-                // Use the existing build values so changing a photo doesn't overwrite edits in progress.
-                await request(endpoint, "PUT", {
-                    title: currentBuild.title,
-                    buildYear: currentBuild.buildYear,
-                    trim: currentBuild.trim,
-                    horsepower: currentBuild.horsepower,
-                    tuner: currentBuild.tuner,
-                    cost: currentBuild.cost,
-                    description: currentBuild.description,
-                    happiness: currentBuild.happiness,
-                    reliability: currentBuild.reliability,
-                    loudness: currentBuild.loudness,
-                    mainPhoto: url
-                });
+                await request(`${endpoint}/main-photo`, "PUT", { url });
                 currentBuild.mainPhoto = url;
                 completed++;
                 field("editMainPhoto").value = "";
