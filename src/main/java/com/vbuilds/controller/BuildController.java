@@ -260,6 +260,33 @@ public class BuildController {
         return buildService.getTopHorsePowerBuilds();
     }
 
+    @PostMapping("/{id}/parts")
+    public void addBuildPart(@PathVariable int id, @RequestBody Part part,
+                             HttpSession session) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You must be logged in");
+        }
+        Build build = buildService.getBuildForEditing(id);
+        if (build == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Build not found");
+        }
+        if (build.getOwnerID() != userId) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not own this build");
+        }
+        if (part.getCategory() == null || part.getCategory().isBlank() ||
+                part.getCategory().length() > 60 ||
+                part.getPartName() == null || part.getPartName().isBlank() ||
+                part.getPartName().length() > 150 ||
+                part.getManufacturer() == null || part.getManufacturer().isBlank() ||
+                part.getManufacturer().length() > 100 ||
+                part.getPartCost() < 0 || part.getPartReliability() < 0 ||
+                part.getPartReliability() > 10 || part.getEstPowerAdded() < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid part details");
+        }
+        new com.vbuilds.service.PartService().addBuildPart(id, part);
+    }
+
     @GetMapping("/{id}/parts")
     public List<Part> getBuildParts(@PathVariable int id) throws SQLException {
         return buildService.getBuildParts(id);
