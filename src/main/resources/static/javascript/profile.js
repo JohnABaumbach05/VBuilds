@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const [profileResponse, buildsResponse] = await Promise.all([
             fetch(`/api/users/${id}/profile`),
-            fetch(`/api/users/${id}/builds`)
+            fetch(`/api/builds/user/${id}`)
         ]);
         if (profileResponse.status === 404) {
             username.textContent = "Profile not found";
