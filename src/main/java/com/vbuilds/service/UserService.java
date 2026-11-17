@@ -101,6 +101,18 @@ public class UserService {
                     uri.getRawFragment() != null || uri.getRawPath() == null ||
                     uri.getRawPath().equals("/") || uri.getRawPath().isBlank())
                 throw new IllegalArgumentException("Invalid " + platform + " profile URL");
+            String path = uri.getPath();
+            String handle = platform.equals("Snapchat") && path.startsWith("/add/")
+                    ? path.substring(5)
+                    : platform.equals("TikTok") && path.startsWith("/@")
+                    ? path.substring(2)
+                    : path.startsWith("/") ? path.substring(1) : "";
+            String pattern = platform.equals("Instagram") ? "[A-Za-z0-9._]{1,30}"
+                    : platform.equals("TikTok") ? "[A-Za-z0-9._]{1,24}"
+                    : platform.equals("Snapchat") ? "[A-Za-z][A-Za-z0-9._-]{2,14}"
+                    : "[A-Za-z0-9_]{1,15}";
+            if (!handle.matches(pattern) || uri.getRawQuery() != null)
+                throw new IllegalArgumentException("Invalid " + platform + " username");
             return uri.toASCIIString();
         } catch (java.net.URISyntaxException e) {
             throw new IllegalArgumentException("Invalid " + platform + " profile URL");
