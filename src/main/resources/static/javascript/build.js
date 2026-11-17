@@ -159,6 +159,59 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ? `${build.loudness}/10`
                 : "N/A";
 
+
+        // Load the parts associated with this build.
+        const partsList = document.getElementById("build-parts-list");
+        if (partsList) {
+            try {
+                const partsResponse = await fetch(`/api/builds/${buildId}/parts`, {
+                    credentials: "include"
+                });
+                if (!partsResponse.ok) {
+                    throw new Error(`Failed to load parts: ${partsResponse.status}`);
+                }
+                const parts = await partsResponse.json();
+                partsList.replaceChildren();
+                if (!Array.isArray(parts) || parts.length === 0) {
+                    const empty = document.createElement("p");
+                    empty.className = "empty-parts";
+                    empty.textContent = "No parts added to this build yet.";
+                    partsList.appendChild(empty);
+                } else {
+                    parts.forEach(part => {
+                        const card = document.createElement("article");
+                        card.className = "installed-part-card";
+                        const title = document.createElement("h3");
+                        title.textContent = part.partName || "Unnamed Part";
+                        const category = document.createElement("p");
+                        category.textContent = [part.category, part.manufacturer].filter(Boolean).join(" · ");
+                        const detail = document.createElement("p");
+                        const cost = Number(part.partCost);
+                        detail.textContent = [
+                            Number.isFinite(cost) ? `Cost: ${cost.toLocaleString()}` : null,
+                            part.estPowerAdded ? `Power gain: +${part.estPowerAdded} HP` : null,
+                            part.partReliability != null ? `Reliability: ${part.partReliability}/10` : null,
+                            part.makesLouder ? "Increases loudness" : null
+                        ].filter(Boolean).join(" · ");
+                        card.append(title, category, detail);
+                        if (part.partDescription) {
+                            const description = document.createElement("p");
+                            description.textContent = part.partDescription;
+                            card.appendChild(description);
+                        }
+                        partsList.appendChild(card);
+                    });
+                }
+            } catch (partsError) {
+                console.error("Error loading build parts:", partsError);
+                partsList.replaceChildren();
+                const message = document.createElement("p");
+                message.className = "empty-parts";
+                message.textContent = "Unable to load installed parts.";
+                partsList.appendChild(message);
+            }
+        }
+
         let currentPhotoIndex = 0;
 
         const previousButton = document.getElementById("photo-prev");
