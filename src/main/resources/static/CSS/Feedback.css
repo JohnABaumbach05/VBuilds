@@ -78,6 +78,11 @@
     font-weight: 400;
 }
 
+.feedback-comment-meta {
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+}
+
 #feedback-comments time {
     color: #b8c6d7;
     font-size: 0.875rem;
