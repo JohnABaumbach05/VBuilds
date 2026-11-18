@@ -1,0 +1,2 @@
+ALTER TABLE feedback_comments
+ADD COLUMN IF NOT EXISTS author_id INTEGER REFERENCES users(user_id) ON DELETE SET NULL;

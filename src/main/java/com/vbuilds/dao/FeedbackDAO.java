@@ -13,7 +13,12 @@ import java.util.List;
 
 public class FeedbackDAO {
     public List<FeedbackComment> getComments() throws SQLException {
-        String sql = "SELECT feedback_id, comment, created_at FROM feedback_comments ORDER BY feedback_id DESC";
+        String sql = """
+                SELECT feedback.feedback_id, feedback.comment, feedback.created_at, users.username
+                FROM feedback_comments feedback
+                LEFT JOIN users ON users.user_id = feedback.author_id
+                ORDER BY feedback.feedback_id DESC
+                """;
         List<FeedbackComment> comments = new ArrayList<>();
 
         try (Connection connection = Database.connect();
@@ -27,12 +32,21 @@ public class FeedbackDAO {
         return comments;
     }
 
-    public FeedbackComment addComment(String comment) throws SQLException {
-        String sql = "INSERT INTO feedback_comments (comment) VALUES (?) RETURNING feedback_id, comment, created_at";
+    public FeedbackComment addComment(int userId, String comment) throws SQLException {
+        String sql = """
+                WITH saved AS (
+                    INSERT INTO feedback_comments (author_id, comment) VALUES (?, ?)
+                    RETURNING feedback_id, comment, created_at, author_id
+                )
+                SELECT saved.feedback_id, saved.comment, saved.created_at, users.username
+                FROM saved
+                LEFT JOIN users ON users.user_id = saved.author_id
+                """;
 
         try (Connection connection = Database.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, comment);
+            statement.setInt(1, userId);
+            statement.setString(2, comment);
 
             try (ResultSet result = statement.executeQuery()) {
                 if (result.next()) {
@@ -46,6 +60,7 @@ public class FeedbackDAO {
     private FeedbackComment mapComment(ResultSet result) throws SQLException {
         return new FeedbackComment(result.getLong("feedback_id"),
                 result.getString("comment"),
+                result.getString("username"),
                 result.getObject("created_at", OffsetDateTime.class));
     }
 }

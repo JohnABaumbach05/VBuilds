@@ -16,7 +16,12 @@ function renderFeedbackComment(entry) {
     const date = new Date(entry.createdAt);
     time.dateTime = date.toISOString();
     time.textContent = feedbackDateFormat.format(date);
-    item.append(comment, time);
+    const metadata = document.createElement("div");
+    metadata.className = "feedback-comment-meta";
+    const author = document.createElement("strong");
+    author.textContent = entry.username || "Anonymous";
+    metadata.append(author, " · ", time);
+    item.append(metadata, comment);
     return item;
 }
 
