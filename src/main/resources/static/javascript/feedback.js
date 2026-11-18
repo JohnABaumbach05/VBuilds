@@ -2,6 +2,8 @@ const feedbackForm = document.getElementById("feedback-form");
 const feedbackInput = document.getElementById("feedback-comment");
 const feedbackButton = feedbackForm.querySelector("button");
 const feedbackStatus = document.getElementById("feedback-status");
+const feedbackLogin = document.getElementById("feedback-login");
+const feedbackSessionStatus = document.getElementById("feedback-session-status");
 const feedbackListStatus = document.getElementById("feedback-list-status");
 const feedbackList = document.getElementById("feedback-comments");
 const feedbackDateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" });
@@ -36,7 +38,29 @@ async function loadFeedback() {
     }
 }
 
+function showFeedbackLogin() {
+    feedbackForm.hidden = true;
+    feedbackLogin.hidden = false;
+}
+
+async function loadFeedbackSession() {
+    try {
+        const response = await fetch("/api/users/me", { cache: "no-store" });
+        if (response.status === 401) {
+            showFeedbackLogin();
+        } else if (response.ok) {
+            feedbackForm.hidden = false;
+        } else {
+            throw new Error("Unable to check sign-in status.");
+        }
+        feedbackSessionStatus.textContent = "";
+    } catch {
+        feedbackSessionStatus.textContent = "Unable to check sign-in status. Refresh to try again.";
+    }
+}
+
 const initialFeedbackLoad = loadFeedback();
+loadFeedbackSession();
 
 feedbackForm.addEventListener("submit", async event => {
     event.preventDefault();
@@ -58,6 +82,10 @@ feedbackForm.addEventListener("submit", async event => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ comment })
         });
+        if (response.status === 401) {
+            showFeedbackLogin();
+            return;
+        }
         if (!response.ok) throw new Error("Unable to post comment.");
 
         const saved = await response.json();

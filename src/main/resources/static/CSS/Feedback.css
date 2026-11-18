@@ -14,9 +14,17 @@
     padding: 18px;
 }
 
-.feedback-content form {
+.feedback-content form:not([hidden]) {
     display: grid;
     gap: 12px;
+}
+
+#feedback-login a {
+    color: #9eeaff;
+}
+
+#feedback-session-status:empty {
+    display: none;
 }
 
 .feedback-content textarea {
