@@ -268,12 +268,18 @@ public class BuildController {
     }
 
     private Build requireOwnedBuild(int id, HttpSession session) throws SQLException {
+
         Integer userId = (Integer) session.getAttribute("userId");
+
         if (userId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login required");
+
         Build build = buildService.getBuildForEditing(id);
+
         if (build == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Build not found");
+
         if (build.getOwnerID() != userId)
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not your build");
+
         return build;
     }
 
@@ -286,12 +292,13 @@ public class BuildController {
                 part.getPartReliability() < 0 || part.getPartReliability() > 10 ||
                 part.getEstPowerAdded() < 0 ||
                 (part.getPartDescription() != null && part.getPartDescription().length() > 1000))
+
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid part details");
     }
 
     @PutMapping("/{id}/parts/{partId}")
-    public void updateBuildPart(@PathVariable int id, @PathVariable int partId,
-                                @RequestBody Part part, HttpSession session) throws SQLException {
+    public void updateBuildPart(@PathVariable int id, @PathVariable int partId, @RequestBody Part part, HttpSession session) throws SQLException {
+
         requireOwnedBuild(id, session);
         validatePart(part);
         part.setPartID(partId);
@@ -300,17 +307,18 @@ public class BuildController {
     }
 
     @DeleteMapping("/{id}/parts/{partId}")
-    public void deleteBuildPart(@PathVariable int id, @PathVariable int partId,
-                                HttpSession session) throws SQLException {
+    public void deleteBuildPart(@PathVariable int id, @PathVariable int partId, HttpSession session) throws SQLException {
+
         requireOwnedBuild(id, session);
         if (!new com.vbuilds.dao.PartDAO().deleteBuildPart(id, partId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Part not found on this build");
     }
 
     @PostMapping("/{id}/parts")
-    public void addBuildPart(@PathVariable int id, @RequestBody Part part,
-                             HttpSession session) throws SQLException {
+    public void addBuildPart(@PathVariable int id, @RequestBody Part part, HttpSession session) throws SQLException {
+
         Integer userId = (Integer) session.getAttribute("userId");
+
         if (userId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You must be logged in");
         }
@@ -322,6 +330,7 @@ public class BuildController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not own this build");
         }
         validatePart(part);
+
         new com.vbuilds.service.PartService().addBuildPart(id, part);
     }
 

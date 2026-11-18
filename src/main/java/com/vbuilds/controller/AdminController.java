@@ -26,9 +26,7 @@ public class AdminController {
 
 
     @GetMapping("/builds/{id}")
-    public ResponseEntity<?> getBuildForAdmin(
-            @PathVariable int id,
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> getBuildForAdmin(@PathVariable int id, HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity
@@ -47,8 +45,7 @@ public class AdminController {
 
 
     @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers(
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> getAllUsers(HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity
@@ -66,9 +63,7 @@ public class AdminController {
 
 
     @PutMapping("/builds/{id}/feature")
-    public ResponseEntity<?> featureBuild(
-            @PathVariable int id,
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> featureBuild(@PathVariable int id, HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity
@@ -94,9 +89,7 @@ public class AdminController {
     }
 
     @PutMapping("/builds/{id}/unfeature")
-    public ResponseEntity<?> unfeatureBuild(
-            @PathVariable int id,
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> unfeatureBuild(@PathVariable int id, HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity
@@ -117,8 +110,7 @@ public class AdminController {
 
 
     @GetMapping("/builds")
-    public ResponseEntity<?> getAllBuildsForAdmin(
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> getAllBuildsForAdmin(HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity
@@ -132,8 +124,7 @@ public class AdminController {
     }
 
 
-    private boolean isAdmin(HttpSession session)
-            throws SQLException {
+    private boolean isAdmin(HttpSession session) throws SQLException {
 
         Integer userId =
                 (Integer) session.getAttribute("userId");
@@ -148,8 +139,7 @@ public class AdminController {
     }
 
     @GetMapping("/builds/pending")
-    public ResponseEntity<?> getPendingBuilds(
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> getPendingBuilds(HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity
@@ -163,9 +153,7 @@ public class AdminController {
     }
 
     @PutMapping("/builds/{id}/approve")
-    public ResponseEntity<?> approveBuild(
-            @PathVariable int id,
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> approveBuild(@PathVariable int id, HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity
@@ -179,9 +167,7 @@ public class AdminController {
     }
 
     @PutMapping("/builds/{id}/reject")
-    public ResponseEntity<?> rejectBuild(
-            @PathVariable int id,
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> rejectBuild(@PathVariable int id, HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity
@@ -195,8 +181,7 @@ public class AdminController {
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<?> getDashboardStats(
-            HttpSession session) throws SQLException {
+    public ResponseEntity<?> getDashboardStats(HttpSession session) throws SQLException {
 
         if (!isAdmin(session)) {
             return ResponseEntity

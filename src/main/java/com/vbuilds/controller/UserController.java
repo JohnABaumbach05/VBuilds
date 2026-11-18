@@ -20,6 +20,7 @@ public class UserController {
 
     @GetMapping("/{id}/profile")
     public ResponseEntity<?> getPublicProfile(@PathVariable int id) throws SQLException {
+
         User user = userService.getUserById(id);
         if (user == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(PublicProfileResponse.fromUser(user));
@@ -27,6 +28,7 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(HttpSession session) throws SQLException {
+
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) return ResponseEntity.status(401).build();
         User user = userService.getUserById(userId);
@@ -35,8 +37,8 @@ public class UserController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<?> updateCurrentUser(@RequestBody UpdateAccountRequest request,
-                                               HttpSession session) throws SQLException {
+    public ResponseEntity<?> updateCurrentUser(@RequestBody UpdateAccountRequest request, HttpSession session) throws SQLException {
+
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) return ResponseEntity.status(401).build();
         try {
@@ -48,8 +50,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/me/profile-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> uploadProfilePicture(@RequestParam("file") MultipartFile file,
-                                                   HttpSession session) throws SQLException, IOException {
+    public ResponseEntity<?> uploadProfilePicture(@RequestParam("file") MultipartFile file, HttpSession session) throws SQLException, IOException {
+
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) return ResponseEntity.status(401).build();
         try {
@@ -61,15 +63,19 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request,
-                                   HttpServletRequest httpRequest) throws SQLException {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) throws SQLException {
+
         User user = userService.login(request.getUsername(), request.getPassword());
+
         if (user == null) return ResponseEntity.status(401).body("Invalid credentials");
+
         HttpSession previous = httpRequest.getSession(false);
+
         if (previous != null) previous.invalidate();
+
         httpRequest.getSession(true).setAttribute("userId", user.getId());
-        return ResponseEntity.ok(new LoginResponse(user.getId(), user.getUsername(),
-                user.getEmail(), user.isAdmin()));
+
+        return ResponseEntity.ok(new LoginResponse(user.getId(), user.getUsername(), user.getEmail(), user.isAdmin()));
     }
 
     @PostMapping("/logout")
@@ -77,6 +83,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody CreateAccountRequest request) throws SQLException {
+
         try {
             userService.addUser(request);
             return ResponseEntity.status(201).body("Account created successfully");

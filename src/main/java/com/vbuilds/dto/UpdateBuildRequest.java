@@ -1,10 +1,6 @@
 package com.vbuilds.dto;
 
-/**
- * Editable build fields only. Boxed numbers allow missing/null inputs
- * to be rejected with clear validation errors instead of Jackson failing
- * to bind null into a primitive int.
- */
+
 public class UpdateBuildRequest {
     private String title;
     private Integer buildYear;
