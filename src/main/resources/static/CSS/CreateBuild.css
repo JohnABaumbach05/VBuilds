@@ -46,6 +46,7 @@
 
 #create-build-form input[type="text"],
 #create-build-form input[type="number"],
+#create-build-form input[type="url"],
 #create-build-form select,
 #create-build-form textarea {
     width: 100%;
