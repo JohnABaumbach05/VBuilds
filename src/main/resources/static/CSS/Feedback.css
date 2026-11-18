@@ -1,0 +1,102 @@
+.feedback-content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 40px) 48px;
+    color: #f1f6fb;
+    font-size: 1rem;
+}
+
+.feedback-content form,
+.feedback-content li {
+    background: #171c23;
+    border: 1px solid #30445e;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.feedback-content form {
+    display: grid;
+    gap: 12px;
+}
+
+.feedback-content textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    color: inherit;
+    background: #252525;
+    border: 1px solid #555;
+    border-radius: 8px;
+    font: inherit;
+    resize: vertical;
+}
+
+.feedback-content button {
+    justify-self: start;
+    padding: 8px 14px;
+    border: 1px solid #339dff;
+    border-radius: 8px;
+    background: #0056b3;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.feedback-content button:disabled {
+    opacity: 0.65;
+    cursor: default;
+}
+
+#feedback-status {
+    margin: 0;
+}
+
+#feedback-status:empty,
+#feedback-list-status:empty {
+    display: none;
+}
+
+#feedback-comments {
+    display: grid;
+    gap: 12px;
+    padding: 0;
+    list-style: none;
+}
+
+#feedback-comments p {
+    margin: 0 0 8px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-weight: 400;
+}
+
+#feedback-comments time {
+    color: #b8c6d7;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 760px) {
+    .feedback-page aside {
+        width: 88px;
+    }
+
+    .feedback-page header {
+        left: 88px;
+        height: 120px;
+    }
+
+    .feedback-page .vbuilds-banner {
+        max-width: 100%;
+        height: 90px;
+    }
+
+    .feedback-page main {
+        margin-left: 88px;
+        padding-top: 120px;
+    }
+
+    .feedback-page .imagine-build-message {
+        padding-inline: 3px;
+        font-size: 0.8rem;
+    }
+}
