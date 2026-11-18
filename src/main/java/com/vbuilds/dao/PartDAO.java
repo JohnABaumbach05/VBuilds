@@ -23,6 +23,7 @@ public class PartDAO {
         part.setEstPowerAdded(rs.getInt("est_power_added"));
         part.setPartDescription(rs.getString("part_description"));
         part.setPartCost(rs.getInt("part_cost"));
+        part.setPartLink(rs.getString("part_link"));
         part.setMakesLouder(rs.getBoolean("makes_louder"));
         part.setPartID(rs.getInt("part_id"));
 
@@ -100,7 +101,7 @@ public class PartDAO {
 
     public void addBuildPart(int buildId, Part part) throws SQLException {
         String sql = "INSERT INTO parts (build_id, part_name, manufacturer, category, part_reliability, " +
-                "est_power_added, part_description, part_cost, makes_louder) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "est_power_added, part_description, part_cost, makes_louder, part_link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, buildId);
@@ -112,14 +113,15 @@ public class PartDAO {
             stmt.setString(7, part.getPartDescription());
             stmt.setInt(8, part.getPartCost());
             stmt.setBoolean(9, part.isMakesLouder());
+            stmt.setString(10, part.getPartLink());
             stmt.executeUpdate();
         }
     }
 
     public void addPart(Part part) throws SQLException {
         String sql = "INSERT INTO parts (part_name, manufacturer, category, part_reliability, " +
-                "est_power_added, part_description, part_cost, makes_louder) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "est_power_added, part_description, part_cost, makes_louder, part_link) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -132,6 +134,7 @@ public class PartDAO {
             stmt.setString(6, part.getPartDescription());
             stmt.setInt(7, part.getPartCost());
             stmt.setBoolean(8, part.isMakesLouder());
+            stmt.setString(9, part.getPartLink());
 
             stmt.executeUpdate();
         }
@@ -158,7 +161,7 @@ public class PartDAO {
     public void updatePart(Part part) throws SQLException {
         String sql = "UPDATE parts SET part_name = ?, manufacturer = ?, category = ?, " +
                 "part_reliability = ?, est_power_added = ?, part_description = ?, " +
-                "part_cost = ?, makes_louder = ? WHERE part_id = ?";
+                "part_cost = ?, makes_louder = ?, part_link = ? WHERE part_id = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -170,7 +173,8 @@ public class PartDAO {
             stmt.setString(6, part.getPartDescription());
             stmt.setInt(7, part.getPartCost());
             stmt.setBoolean(8, part.isMakesLouder());
-            stmt.setInt(9, part.getPartID());
+            stmt.setString(9, part.getPartLink());
+            stmt.setInt(10, part.getPartID());
             stmt.executeUpdate();
         }
     }
@@ -188,7 +192,7 @@ public class PartDAO {
 
     public boolean updateBuildPart(int buildId, Part part) throws SQLException {
         String sql = "UPDATE parts SET part_name=?, manufacturer=?, category=?, part_reliability=?, " +
-                "est_power_added=?, part_description=?, part_cost=?, makes_louder=? " +
+                "est_power_added=?, part_description=?, part_cost=?, makes_louder=?, part_link=? " +
                 "WHERE part_id=? AND build_id=?";
         try (Connection conn = Database.connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, part.getPartName());
@@ -199,8 +203,9 @@ public class PartDAO {
             stmt.setString(6, part.getPartDescription());
             stmt.setInt(7, part.getPartCost());
             stmt.setBoolean(8, part.isMakesLouder());
-            stmt.setInt(9, part.getPartID());
-            stmt.setInt(10, buildId);
+            stmt.setString(9, part.getPartLink());
+            stmt.setInt(10, part.getPartID());
+            stmt.setInt(11, buildId);
             return stmt.executeUpdate() > 0;
         }
     }

@@ -9,6 +9,7 @@ import com.vbuilds.service.BuildService;
 import org.springframework.web.bind.annotation.*;
 import com.vbuilds.dto.CreateBuildRequest;
 import com.vbuilds.dto.UpdateBuildRequest;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -294,6 +295,26 @@ public class BuildController {
                 (part.getPartDescription() != null && part.getPartDescription().length() > 1000))
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid part details");
+
+        String partLink = part.getPartLink();
+        if (partLink == null || partLink.isBlank()) {
+            part.setPartLink(null);
+            return;
+        }
+
+        partLink = partLink.strip();
+        try {
+            URI uri = URI.create(partLink);
+            if (partLink.length() <= 200 && uri.getHost() != null &&
+                    ("https".equalsIgnoreCase(uri.getScheme()) || "http".equalsIgnoreCase(uri.getScheme()))) {
+                part.setPartLink(partLink);
+                return;
+            }
+        } catch (IllegalArgumentException ignored) {
+            // Invalid URI syntax uses the same response as an unsupported URL.
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "Part link must be an HTTP or HTTPS URL of at most 200 characters");
     }
 
     @PutMapping("/{id}/parts/{partId}")

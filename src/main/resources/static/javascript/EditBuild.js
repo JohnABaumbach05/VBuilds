@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     const clearPartForm = () => {
         editingPartId = null;
-        for (const id of ["partName", "partManufacturer", "partCost", "partDescription"])
+        for (const id of ["partName", "partManufacturer", "partCost", "partDescription", "partLink"])
             field(id).value = "";
         field("partReliability").value = 5;
         field("partPower").value = 0;
@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 field("partName").value = part.partName;
                 field("partManufacturer").value = part.manufacturer;
                 field("partCost").value = part.partCost;
+                field("partLink").value = part.partLink || "";
                 field("partDescription").value = part.partDescription || "";
                 field("partReliability").value = part.partReliability;
                 field("partPower").value = part.estPowerAdded;
@@ -111,12 +112,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     };
     field("addPartButton").addEventListener("click", async () => {
+        const partLink = field("partLink");
+        if (!partLink.reportValidity()) return;
         const category = (categorySelect.value === "__custom__" ? customInput.value : categorySelect.value).trim();
         const part = {
             category,
             partName: field("partName").value.trim(),
             manufacturer: field("partManufacturer").value.trim(),
             partCost: Number(field("partCost").value || 0),
+            partLink: partLink.value.trim() || null,
             partDescription: field("partDescription").value.trim(),
             partReliability: Number(field("partReliability").value),
             estPowerAdded: Number(field("partPower").value),

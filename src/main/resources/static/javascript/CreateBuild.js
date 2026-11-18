@@ -50,6 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById("addPartButton").addEventListener("click", () => {
+        const partLink = document.getElementById("partLink");
+        if (!partLink.reportValidity()) return;
         const custom = categorySelect.value === "__custom__";
         const category = (custom ? customCategoryInput.value : categorySelect.value).trim();
         const partName = document.getElementById("partName").value.trim();
@@ -68,11 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
         pendingParts.push({
             category, manufacturer, partName, partCost, partReliability,
             estPowerAdded,
+            partLink: partLink.value.trim() || null,
             partDescription: document.getElementById("partDescription").value.trim(),
             makesLouder: document.getElementById("partLouder").checked
         });
         renderPendingParts();
-        for (const id of ["partName", "partManufacturer", "partCost", "partDescription", "partPower"]) {
+        for (const id of ["partName", "partManufacturer", "partCost", "partDescription", "partPower", "partLink"]) {
             document.getElementById(id).value = "";
         }
         document.getElementById("partReliability").value = "5";

@@ -184,7 +184,8 @@
           <label for="partPower">Estimated Power Added (HP)</label>
           <input id="partPower" type="number" min="0" value="0">
           <label class="part-checkbox"><input id="partLouder" type="checkbox"> Makes the car louder</label>
-          <input id="PartLink" type="text" maxlength="200" placeholder="Part Link (Optional)">
+          <label for="partLink">Part Link (Optional)</label>
+          <input id="partLink" type="url" maxlength="200" pattern="[hH][tT][tT][pP][sS]?://.+" placeholder="https://example.com/part" title="Enter a full HTTP or HTTPS URL">
           <button id="addPartButton" type="button">Add Part</button>
         </div>
         <div id="addedPartsList" class="added-parts-list" aria-live="polite"></div>

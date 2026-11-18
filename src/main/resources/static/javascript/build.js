@@ -199,6 +199,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                             description.textContent = part.partDescription;
                             card.appendChild(description);
                         }
+                        if (part.partLink && /^https?:\/\//i.test(part.partLink)) {
+                            const link = document.createElement("a");
+                            link.href = part.partLink;
+                            link.textContent = "View part";
+                            link.target = "_blank";
+                            link.rel = "noopener noreferrer";
+                            card.appendChild(link);
+                        }
                         partsList.appendChild(card);
                     });
                 }

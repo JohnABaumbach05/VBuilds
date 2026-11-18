@@ -8,6 +8,7 @@ public class Part {
     private int partReliability;
     private int estPowerAdded;
     private String partDescription;
+    private String partLink;
     private int partCost;
     private boolean makesLouder;
 
@@ -34,6 +35,10 @@ public class Part {
     public int getEstPowerAdded() { return estPowerAdded; }
 
     public String getPartDescription() { return partDescription; }
+
+    public String getPartLink() { return partLink; }
+
+    public void setPartLink(String partLink) { this.partLink = partLink; }
 
     public int getPartCost() { return partCost; }
 
