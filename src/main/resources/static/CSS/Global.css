@@ -237,3 +237,46 @@ header a,
     }
 }
 
+.feedback-header-link {
+    position: absolute;
+    right: 16px;
+    bottom: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #000;
+    color: #9eeaff;
+    text-decoration: none;
+}
+
+.feedback-header-link:hover,
+.feedback-header-link:focus-visible {
+    color: white;
+    text-decoration: underline;
+}
+
+.imagine-build-link {
+    background: none;
+    border: 0;
+    padding: 0;
+}
+
+.imagine-build-message {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 6px 12px;
+    border: 1px solid #339dff;
+    border-radius: 6px;
+    background: #111820;
+    color: white;
+    font: 600 1rem "Oswald", sans-serif;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.imagine-build-link:hover .imagine-build-message,
+.imagine-build-link:focus .imagine-build-message {
+    opacity: 1;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback | VBuilds</title>
+    <link rel="stylesheet" href="/CSS/Global.css">
+    <link rel="stylesheet" href="/CSS/Feedback.css">
+</head>
+<body class="feedback-page">
+<div id="navigation"></div>
+<main>
+    <div class="feedback-content">
+        <h1>Feedback</h1>
+        <form id="feedback-form" hidden>
+            <label for="feedback-comment">Leave a public comment containing feedback on the site</label>
+            <textarea id="feedback-comment" rows="5" maxlength="1000" required></textarea>
+            <button type="submit">Post comment</button>
+            <p id="feedback-status" role="status"></p>
+        </form>
+
+        <p id="feedback-login" hidden><a href="/HTML/LoginSidebar.html">Sign in</a> to post a comment.</p>
+        <p id="feedback-session-status" role="status">Checking sign-in status…</p>
+
+        <section aria-labelledby="feedback-comments-title">
+            <h2 id="feedback-comments-title">Comments</h2>
+            <p id="feedback-list-status" role="status">Loading comments…</p>
+            <ol id="feedback-comments"></ol>
+        </section>
+    </div>
+</main>
+<script src="/javascript/Global.js"></script>
+<script src="/javascript/auth.js" defer></script>
+<script src="/javascript/feedback.js" defer></script>
+</body>
+</html>
