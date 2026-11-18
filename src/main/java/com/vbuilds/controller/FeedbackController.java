@@ -35,7 +35,7 @@ public class FeedbackController {
         if (comment.isBlank() || comment.length() > 1000) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Enter a comment of 1 to 1000 characters");
         }
-        return feedbackDAO.addComment(comment);
+        return feedbackDAO.addComment(userId, comment);
     }
 
     public record CreateFeedbackRequest(String comment) {}
