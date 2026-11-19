@@ -56,8 +56,7 @@ public class PhotoController {
     }
 
     private void validatePhotoPath(String path) {
-        if (path == null || !path.startsWith("/uploads/builds/") ||
-                path.contains("..") || path.contains("\\") || path.length() > 1000) {
+        if (!com.vbuilds.service.ImageStorage.validBuildUrl(path)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid photo path");
         }
     }
