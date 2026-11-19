@@ -48,6 +48,13 @@ public class BuildController {
 
 
 
+    // Owner-only preview of approved, pending, and rejected builds.
+    // Public GET /{id} remains approved-only.
+    @GetMapping("/mine/{id}")
+    public Build getMyBuildById(@PathVariable int id, HttpSession session) throws SQLException {
+        return requireOwnedBuild(id, session);
+    }
+
     @GetMapping("/{id}/edit")
     public Build getBuildForEditing(
             @PathVariable int id,
