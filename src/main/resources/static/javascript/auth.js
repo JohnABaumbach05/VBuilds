@@ -79,7 +79,8 @@ document.addEventListener("DOMContentLoaded", function() {
 {
 const logoutButton = document.getElementById("logout-button");
 
-if (logoutButton) {
+if (logoutButton && logoutButton.dataset.logoutBound !== "true") {
+    logoutButton.dataset.logoutBound = "true";
     logoutButton.addEventListener("click", async function() {
         const response = await fetch("/api/users/logout", {
             method: "POST",
