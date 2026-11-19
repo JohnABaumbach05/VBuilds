@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="/CSS/Global.css">
     <link rel="stylesheet" href="/CSS/build.css">
+    <link rel="stylesheet" href="/CSS/build-heart.css">
 </head>
 
 <body>
@@ -87,7 +88,17 @@
 
             <div class="photo-footer">
 
-                <p id="photo-caption"></p>
+                <div>
+                    <div id="build-photo-likes" class="build-heart-count" hidden>
+                        <button type="button" id="build-like" class="build-heart-button" aria-label="Like this build" aria-pressed="false" hidden>
+                            <span class="build-heart-icon" aria-hidden="true"></span>
+                        </button>
+                        <span id="build-like-guest-icon" class="build-heart-icon" aria-hidden="true" hidden></span>
+                        <span id="build-like-count" aria-live="polite"></span>
+                    </div>
+                    <p id="build-like-status" role="status" hidden></p>
+                    <p id="photo-caption" hidden></p>
+                </div>
 
                 <span id="photo-counter">0 / 0</span>
 
@@ -178,10 +189,24 @@
 
     </section>
 
+    <section id="build-engagement" class="parts-section build-engagement" hidden aria-labelledby="build-comments-heading">
+        <h2 id="build-comments-heading">Comments</h2>
+        <p id="build-engagement-login" hidden><a href="/HTML/LoginSidebar.html">Sign in</a> to like or comment.</p>
+        <form id="build-comment-form" hidden>
+            <label for="build-comment">Add a comment</label>
+            <textarea id="build-comment" maxlength="1000" rows="3" required></textarea>
+            <button type="submit">Post comment</button>
+        </form>
+        <p id="build-engagement-status" role="status"></p>
+        <p id="build-comments-empty" hidden>No comments yet.</p>
+        <ul id="build-comments"></ul>
+    </section>
+
 </main>
 
 <script src="/javascript/Global.js"></script>
 <script src="/javascript/auth.js"></script>
+<script src="/javascript/build-engagement.js"></script>
 <script src="/javascript/build.js"></script>
 
 </body>

@@ -144,3 +144,53 @@ button:disabled {
 .social-prefix { display: flex; align-items: center; padding: 0 12px; background: #222a37; color: #bfcce0; white-space: nowrap; border-right: 1px solid #3b4252; }
 #settings-form .social-input input { flex: 1; min-width: 0; border: 0; border-radius: 0; }
 .social-input:focus-within { border-color: #008cff; }
+
+.account-build-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.account-build-actions .account-build-likes {
+    margin: 0;
+}
+
+.account-build-actions button {
+    margin-inline-start: auto;
+}
+
+.account-activity-list {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.activity-card [role="status"]:empty,
+.account-activity-list:empty {
+    display: none;
+}
+
+.account-activity-list a {
+    color: #9bcfff;
+    overflow-wrap: anywhere;
+}
+
+.account-activity-list time {
+    margin-inline-start: 10px;
+    color: #b7c4d5;
+    font-size: .85em;
+}
+
+#my-comments li + li {
+    border-top: 1px solid #343e4e;
+    padding-top: 12px;
+}
+
+#my-comments li p {
+    margin: 6px 0 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}

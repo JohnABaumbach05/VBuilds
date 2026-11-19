@@ -3,7 +3,7 @@ let userBuilds = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
     await loadAccount();
-    await loadBuilds();
+    await Promise.all([loadBuilds(), loadActivity()]);
 
     document.querySelectorAll("[data-filter]").forEach(button => {
         button.addEventListener("click", () => {
@@ -103,11 +103,72 @@ function displayBuilds(filter) {
             window.location.href = `/HTML/EditBuild.html?id=${build.buildId}`;
         });
 
-        card.append(buildLink, status, editButton);
+        const likes = document.createElement("p");
+        likes.className = "build-heart-count account-build-likes";
+        const heart = document.createElement("span");
+        heart.className = "build-heart-icon";
+        heart.setAttribute("aria-hidden", "true");
+        const count = build.likeCount ?? 0;
+        likes.append(heart, count === 1 ? "1 like" : `${count} likes`);
+
+        const actions = document.createElement("div");
+        actions.className = "account-build-actions";
+        actions.append(likes, editButton);
+        card.append(buildLink, status, actions);
         container.appendChild(card);
     });
 }
 
+
+async function loadActivity() {
+    const likedStatus = document.getElementById("liked-builds-status");
+    const commentsStatus = document.getElementById("my-comments-status");
+
+    try {
+        const response = await fetch("/api/builds/mine/activity", { cache: "no-store" });
+        if (!response.ok) throw new Error("Unable to load account activity");
+        const { likedBuilds, comments } = await response.json();
+
+        const likedItems = document.createDocumentFragment();
+        for (const build of likedBuilds) {
+            const item = document.createElement("li");
+            const heart = document.createElement("span");
+            heart.className = "build-heart-icon";
+            heart.setAttribute("aria-hidden", "true");
+            item.className = "build-heart-count account-build-likes";
+            item.append(heart, activityBuildLink(build));
+            likedItems.append(item);
+        }
+        document.getElementById("liked-builds").replaceChildren(likedItems);
+        likedStatus.textContent = likedBuilds.length ? "" : "You haven’t liked any builds yet.";
+
+        const commentItems = document.createDocumentFragment();
+        const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" });
+        for (const comment of comments) {
+            const item = document.createElement("li");
+            const time = document.createElement("time");
+            const date = new Date(comment.createdAt);
+            time.dateTime = date.toISOString();
+            time.textContent = dateFormat.format(date);
+            const body = document.createElement("p");
+            body.textContent = comment.comment;
+            item.append(activityBuildLink(comment, "#build-engagement"), time, body);
+            commentItems.append(item);
+        }
+        document.getElementById("my-comments").replaceChildren(commentItems);
+        commentsStatus.textContent = comments.length ? "" : "You haven’t commented on any builds yet.";
+    } catch {
+        likedStatus.textContent = "Unable to load liked builds.";
+        commentsStatus.textContent = "Unable to load comments.";
+    }
+}
+
+function activityBuildLink(build, fragment = "") {
+    const link = document.createElement("a");
+    link.href = `/HTML/build.html?id=${build.buildId}${fragment}`;
+    link.textContent = build.title;
+    return link;
+}
 
 let currentAccount = null;
 let picturePreviewUrl = null;

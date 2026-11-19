@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const build = await response.json();
         console.log("Loaded build:", build);
+        if (build && (!adminPreview || build.approved)) loadBuildEngagement(buildId);
 
         const ownerLink = document.getElementById("build-owner");
         if (Number.isInteger(build.ownerID) && build.ownerID > 0) {
@@ -84,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (build.mainPhoto) {
             photos.push({
                 filePath: build.mainPhoto,
-                caption: "Main Build Photo"
+                caption: ""
             });
         }
 
@@ -252,6 +253,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (photoCaption) {
                 photoCaption.textContent = photo.caption || "";
+                photoCaption.hidden = !photoCaption.textContent;
             }
 
         }

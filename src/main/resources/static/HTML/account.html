@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account | VBuilds</title>
     <link rel="stylesheet" href="/CSS/account.css">
+    <link rel="stylesheet" href="/CSS/build-heart.css">
     <script src="/javascript/account.js" defer></script>
     <link rel="stylesheet" href="/CSS/Global.css">
     <script src="/javascript/Global.js" defer></script>
@@ -87,12 +88,14 @@
 
         <div class="activity-card">
             <h3>Liked Builds</h3>
-            <p>Coming soon</p>
+            <p id="liked-builds-status" role="status">Loading liked builds…</p>
+            <ul id="liked-builds" class="account-activity-list"></ul>
         </div>
 
         <div class="activity-card">
             <h3>My Comments</h3>
-            <p>Coming soon</p>
+            <p id="my-comments-status" role="status">Loading comments…</p>
+            <ul id="my-comments" class="account-activity-list"></ul>
         </div>
     </section>
 

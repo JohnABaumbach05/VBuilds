@@ -1,5 +1,7 @@
 package com.vbuilds.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDateTime;
 
 public class Build {
@@ -20,6 +22,16 @@ public class Build {
     private String description;
     private boolean inProcess;
     private boolean approved;
+    private Long likeCount;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Long getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
+    }
 
 
 

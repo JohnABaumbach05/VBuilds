@@ -43,6 +43,10 @@ public class BuildDAO {
 
 
     private List<Build> findBuilds(String sql, Integer parameter) throws SQLException {
+        return findBuilds(sql, parameter, false);
+    }
+
+    private List<Build> findBuilds(String sql, Integer parameter, boolean includeLikeCount) throws SQLException {
         List<Build> builds = new ArrayList<>();
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -51,7 +55,11 @@ public class BuildDAO {
             }
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    builds.add(mapBuild(rs));
+                    Build build = mapBuild(rs);
+                    if (includeLikeCount) {
+                        build.setLikeCount(rs.getLong("like_count"));
+                    }
+                    builds.add(build);
                 }
             }
         }
@@ -190,7 +198,13 @@ public class BuildDAO {
 
 
     public List<Build> getUserBuilds(int ownerID) throws SQLException {
-        return findBuilds("SELECT * FROM builds WHERE owner_id = ?", ownerID);
+        return findBuilds("""
+                SELECT b.*, (
+                    SELECT count(*) FROM build_likes l WHERE l.build_id = b.build_id
+                ) AS like_count
+                FROM builds b
+                WHERE b.owner_id = ?
+                """, ownerID, true);
     }
 
 

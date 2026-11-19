@@ -1,0 +1,50 @@
+.build-heart-count:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #dce5f2;
+}
+
+.build-heart-icon {
+    font: 24px / 1 "Segoe UI Symbol", sans-serif;
+}
+
+.build-heart-icon::before {
+    content: "\2661";
+}
+
+.build-heart-button[aria-pressed="true"] .build-heart-icon::before,
+.account-build-likes .build-heart-icon::before {
+    content: "\2665";
+    color: #ff5268;
+}
+
+.build-heart-button {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    color: inherit;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.build-heart-button[hidden] {
+    display: none;
+}
+
+.build-heart-button:hover,
+.build-heart-button:focus-visible {
+    border-color: #7d8aa0;
+}
+
+.build-heart-button:disabled {
+    cursor: wait;
+}
+
+.account-build-likes {
+    margin: 0 0 12px;
+}
