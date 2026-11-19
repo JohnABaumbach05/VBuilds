@@ -678,3 +678,7 @@ main.build-details-container {
     margin: 6px 0 0;
     white-space: pre-wrap;
 }
+
+@media (max-width: 768px) {
+    main.build-details-container { margin-left: 0; width: 100%; max-width: 100%; padding-top: 96px; }
+}

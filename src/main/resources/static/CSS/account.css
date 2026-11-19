@@ -194,3 +194,16 @@ button:disabled {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
+
+@media (max-width: 768px) {
+    main.account-container { margin-left: 0; margin-right: 0; width: 100%; max-width: 100%; padding: 96px 16px 32px; }
+    .profile-header { padding: 18px; gap: 14px; flex-wrap: wrap; }
+    .profile-avatar { width: 72px; height: 72px; font-size: 24px; }
+    .profile-info { min-width: 0; overflow-wrap: anywhere; }
+    .profile-info h1 { font-size: 26px; }
+    #settings-btn { max-width: 100%; }
+    .settings-section { padding: 18px; }
+    #settings-form input, #settings-form textarea { min-width: 0; max-width: 100%; box-sizing: border-box; }
+    #build-container { grid-template-columns: minmax(0, 1fr); }
+    .social-prefix { padding: 0 7px; font-size: 12px; }
+}
