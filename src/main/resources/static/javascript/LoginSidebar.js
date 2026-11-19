@@ -74,6 +74,10 @@ accountForm.addEventListener("submit", async function(event) {
             })
         });
 
+        if (loginResponse.status === 429) {
+            alert("Too many failed login attempts. Please try again in 15 minutes.");
+            return;
+        }
         if (!loginResponse.ok) {
             throw new Error("Automatic login failed");
         }
@@ -111,8 +115,16 @@ loginForm.addEventListener("submit", async function(event) {
             body: JSON.stringify(login)
         });
 
+        if (response.status === 429) {
+            alert("Too many failed login attempts. Please try again in 15 minutes.");
+            return;
+        }
+        if (response.status === 401) {
+            alert("Incorrect username or password.");
+            return;
+        }
         if (!response.ok) {
-            throw new Error("Login failed");
+            throw new Error("Login failed (" + response.status + ")");
         }
 
         const user = await response.json();
@@ -129,6 +141,6 @@ loginForm.addEventListener("submit", async function(event) {
 
     } catch (error) {
         console.error("Login error:", error);
-        alert("Unable to log in. Please check your credentials.");
+        alert("Something went wrong. Please try again.");
     }
 });
