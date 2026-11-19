@@ -88,28 +88,9 @@
     font-size: 0.875rem;
 }
 
-@media (max-width: 760px) {
-    .feedback-page aside {
-        width: 88px;
-    }
-
-    .feedback-page header {
-        left: 88px;
-        height: 120px;
-    }
-
-    .feedback-page .vbuilds-banner {
-        max-width: 100%;
-        height: 90px;
-    }
-
-    .feedback-page main {
-        margin-left: 88px;
-        padding-top: 120px;
-    }
-
-    .feedback-page .imagine-build-message {
-        padding-inline: 3px;
-        font-size: 0.8rem;
-    }
+@media (max-width: 768px) {
+    /* Shared Global.css handles the mobile header and slide-out sidebar. */
+    .feedback-page main { margin-left: 0; width: 100%; padding-top: 96px; box-sizing: border-box; }
+    .feedback-content { max-width: 100%; padding: 0 16px 40px; box-sizing: border-box; }
+    .feedback-content form, .feedback-content li { min-width: 0; }
 }
