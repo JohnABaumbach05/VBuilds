@@ -75,6 +75,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+// Use a scoped variable so this script can be included twice without a redeclaration error.
+{
 const logoutButton = document.getElementById("logout-button");
 
 if (logoutButton) {
@@ -89,4 +91,4 @@ if (logoutButton) {
         }
     });
 }
-
+}
