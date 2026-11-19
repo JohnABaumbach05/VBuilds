@@ -124,42 +124,6 @@ main {
 }
 
 
-#navigation-energy {
-    position: fixed;
-    inset: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    z-index: 4;
-    pointer-events: none;
-    overflow: visible;
-}
-
-#energy-glow-path,
-#energy-core-path {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    opacity: 0;
-}
-
-#energy-glow-path {
-    stroke: #007bff;
-    stroke-width: 25px;
-    filter: url(#energy-glow);
-}
-
-#energy-core-path {
-    stroke: url(#energy-tail-gradient);
-    stroke-width: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    #navigation-energy {
-        display: none;
-    }
-}
 header a,
 .sidebar-link {
     position: relative;
