@@ -21,9 +21,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (backToAdmin && adminPreview) {
             backToAdmin.hidden = false;
         }
+        const ownerPreview = !adminPreview && params.get("owner") === "true";
         const buildUrl = adminPreview
             ? `/api/admin/builds/${buildId}`
-            : `/api/builds/${buildId}`;
+            : ownerPreview
+                ? `/api/builds/mine/${buildId}`
+                : `/api/builds/${buildId}`;
 
         const response = await fetch(buildUrl, {
             credentials: "include"
@@ -40,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const build = await response.json();
         console.log("Loaded build:", build);
-        if (build && (!adminPreview || build.approved)) loadBuildEngagement(buildId);
+        if (build && build.approved) loadBuildEngagement(buildId);
 
         const ownerLink = document.getElementById("build-owner");
         if (Number.isInteger(build.ownerID) && build.ownerID > 0) {
