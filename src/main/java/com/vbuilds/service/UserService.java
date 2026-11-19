@@ -33,18 +33,21 @@ public class UserService {
     }
 
     public void addUser(CreateAccountRequest request) throws SQLException {
-        if (request.getUsername() == null || request.getUsername().isBlank() ||
-                request.getEmail() == null || request.getEmail().isBlank() ||
-                request.getPassword() == null || request.getPassword().length() < 8) {
-            throw new IllegalArgumentException("Username, email, and password of at least 8 characters are required");
-        }
-        if (userDAO.getUserByUsername(request.getUsername()) != null ||
-                userDAO.getUserByEmail(request.getEmail()) != null) {
+        String username = request.getUsername() == null ? "" : request.getUsername().trim();
+        String email = request.getEmail() == null ? "" : request.getEmail().trim();
+        if (username.length() < 3 || username.length() > 30)
+            throw new IllegalArgumentException("Username must be between 3 and 30 characters");
+        if (email.isBlank())
+            throw new IllegalArgumentException("Email is required");
+        if (request.getPassword() == null || request.getPassword().length() < 8)
+            throw new IllegalArgumentException("Password must contain at least 8 characters");
+        if (userDAO.getUserByUsername(username) != null ||
+                userDAO.getUserByEmail(email) != null) {
             throw new IllegalArgumentException("Username or email already exists");
         }
         User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
+        user.setUsername(username);
+        user.setEmail(email);
         user.setDateJoined(LocalDate.now().toString());
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         userDAO.addUser(user);
