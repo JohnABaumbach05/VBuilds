@@ -544,3 +544,17 @@
 }
 #create-build-form #savePhotosButton:disabled { opacity: .6; cursor: wait; }
 #create-build-form #photoStatus { color: #b8c6d7; overflow-wrap: anywhere; }
+
+/* Confirmation after successfully submitting a pending build. */
+.build-submission-confirmation[hidden], #create-build-form[hidden] { display: none; }
+.build-submission-confirmation {
+    max-width: 650px; margin: 24px auto; padding: 32px 24px;
+    border: 1px solid #168cff; border-radius: 14px;
+    background: linear-gradient(145deg, #171c25, #0b111b);
+    color: #f4f7ff; text-align: center; box-shadow: 0 0 24px rgba(0,110,255,.16);
+}
+.build-submission-confirmation h2 { color: #8ed0ff; font-size: clamp(22px, 4vw, 32px); margin: 0 0 16px; }
+.build-submission-confirmation p { font-size: 17px; line-height: 1.6; }
+.build-submission-confirmation .submission-reference { color: #b8c6d7; font-size: 14px; }
+.build-submission-confirmation a { display: inline-block; margin-top: 14px; padding: 12px 20px; border-radius: 8px; background: #0066bb; color: white; text-decoration: none; }
+.build-submission-confirmation a:hover, .build-submission-confirmation a:focus-visible { background: #008cff; }
