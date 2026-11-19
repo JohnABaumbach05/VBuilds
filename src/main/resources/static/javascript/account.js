@@ -69,7 +69,7 @@ function displayBuilds(filter) {
 
 
         const buildLink = document.createElement("a");
-        buildLink.href = `/HTML/build.html?id=${build.buildId}`;
+        buildLink.href = `/HTML/build.html?id=${build.buildId}&owner=true`;
         buildLink.className = "account-build-link";
 
 
