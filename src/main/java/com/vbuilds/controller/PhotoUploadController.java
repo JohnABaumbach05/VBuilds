@@ -104,6 +104,10 @@ public class PhotoUploadController {
         String extension =
                 jpeg ? ".jpg" : png ? ".png" : ".webp";
 
+        if (com.vbuilds.service.ImageStorage.enabled()) {
+            return Map.of("url", com.vbuilds.service.ImageStorage.upload(file, "builds"));
+        }
+
         String filename = UUID.randomUUID() + extension;
 
         Path directory = Paths.get(uploadDirectory)

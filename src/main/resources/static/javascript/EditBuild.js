@@ -162,7 +162,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         if (!response.ok) throw new Error(`Photo upload failed (${response.status})`);
         const result = await response.json();
-        if (!result.url || !result.url.startsWith("/uploads/builds/"))
+        const isLocal = typeof result.url === "string" &&
+            result.url.startsWith("/uploads/builds/") && !result.url.includes("..");
+        const isCloudinary = typeof result.url === "string" &&
+            result.url.startsWith("https://res.cloudinary.com/wccsllqk/image/upload/");
+        if (!isLocal && !isCloudinary)
             throw new Error("Upload returned an invalid photo URL.");
         return result.url;
     };

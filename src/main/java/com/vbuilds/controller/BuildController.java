@@ -126,8 +126,7 @@ public class BuildController {
                                 HttpSession session) throws SQLException {
         Build build = requireOwnedBuild(id, session);
         String url = request.get("url");
-        if (url == null || !url.startsWith("/uploads/builds/") ||
-                url.contains("..") || url.length() > 1000) {
+        if (!com.vbuilds.service.ImageStorage.validBuildUrl(url)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid photo URL");
         }
         if (!new com.vbuilds.dao.BuildDAO().updateMainPhoto(id, build.getOwnerID(), url))
@@ -231,7 +230,7 @@ public class BuildController {
         String filePath = request.getOrDefault("filePath", "");
         String caption = request.getOrDefault("caption", "");
 
-        if (!filePath.startsWith("/uploads/builds/")) {
+        if (!com.vbuilds.service.ImageStorage.validBuildUrl(filePath)) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Invalid photo path"

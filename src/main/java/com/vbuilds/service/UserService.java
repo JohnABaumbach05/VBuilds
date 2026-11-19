@@ -151,6 +151,12 @@ public class UserService {
             if (decoded == null || decoded.getWidth() > 6000 || decoded.getHeight() > 6000)
                 throw new IllegalArgumentException("Invalid image or dimensions too large");
         }
+        if (ImageStorage.enabled()) {
+            String url = ImageStorage.upload(file, "profiles");
+            userDAO.updateProfilePicture(userId, url);
+            return url;
+        }
+
         Path directory = Paths.get(System.getProperty("vbuilds.profile-upload-dir",
                 "uploads/profiles")).toAbsolutePath().normalize();
         Files.createDirectories(directory);
