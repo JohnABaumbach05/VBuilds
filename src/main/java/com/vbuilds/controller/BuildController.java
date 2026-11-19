@@ -211,7 +211,7 @@ public class BuildController {
             );
         }
 
-        Build build = buildService.getBuildByID(id);
+        Build build = buildService.getBuildForEditing(id);
 
         if (build == null) {
             throw new ResponseStatusException(
