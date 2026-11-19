@@ -5,15 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-
-    private static final String URL =  "jdbc:postgresql://localhost:5432/VBBuilds";
-
-    private static final String USER = "postgres";
-
-    private static final String PASSWORD = System.getenv("PASSWORD");
-
+    private static String setting(String name, String fallback) {
+        String value = System.getenv(name);
+        return value == null || value.isBlank() ? fallback : value;
+    }
 
     public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        String url = setting("DB_URL", "jdbc:postgresql://localhost:5432/VBBuilds");
+        String username = setting("DB_USER", "postgres");
+        String password = setting("DB_PASSWORD", System.getenv("PASSWORD"));
+        return DriverManager.getConnection(url, username, password);
     }
 }
