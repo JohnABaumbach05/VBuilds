@@ -314,7 +314,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             console.log("Build created successfully:", createdBuildId);
 
-            window.location.href = `/HTML/build.html?id=${createdBuildId}`;
+            // New builds are pending approval and are not publicly viewable yet.
+            form.hidden = true;
+            const confirmation = document.getElementById("build-submission-confirmation");
+            document.getElementById("submitted-build-id").textContent = String(createdBuildId);
+            confirmation.hidden = false;
+            confirmation.focus();
             ratings.forEach((rating) => {
 
                 const slider = document.getElementById(rating);
