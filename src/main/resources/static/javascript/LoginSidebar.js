@@ -116,9 +116,9 @@ accountForm.addEventListener("submit", async function(event) {
     }
 
     // Username validation
-    if (username.length < 8) {
+    if (username.length < 3) {
         showAccountMessage(
-            "Username must contain at least 8 characters."
+            "Username must contain at least 3 characters."
         );
         usernameInput.focus();
         return;
