@@ -75,9 +75,12 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+// Use a scoped variable so this script can be included twice without a redeclaration error.
+{
 const logoutButton = document.getElementById("logout-button");
 
-if (logoutButton) {
+if (logoutButton && logoutButton.dataset.logoutBound !== "true") {
+    logoutButton.dataset.logoutBound = "true";
     logoutButton.addEventListener("click", async function() {
         const response = await fetch("/api/users/logout", {
             method: "POST",
@@ -89,4 +92,4 @@ if (logoutButton) {
         }
     });
 }
-
+}

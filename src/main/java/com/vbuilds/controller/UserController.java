@@ -3,6 +3,7 @@ package com.vbuilds.controller;
 import com.vbuilds.dto.*;
 import com.vbuilds.model.User;
 import com.vbuilds.service.UserService;
+import com.vbuilds.service.LoginAttemptLimiter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.MediaType;
@@ -17,6 +18,11 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService = new UserService();
+    private final LoginAttemptLimiter loginAttemptLimiter;
+
+    public UserController(LoginAttemptLimiter loginAttemptLimiter) {
+        this.loginAttemptLimiter = loginAttemptLimiter;
+    }
 
     @GetMapping("/{id}/profile")
     public ResponseEntity<?> getPublicProfile(@PathVariable int id) throws SQLException {
@@ -65,9 +71,19 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) throws SQLException {
 
+        // Use the direct socket address, not client-controlled X-Forwarded-For headers.
+        String clientAddress = httpRequest.getRemoteAddr();
+        if (loginAttemptLimiter.isBlocked(clientAddress)) {
+            return ResponseEntity.status(429).body("Too many failed login attempts. Try again later.");
+        }
+
         User user = userService.login(request.getUsername(), request.getPassword());
 
-        if (user == null) return ResponseEntity.status(401).body("Invalid credentials");
+        if (user == null) {
+            loginAttemptLimiter.recordFailure(clientAddress);
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
+        loginAttemptLimiter.clear(clientAddress);
 
         HttpSession previous = httpRequest.getSession(false);
 
