@@ -39,6 +39,12 @@
 		</dependency>
 
 
+		<!-- Pooled JDBC connections -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+
 		<!-- PostgreSQL -->
 		<dependency>
 			<groupId>org.postgresql</groupId>

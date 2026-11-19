@@ -16,11 +16,16 @@ import java.util.List;
 @RequestMapping("/api/photos")
 public class PhotoController {
 
-    private final PhotoService photoService = new PhotoService();
+    private final PhotoService photoService;
     private final BuildService buildService;
 
     public PhotoController() throws SQLException {
-        buildService = new BuildService();
+        this(new PhotoService(), new BuildService());
+    }
+
+    PhotoController(PhotoService photoService, BuildService buildService) {
+        this.photoService = photoService;
+        this.buildService = buildService;
     }
 
     private void requireOwnedBuild(int buildId, HttpSession session) throws SQLException {
